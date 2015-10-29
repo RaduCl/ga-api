@@ -9,15 +9,15 @@
   },
   "author": "",
   "license": "ISC",
-  "development": {
-    "body-parser": "^1.14.0",
-    "express": "^4.13.3",
-    "gulp-nodemon": "^2.0.4"
-  },
   "devDependencies": {
+    "gulp-nodemon": "^2.0.4",
     "gulp": "^3.9.0"
   },
   "dependencies": {
-    "googleapis": "^2.1.5"
+    "async": "^1.4.2",
+    "body-parser": "^1.14.0",
+    "express": "^4.13.3",
+    "googleapis": "^2.1.5",
+    "json2csv": "^2.12.0"
   }
 }
