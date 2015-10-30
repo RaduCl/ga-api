@@ -14,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
     <!--Google Charts API-->
     <script src="https://www.google.com/jsapi" charset="utf-8"></script>
+    <!-- D3 chart API-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -56,11 +58,20 @@
         </div>
         <div class="col-md-12 widget">
           <div class="panel panel-primary">
-            <div class="widget-header panel-heading">Insights</div>
+            <div class="widget-header panel-heading">Insights
+              <div class="col-md-6">
+                <h4>Most Popular Bikes</h4>
+                <div id="popular-bikes"></div>
+              </div>
+              <div class="col-md-6">
+                <h4>Most Popular Parts</h4>
+                <div id="popular-parts"></div>
+              </div>
+            </div>
             <div class="app-widget-body panel-body">
               <!--h5.widget-subtitle User Increase / Decrease-->
-              <div id="retention"></div>
-              <div id="user-increase2"></div>
+              <!--div#retention-->
+              <!--div#user-increase2-->
             </div>
           </div>
         </div>

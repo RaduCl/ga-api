@@ -238,6 +238,21 @@ function initialize() {
         chart.draw(view, options);
     }
 
+    function popularBikes(){
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Event Label');
+        data.addColumn('number', 'Total Events');
+        data.addRows([
+                [{v: 726}, {v: 776}, {v:-6.4}]
+            ]);
+        var options = {
+            // 'title': 'Total Downloads by App Store',
+            'width': '100%',
+            'height': '100%'
+        }
+        var table= new google.visualization.Table(document.getElementById('popular-bikes'));
+        table.draw(data, options);
+    }
 
     loyalty();
     recency();

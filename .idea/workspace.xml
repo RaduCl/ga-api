@@ -23,8 +23,8 @@
       <file leaf-file-name="index.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dashboard/build/markup/index.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44117647">
-              <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.66386557">
+              <caret line="53" column="37" selection-start-line="53" selection-start-column="37" selection-end-line="53" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -34,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/dashboard/build/gulpfile.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+              <caret line="72" column="44" selection-start-line="72" selection-start-column="44" selection-end-line="72" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -43,8 +43,8 @@
       <file leaf-file-name="main.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dashboard/build/styles/main.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state vertical-scroll-proportion="-7.6923075">
+              <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -54,9 +54,9 @@
         <entry file="file://$PROJECT_DIR$/dashboard/build/scripts/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="224" column="14" selection-start-line="224" selection-start-column="14" selection-end-line="224" selection-end-column="14" />
+              <caret line="280" column="14" selection-start-line="280" selection-start-column="14" selection-end-line="280" selection-end-column="14" />
               <folding>
-                <marker date="1446209215643" expanded="true" signature="361:11554" placeholder="{...}" />
+                <marker date="1446216910143" expanded="true" signature="361:13402" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -92,10 +92,10 @@
         <option value="$PROJECT_DIR$/server/googleAnalytics.js" />
         <option value="$PROJECT_DIR$/server/googleAnalytics2.js" />
         <option value="$PROJECT_DIR$/server/server.js" />
-        <option value="$PROJECT_DIR$/dashboard/build/styles/main.scss" />
         <option value="$PROJECT_DIR$/dashboard/build/gulpfile.js" />
         <option value="$PROJECT_DIR$/dashboard/deploy/index.html" />
         <option value="$PROJECT_DIR$/dashboard/build/scripts/app.js" />
+        <option value="$PROJECT_DIR$/dashboard/build/styles/main.scss" />
         <option value="$PROJECT_DIR$/dashboard/build/markup/index.jade" />
       </list>
     </option>
@@ -367,7 +367,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="220" column="14" selection-start-line="220" selection-start-column="14" selection-end-line="220" selection-end-column="14" />
           <folding>
-            <marker date="1446209215643" expanded="true" signature="361:11554" placeholder="{...}" />
+            <marker date="1446216910143" expanded="true" signature="361:13402" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -417,7 +417,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="160" column="14" selection-start-line="160" selection-start-column="14" selection-end-line="160" selection-end-column="14" />
           <folding>
-            <marker date="1446209215643" expanded="true" signature="361:11554" placeholder="{...}" />
+            <marker date="1446216910143" expanded="true" signature="361:13402" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -615,29 +615,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/build/styles/main.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/build/scripts/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="224" column="14" selection-start-line="224" selection-start-column="14" selection-end-line="224" selection-end-column="14" />
+          <caret line="280" column="14" selection-start-line="280" selection-start-column="14" selection-end-line="280" selection-end-column="14" />
           <folding>
-            <marker date="1446209215643" expanded="true" signature="361:11554" placeholder="{...}" />
+            <marker date="1446216910143" expanded="true" signature="361:13402" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dashboard/build/gulpfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -648,10 +632,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/build/gulpfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="44" selection-start-line="72" selection-start-column="44" selection-end-line="72" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dashboard/build/styles/main.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.6923075">
+          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dashboard/build/markup/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44117647">
-          <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.66386557">
+          <caret line="53" column="37" selection-start-line="53" selection-start-column="37" selection-end-line="53" selection-end-column="37" />
           <folding />
         </state>
       </provider>
