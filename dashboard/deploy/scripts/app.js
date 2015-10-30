@@ -47,7 +47,7 @@ function initialize() {
             formatter.format(data, i);
         }
 
-        var table_kpi = new google.visualization.Table(document.getElementById('user-increase'));
+        var table_kpi = new google.visualization.Table(document.getElementById('user-increase2'));
         table_kpi.draw(data, {allowHtml : true});
 
     });
@@ -139,6 +139,109 @@ function initialize() {
         table.draw(data, options);
     }
 
+    function userIncrease(){
+        var data = google.visualization.arrayToDataTable([
+          ['Day', 'Users'],
+          ['Oct 5',  1000],
+          ['Oct 6',  1170],
+          ['Oct 7',  660],
+          ['Oct 8',  1030],
+          ['Oct 9',  1630],
+          ['Oct 10',  1250],
+          ['Oct 11',  630]
+        ]);
+
+        var options = {
+          // title: 'User Increase / Decrease',
+          // hAxis: {title: 'Month',  titleTextStyle: {color: '#333'}},
+          hAxis: {titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('user-increase'));
+        chart.draw(data, options);
+
+    }
+
+    function loyalty(){
+        var data = google.visualization.arrayToDataTable([
+                ["Session Instances", "Sessions"],
+                ["1", 1816],
+                ["2", 1760],
+                ["3", 1020],
+                ["4", 857],
+                ["5", 582],
+                ["6", 471],
+                ["7", 343],
+                ["8", 281],
+                ["9", 884],
+                ["9-14", 884],
+                ["15-25", 481],
+                ["26-50", 205],
+                ["51-100", 94],
+                ["101-200", 1]
+            ]);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" }]);
+        var options = {
+            // title: "Loyalty",
+            width: 380,
+            height: 400,
+            bar: {groupWidth: "60%"},
+            legend: { position: "none" },
+        };
+        var chart = new google.visualization.BarChart(document.getElementById("loyalty"));
+        chart.draw(view, options);
+    }
+
+    function recency(){
+        var data = google.visualization.arrayToDataTable([
+                ["Days between Sessions", "Sessions"],
+                ["< 1 day", 1816],
+                ["1", 5578],
+                ["2", 275],
+                ["3", 163],
+                ["4", 75],
+                ["5", 61],
+                ["6", 51],
+                ["7", 46],
+                ["8-14", 277],
+                ["15-30", 248],
+                ["31-60", 13]
+            ]);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" }]);
+        var options = {
+            // title: "Recency",
+            width: 380,
+            height: 400,
+            bar: {groupWidth: "60%"},
+            legend: { position: "none" },
+            axes: {
+                x: {
+                0: { side: 'top', label: 'Days between Sessions'}, // Top x-axis.
+                1: { side: 'top', label: 'Sessions'} 
+            }
+          }
+        };
+        var chart = new google.visualization.BarChart(document.getElementById("recency"));
+        chart.draw(view, options);
+    }
+
+
+    loyalty();
+    recency();
+    userIncrease();
     appStoreDownloads();
     googlePlayDownloads();
     tableCountries();

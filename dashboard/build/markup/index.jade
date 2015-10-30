@@ -24,7 +24,6 @@ html
 					div.panel.panel-primary
 						div.widget-header.panel-heading App Usage
 						div.app-widget-body.panel-body
-							//h5.widget-subtitle New versus Returning Users
 							h4 New versus Returning Users
 							div#new-vs-returning-users
 							h4 Top 5 Countries by Total Users
@@ -36,13 +35,22 @@ html
 							div.col-md-6
 								h4 Total Downloads by App Store
 								div#app-store-downloads
-
-				div.col-md-12.widget
+				div.col-md-6.widget
 					div.panel.panel-primary
 						div.widget-header.panel-heading Retention
 						div.app-widget-body.panel-body
+							h4 User Increase / Decrease
+							div#user-increase
+							h4 Recency
+							div#recency
+							h4 Loyalty
+							div#loyalty
+				div.col-md-12.widget
+					div.panel.panel-primary
+						div.widget-header.panel-heading Insights
+						div.app-widget-body.panel-body
 							//h5.widget-subtitle User Increase / Decrease
 							div#retention
-							div#user-increase
+							div#user-increase2
 
 		script(src="scripts/app.js")
