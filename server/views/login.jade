@@ -9,11 +9,13 @@ block content
                     div.panel-heading Login
                     div.panel-body
                         form.form-horizontal(role=form)
-                            div.form-group
-                                label.col-sm-3.control-label(for="imputEmail")  Email
-                                div.col-sm-9
-                                    input#inputEmail.form-control(type='email' required='true' placeholder='Email')
-                            div.form-group
-                                label.col-sm-3.control-label(for="imputPassword")  Password
-                                div.col-sm-9
-                                    input#inputEmail.form-control(type='password' required='true' placeholder='Password')
+                            fieldset
+                                div.form-group
+                                    label.col-md-3.control-label(for="imputEmail")  Email
+                                    div.col-md-9
+                                        input#inputEmail.form-control(type='email' required='true' placeholder='Email')
+                                div.form-group
+                                    label.col-sm-3.control-label(for="imputPassword")  Password
+                                    div.col-md-9
+                                        input#inputPassword.form-control(type='password' required='true' placeholder='Password')
+                                button.btn.btn-primary.btn-block(type="submit") Login
