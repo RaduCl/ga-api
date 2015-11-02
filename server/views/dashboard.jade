@@ -1,0 +1,43 @@
+extend layout
+block content
+    div#logo
+        h3 Yamaha Dashboard
+    div.mainwrapper
+        div.col-md-6.widget
+            div.panel.panel-primary
+                div.widget-header.panel-heading App Usage
+                div.app-widget-body.panel-body
+                    h4 New versus Returning Users
+                    div#new-vs-returning-users
+                    h4 Top 5 Countries by Total Users
+                    div#top-countries
+                    div#total-downloads-byOS
+                    div.col-md-6
+                        h4 Total Downloads by Google Play Store
+                        div#google-play-store-downloads
+                    div.col-md-6
+                        h4 Total Downloads by App Store
+                        div#app-store-downloads
+        div.col-md-6.widget
+            div.panel.panel-primary
+                div.widget-header.panel-heading Retention
+                div.app-widget-body.panel-body
+                    h4 User Increase / Decrease
+                    div#user-increase
+                    h4 Recency
+                    div#recency
+                    h4 Loyalty
+                    div#loyalty
+        div.col-md-12.widget
+            div.panel.panel-primary
+                div.widget-header.panel-heading Insights
+                    div.col-md-6
+                        h4 Most Popular Bikes
+                        div#popular-bikes
+                    div.col-md-6
+                        h4 Most Popular Parts
+                        div#popular-parts
+                div.app-widget-body.panel-body
+                    //h5.widget-subtitle User Increase / Decrease
+                    //div#retention
+                    //div#user-increase2
