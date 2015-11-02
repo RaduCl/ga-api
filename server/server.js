@@ -40,18 +40,18 @@ app.use(bodyParser.json());
 
 //authentification
 
-//app.use(session({
-//    secret: '2C44-4D44-WppQ38S',
-//    resave: true,
-//    saveUninitialized: true
-//}));
+app.use(session({
+    secret: '2C44-4D44-WppQ38S',
+    resave: true,
+    saveUninitialized: true
+}));
 
 
 
 // Authentication and Authorization Middleware
 
 var auth = function(req, res, next) {
-    if (req.session && req.session.user === "amy")
+    if (req.session && req.session.user === "radu")
         return next();
     else
         return res.sendStatus(401);
