@@ -10,10 +10,12 @@ block content
                     div.panel-body
                         form.form-horizontal(role=form action='/login' method='post')
                             fieldset
+                                if(message.length>0)
+                                    div.alert.alert-danger #{message}
                                 div.form-group
-                                    label.col-md-3.control-label(for="inputEmail")  User
+                                    label.col-md-3.control-label(for="inputUser")  User
                                     div.col-md-9
-                                        input#inputEmail.form-control(type='text' required='true' placeholder='User')
+                                        input#inputUser.form-control(type='text' required='true' placeholder='User')
                                 div.form-group
                                     label.col-sm-3.control-label(for="inputPassword")  Password
                                     div.col-md-9
