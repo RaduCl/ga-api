@@ -68,8 +68,8 @@ module.exports = function(passport){
 	/* GET  google analytics data */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
-		var googleAnalytics = require('../analytics/googleAnalytics');
-        console.log(JSON.stringify(googleAnalytics.gaData));
+		var googleAnalytics = require('../analytics/googleAnalytics2');
+        console.log(googleAnalytics);
     	res.send(googleAnalytics);
 
 	});
