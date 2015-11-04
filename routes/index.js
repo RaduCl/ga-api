@@ -65,6 +65,14 @@ module.exports = function(passport){
 		res.redirect('/');
 	});
 
+	/* GET  google analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data', function(req, res){
+		var googleAnalytics = require('../analytics/googleAnalytics');
+        console.log(JSON.stringify(googleAnalytics.gaData));
+    	res.send(googleAnalytics);
+
+	});
 
 	return router;
 }
