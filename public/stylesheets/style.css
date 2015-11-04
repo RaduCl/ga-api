@@ -12,6 +12,10 @@ a {
     padding: 15px;
     margin: 0 auto;
 }
+
+.vertical-spacer{
+    min-height: 18vh;
+}
 .form-signin .form-signin-heading, .form-signin .checkbox{
     margin-bottom: 10px;
 }

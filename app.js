@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var stylus = require('stylus');
+var nib = require('nib');
+
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
 // Connect to DB
@@ -12,10 +15,22 @@ mongoose.connect(dbConfig.url);
 
 var app = express();
 
+
+// configuration
+function compile(str, path){
+    return stylus(str)
+        .set('filename', path)
+        .use(nib())
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(stylus.middleware(
+    { src: __dirname + '/public'
+        , compile: compile
+    }
+))
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());

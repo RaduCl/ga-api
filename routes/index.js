@@ -13,15 +13,22 @@ var isAuthenticated = function (req, res, next) {
 
 module.exports = function(passport){
 
-	/* GET login page. */
 	router.get('/', function(req, res) {
-    	// Display the Login page with any flash message, if any
-		res.render('index', { message: req.flash('message') });
+		res.redirect('/login')
 	});
+
+    /* GET login page. */
+	router.get('/login', function(req, res){
+        // Display the Login page with any flash message, if any
+        res.render('login', {
+            title: 'Login',
+            message: req.flash('message')
+        });
+    })
 
 	/* Handle Login POST */
 	router.post('/login', passport.authenticate('login', {
-		successRedirect: '/home',
+		successRedirect: '/dashboard',
 		failureRedirect: '/',
 		failureFlash : true  
 	}));
@@ -33,7 +40,7 @@ module.exports = function(passport){
 
 	/* Handle Registration POST */
 	router.post('/signup', passport.authenticate('signup', {
-		successRedirect: '/home',
+		successRedirect: '/dashboard',
 		failureRedirect: '/signup',
 		failureFlash : true  
 	}));
@@ -43,11 +50,21 @@ module.exports = function(passport){
 		res.render('home', { user: req.user });
 	});
 
+    /* GET Dashboard Page */
+	router.get('/dashboard', isAuthenticated, function(req, res){
+		res.render('dashboard', {
+            user: req.user,
+            title: 'Yamaha - Dashboard'
+        });
+	});
+
+
 	/* Handle Logout */
 	router.get('/signout', function(req, res) {
 		req.logout();
 		res.redirect('/');
 	});
+
 
 	return router;
 }
