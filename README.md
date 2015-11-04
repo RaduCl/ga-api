@@ -1,8 +1,3 @@
-passport-mongo
-==============
-
-This repository serves as an example of a basic Node.js application which is using [Passport](http://passportjs.org/) as the authentication middleware for authenticating against a locally configured Mongo backend
-
 Steps to run the app
 =====================
 * After cloning the repo, install the dependencies by running **npm install**
