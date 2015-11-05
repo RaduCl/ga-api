@@ -3,8 +3,8 @@ var JWT = googleapis.auth.JWT;
 var analytics = googleapis.analytics('v3');
 var inputResult;
 
-var SERVICE_ACCOUNT_EMAIL = '497642813566-pbindqmqoj01s01gjcafchkrubqo8lkd@developer.gserviceaccount.com';
-var SERVICE_ACCOUNT_KEY_FILE = __dirname + '/key.pem';
+var SERVICE_ACCOUNT_EMAIL = '861670132384-kftaau08jonkrcemo8sq5slqr6lrk3l2@developer.gserviceaccount.com';
+var SERVICE_ACCOUNT_KEY_FILE = __dirname + '/key2.pem';
 
 
 var authClient = new JWT(
@@ -22,11 +22,84 @@ var googleAnalyticsData = authClient.authorize(function(err, tokens) {
     // building the query
     analytics.data.ga.get({
         auth: authClient,
-        'ids': 'ga:110116145',
-        'start-date': '2015-07-19',
-        'end-date': '2015-08-19',
-        'metrics': 'ga:visits'
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:visits',
+        'dimensions': 'ga:country'
     }, function(err, result) {
+        console.log(err);
+        inputResult = result;
+        console.log(result);
+    });
+    analytics.data.ga.get({
+        auth: authClient,
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:visits',
+        'dimensions': 'ga:userType'
+    }, function (err, result) {
+        console.log(err);
+        inputResult = result;
+        console.log(result);
+    });
+    analytics.data.ga.get({
+        auth: authClient,
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:visits',
+        'dimensions': 'ga:operatingSystemVersion'
+    }, function (err, result) {
+        console.log(err);
+        inputResult = result;
+        console.log(result);
+    });
+    analytics.data.ga.get({
+        auth: authClient,
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:1dayUsers',
+        'dimensions': 'ga:date'
+    }, function (err, result) {
+        console.log(err);
+        inputResult = result;
+        console.log(result);
+    });
+    analytics.data.ga.get({
+        auth: authClient,
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:sessions',
+        'dimensions': 'ga:sessionCount'
+    }, function (err, result) {
+        console.log(err);
+        inputResult = result;
+        console.log(result);
+    });
+    analytics.data.ga.get({
+        auth: authClient,
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:sessions',
+        'dimensions': 'ga:daysSinceLastSession'
+    }, function (err, result) {
+        console.log(err);
+        inputResult = result;
+        console.log(result);
+    });
+    analytics.data.ga.get({
+        auth: authClient,
+        'ids': 'ga:110318051',
+        'start-date': '2015-10-20',
+        'end-date': '2015-11-03',
+        'metrics': 'ga:totalEvents',
+        'dimensions': 'ga:eventLabel'
+    }, function (err, result) {
         console.log(err);
         inputResult = result;
         console.log(result);
