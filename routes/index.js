@@ -69,10 +69,15 @@ module.exports = function(passport){
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
 		var googleAnalytics = require('../analytics/googleAnalytics2');
-        //console.log(JSON.stringify(googleAnalytics));
-
-    	res.send(googleAnalytics);
-
+		googleAnalytics(function (err, result){
+			if(err) return console.log(err)
+			if(result){
+				//console.log("The result is inside callback:" + JSON.stringify(gaResult))
+				console.log("Result inside callback is" + result);
+				res.send(result);
+				//return result;
+			}
+		})
 	});
 
 	return router;

@@ -55,8 +55,9 @@ function returnResult(err, result){
     }
 }
 
-getData(returnResult);
 
-module.exports = gaResults;
+//var data = getData(returnResult);
+//console.log("datata is:" + data)
+module.exports = getData;
 //module.exports = getData(returnResult);
 //module.exports = getData;
