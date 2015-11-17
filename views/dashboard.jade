@@ -24,22 +24,25 @@ block content
                 div.app-widget-body.panel-body
                     h4 User Increase / Decrease
                     div#user-increase
-                    h4 Recency
-                    div#recency
-                    h4 Loyalty
-                    div#loyalty
+                    div.col-sm-6
+                        h4 Recency
+                        div#recency
+                    div.col-sm-6
+                        h4 Loyalty
+                        div#loyalty
         div.col-md-12.widget
             div.panel.panel-primary
                 div.widget-header.panel-heading Insights
-                    div.col-md-6
+                div.app-widget-body.panel-body
+                    div.col-sm-6
                         h4 Most Popular Bikes
                         div#popular-bikes
-                    div.col-md-6
+                    div.col-sm-6
                         h4 Most Popular Parts
                         div#popular-parts
-                div.app-widget-body.panel-body
-                    //h5.widget-subtitle User Increase / Decrease
-                    //div#retention
-                    //div#user-increase2
-    // main script
+                    div
+                        h4 Behavior Flow by OS
+                        div#behavior-byOS
+
+
     script(src="js/app.js")

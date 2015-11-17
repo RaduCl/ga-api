@@ -5,9 +5,10 @@ var gaResults = [];
 var JWT = googleapis.auth.JWT;
 var analytics = googleapis.analytics('v3');
 
-var SERVICE_ACCOUNT_EMAIL = '497642813566-pbindqmqoj01s01gjcafchkrubqo8lkd@developer.gserviceaccount.com';//my email
+//var SERVICE_ACCOUNT_EMAIL = '497642813566-pbindqmqoj01s01gjcafchkrubqo8lkd@developer.gserviceaccount.com';//my email
+var SERVICE_ACCOUNT_EMAIL = '861670132384-kftaau08jonkrcemo8sq5slqr6lrk3l2@developer.gserviceaccount.com';//DRB email
 //var SERVICE_ACCOUNT_EMAIL = '235882346313-gjaeilnvgj0p6kt5akpa4uokds0va2u0%40developer.gserviceaccount.com;//chris email
-var SERVICE_ACCOUNT_KEY_FILE = __dirname + '/key.pem';
+var SERVICE_ACCOUNT_KEY_FILE = __dirname + '/keyDRB.pem';
 
 
 var authClient = new JWT(
@@ -17,22 +18,86 @@ var authClient = new JWT(
   ['https://www.googleapis.com/auth/analytics.readonly']
 );
 
-function getData(callback){
+const IDS = 'ga:110318051';//DRB viewID
+//var ids = 'ids': 'ga:110116145',//my viewID
+//var ids ='ids': 'ga:105895952', // chris viewID
+
+
+// Query objects used in getData()
+
+var osQuery = {
+    auth: authClient,
+    'ids': IDS,
+    'start-date': '2015-02-11',
+    'end-date': '2015-11-05',
+    'metrics': 'ga:visits',
+    'dimensions': 'ga:operatingSystemVersion, ga:operatingSystem'
+}
+
+var countryVisitsQuery = {
+    auth: authClient,
+    'ids': IDS,
+    'start-date': '2015-02-11',
+    'end-date': '2015-11-05',
+    'metrics': 'ga:visits',
+    'dimensions': 'ga:country'
+}
+
+var dailyUsersQuery = {
+    auth: authClient,
+    'ids': IDS,
+    'start-date': '2015-02-11',
+    'end-date': '2015-11-05',
+    'metrics': 'ga:1dayUsers',
+    'dimensions': 'ga:date'
+}
+
+var frequencyQuery = {
+    auth: authClient,
+    'ids': IDS,
+    'start-date': '2015-02-11',
+    'end-date': '2015-11-05',
+    'metrics': 'ga:sessions',
+    'dimensions': 'ga:daysSinceLastSession'
+}
+
+var loyaltyQuery = {
+    auth: authClient,
+    'ids': IDS,
+    'start-date': '2015-10-22',
+    'end-date': '2015-11-08',
+    'metrics': 'ga:sessions',
+    'dimensions': 'ga:sessionCount'
+}
+
+var visitorTypesQuery = {
+    auth: authClient,
+    'ids': IDS,
+    'start-date': '2015-10-22',
+    'end-date': '2015-11-08',
+    'metrics': 'ga:visits',
+    'dimensions': 'ga:userType'
+}
+
+var baseQuery = {
+    auth: authClient,
+    'ids': IDS
+}
+
+function getData(callback, query){
+    var resultQuery = {};
+    for (var attrname in baseQuery) { resultQuery[attrname] = baseQuery[attrname]; }
+    for (var attrname in query) { resultQuery[attrname] = query[attrname]; }
+    console.log(resultQuery)
     authClient.authorize(function(err, tokens) {
+
         //console.log('hello from getData')
         if (err) {
             console.error(err);
         }
         // building the query
-        analytics.data.ga.get({
-            auth: authClient,
-            'ids': 'ga:110116145',//my viewID
-            //'ids': 'ga:105895952',
-            'start-date': '2015-02-11',
-            'end-date': '2015-10-25',
-            'metrics': 'ga:visits',
-            //'dimensions': 'ga:browser,ga:city,ga:sessionDurationBucket'
-        }, function(err, result) {
+
+        analytics.data.ga.get(resultQuery, function(err, result) {
             if(err)
                 console.error(err)
             if(result){

@@ -3,6 +3,8 @@ google.load('visualization', '1', {packages:['table']});
 // Load the Visualization API and the piechart package.
 google.load('visualization', '1.0', {packages: ['corechart']});
 google.load("visualization", "1.1", {packages:["bar"]});
+google.load("visualization", "1.1", {packages:["sankey"]});
+
 
 google.setOnLoadCallback(initialize);
 
@@ -181,6 +183,19 @@ function initialize() {
                 ["51-100", 94],
                 ["101-200", 1]
             ]);
+        var query = {
+            'start-date': '2015-10-22',
+            'end-date': '2015-11-08',
+            'metrics': 'ga:sessions',
+            'dimensions': 'ga:sessionCount'
+        }
+        //var testData = require('../../analytics/googleAnalytics2')(function (err, result){
+        //    if(err) return console.log(err)
+        //    if(result){
+        //        return result
+        //    }
+        //}, query)
+        //console.log('testData' + testData)
 
         var view = new google.visualization.DataView(data);
         view.setColumns([0, 1,
@@ -238,6 +253,46 @@ function initialize() {
         chart.draw(view, options);
     }
 
+    function behaviorFlowByOS(){
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Sessions');
+        data.addRows([
+            [ 'Android', 'Home', 2300 ],
+            [ 'iOS', 'Home', 1900 ],
+
+            [ 'Home', 'RangeSelect', 2100 ],
+            [ 'Home', 'MyGarage', 1200 ],
+            [ 'Home', 'Settings', 900 ],
+
+            [ 'RangeSelect', 'BikeSelect', 2100],
+            [ 'MyGarage', 'BikeOverview', 926],
+            [ 'Settings', 'Homee', 600],
+            [ 'Settings', 'RangeSelecte', 300],
+
+            [ 'BikeSelect', 'Configurator', 1800],
+            [ 'BikeOverview', 'MyGaragee', 200],
+            [ 'Homee', 'RangeSelectee', 260],
+            [ 'RangeSelecte', 'BikeSelectee', 200],
+        ]);
+
+        // Set chart options
+        var options = {
+            width: "100%",
+            sankey: {
+                node: {
+                    width: 20,
+                }
+            },
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.Sankey(document.getElementById('behavior-byOS'));
+        chart.draw(data, options);
+
+    }
+
 
     loyalty();
     recency();
@@ -246,6 +301,7 @@ function initialize() {
     googlePlayDownloads();
     tableCountries();
     newReturningUsers();
+    behaviorFlowByOS();
 
     var visitors = getMyData('http://spreadsheets.google.com/tq?key=0Anr_udlm_tcjdFFhTGc2LUl2UlRfV3hWLTVlYXl1bWc&range=A1:E13&pub=1&sheet=channel_product','select B, sum(C) GROUP BY B', function(result) {
 

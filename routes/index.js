@@ -51,7 +51,8 @@ module.exports = function(passport){
 	});
 
     /* GET Dashboard Page */
-	router.get('/dashboard', isAuthenticated, function(req, res){
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/dashboard', function(req, res){
 		res.render('dashboard', {
             user: req.user,
             title: 'Yamaha - Dashboard'
@@ -68,16 +69,20 @@ module.exports = function(passport){
 	/* GET  google analytics data */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
+		var testQuery = {
+			'start-date': '2015-10-22',
+			'end-date': '2015-11-08',
+			'metrics': 'ga:visits',
+			'dimensions': 'ga:userType'
+		}
 		var googleAnalytics = require('../analytics/googleAnalytics2');
 		googleAnalytics(function (err, result){
 			if(err) return console.log(err)
 			if(result){
-				//console.log("The result is inside callback:" + JSON.stringify(gaResult))
-				console.log("Result inside callback is" + result);
 				res.send(result);
-				//return result;
 			}
-		})
+		}, testQuery)
+
 	});
 
 	return router;
