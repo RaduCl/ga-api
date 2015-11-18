@@ -69,19 +69,89 @@ module.exports = function(passport){
 	/* GET  google analytics data */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
-		var testQuery = {
-			'start-date': '2015-10-22',
-			'end-date': '2015-11-08',
-			'metrics': 'ga:visits',
-			'dimensions': 'ga:userType'
-		}
-		var googleAnalytics = require('../analytics/googleAnalytics2');
-		googleAnalytics(function (err, result){
-			if(err) return console.log(err)
-			if(result){
-				res.send(result);
+		var querie = {
+
+			osQuery: {
+				'start-date': '2015-02-11',
+				'end-date': '2015-11-05',
+				'metrics': 'ga:visits',
+				'dimensions': 'ga:operatingSystemVersion, ga:operatingSystem'
+			},
+
+			countryVisitsQuery: {
+				'start-date': '2015-02-11',
+				'end-date': '2015-11-05',
+				'metrics': 'ga:visits',
+				'dimensions': 'ga:country'
+			},
+
+			dailyUsersQuery: {
+				'start-date': '2015-02-11',
+				'end-date': '2015-11-05',
+				'metrics': 'ga:1dayUsers',
+				'dimensions': 'ga:date'
+			},
+
+			frequencyQuery: {
+				'start-date': '2015-02-11',
+				'end-date': '2015-11-05',
+				'metrics': 'ga:sessions',
+				'dimensions': 'ga:daysSinceLastSession'
+			},
+
+			loyaltyQuery: {
+				'start-date': '2015-10-22',
+				'end-date': '2015-11-08',
+				'metrics': 'ga:sessions',
+				'dimensions': 'ga:sessionCount'
+			},
+
+			visitorTypesQuery: {
+				'start-date': '2015-10-22',
+				'end-date': '2015-11-08',
+				'metrics': 'ga:visits',
+				'dimensions': 'ga:userType'
 			}
-		}, testQuery)
+		}
+
+		var data = []
+		var googleAnalytics = require('../analytics/googleAnalytics2');
+		//var googleAnalytics = require('../analytics/visitorTypes');
+		var i=0;
+		var queryLength = Object.keys(querie).length;
+
+		for(var q in querie){
+			//console.log('\n \n \n querie.q is: ' + querie[q])
+
+			googleAnalytics(function (err, result){
+
+				if(err) return console.log(err)
+				if(result){
+					i++;
+					console.log('\n \n \n i is: ' + i)
+					var queryResults = {}
+					queryResults[q] = result.rows
+					data.push(queryResults)
+					console.log('\n \n \n' + 'data is: ' + data)
+					//res.send(result);
+				}
+				//console.log('querie.i is: ' + i)
+				if(i==queryLength-1)
+				{
+					console.log(data)
+					res.send(data)
+				}
+			}, querie[q])
+		}
+
+
+		//googleAnalytics(function (err, result){
+		//	if(err) return console.log(err)
+		//	if(result){
+		//		data.push(result.rows)
+		//		//res.send(result);
+		//	}
+		//}, querie.visitorTypesQuery)
 
 	});
 

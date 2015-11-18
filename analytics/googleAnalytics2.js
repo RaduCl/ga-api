@@ -25,59 +25,7 @@ const IDS = 'ga:110318051';//DRB viewID
 
 // Query objects used in getData()
 
-var osQuery = {
-    auth: authClient,
-    'ids': IDS,
-    'start-date': '2015-02-11',
-    'end-date': '2015-11-05',
-    'metrics': 'ga:visits',
-    'dimensions': 'ga:operatingSystemVersion, ga:operatingSystem'
-}
 
-var countryVisitsQuery = {
-    auth: authClient,
-    'ids': IDS,
-    'start-date': '2015-02-11',
-    'end-date': '2015-11-05',
-    'metrics': 'ga:visits',
-    'dimensions': 'ga:country'
-}
-
-var dailyUsersQuery = {
-    auth: authClient,
-    'ids': IDS,
-    'start-date': '2015-02-11',
-    'end-date': '2015-11-05',
-    'metrics': 'ga:1dayUsers',
-    'dimensions': 'ga:date'
-}
-
-var frequencyQuery = {
-    auth: authClient,
-    'ids': IDS,
-    'start-date': '2015-02-11',
-    'end-date': '2015-11-05',
-    'metrics': 'ga:sessions',
-    'dimensions': 'ga:daysSinceLastSession'
-}
-
-var loyaltyQuery = {
-    auth: authClient,
-    'ids': IDS,
-    'start-date': '2015-10-22',
-    'end-date': '2015-11-08',
-    'metrics': 'ga:sessions',
-    'dimensions': 'ga:sessionCount'
-}
-
-var visitorTypesQuery = {
-    auth: authClient,
-    'ids': IDS,
-    'start-date': '2015-10-22',
-    'end-date': '2015-11-08',
-    'metrics': 'ga:visits',
-    'dimensions': 'ga:userType'
-}
 
 var baseQuery = {
     auth: authClient,
@@ -102,7 +50,7 @@ function getData(callback, query){
                 console.error(err)
             if(result){
                 //console.log("reuslt is: " + result)
-                gaResults.push(result);
+                    gaResults.push(result);
                 //console.log("gaResults inside" + gaResults+"\n");
                 console.log("intru in callback")
                 callback(err, result)

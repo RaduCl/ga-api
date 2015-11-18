@@ -32,14 +32,12 @@ function getData(callback){
             'end-date': '2015-11-05',
             'metrics': 'ga:visits',
             'dimensions': 'ga:userType'
-            //'dimensions': 'ga:browser,ga:city,ga:sessionDurationBucket'
         }, function(err, result) {
             if(err)
                 console.error(err)
             if(result){
                 //console.log("reuslt is: " + result)
                 gaResults.push(result);
-                //console.log("gaResults inside" + gaResults+"\n");
                 console.log("intru in callback")
                 callback(err, result)
             }

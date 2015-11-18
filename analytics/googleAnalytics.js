@@ -64,3 +64,108 @@ function exportCSV (gaResults) {
 module.exports = getData;
 // module.exports = gaResults;
 // module.exports = exportCSV;
+
+
+//var data = {}
+//var googleAnalytics = require('../analytics/googleAnalytics2');
+////var googleAnalytics = require('../analytics/visitorTypes');
+//var i=0;
+//var queryLength = Object.keys(querie).length;
+//
+//for(var q in querie){
+//	//console.log('\n \n \n querie.q is: ' + querie[q])
+//
+//	googleAnalytics(function (err, result){
+//
+//		if(err) return console.log(err)
+//		if(result){
+//			i++;
+//			console.log('\n \n \n i is: ' + i)
+//
+//			data[q] = result.rows
+//			console.log('\n \n \n' + 'data is: ' + data.q)
+//			//res.send(result);
+//		}
+//		//console.log('querie.i is: ' + i)
+//		if(i==queryLength-1)
+//		{
+//			console.log(data)
+//			res.send(data)
+//		}
+//	}, querie[q])
+//}
+
+//for(var i=0; i< queryLength; i++){
+//	//console.log('\n \n \n querie.q is: ' + querie[q])
+//	console.log('\n \n \n i is: ' + i)
+//	console.log('\n \n \n querie[i] is: ' + querie)
+//	googleAnalytics(function (err, result){
+//
+//		if(err) return console.log(err)
+//		if(result){
+//			data[i] = result.rows
+//			console.log('\n \n \n' + 'data is: ' + data.i)
+//			//res.send(result);
+//		}
+//		console.log('querie.i is: ' + i)
+//		if(i==queryLength-1)
+//		{
+//			console.log(data)
+//			res.send(data)
+//		}
+//	}, querie[i])
+//}
+
+//var osQuery = {
+//    auth: authClient,
+//    'ids': IDS,
+//    'start-date': '2015-02-11',
+//    'end-date': '2015-11-05',
+//    'metrics': 'ga:visits',
+//    'dimensions': 'ga:operatingSystemVersion, ga:operatingSystem'
+//}
+//
+//var countryVisitsQuery = {
+//    auth: authClient,
+//    'ids': IDS,
+//    'start-date': '2015-02-11',
+//    'end-date': '2015-11-05',
+//    'metrics': 'ga:visits',
+//    'dimensions': 'ga:country'
+//}
+//
+//var dailyUsersQuery = {
+//    auth: authClient,
+//    'ids': IDS,
+//    'start-date': '2015-02-11',
+//    'end-date': '2015-11-05',
+//    'metrics': 'ga:1dayUsers',
+//    'dimensions': 'ga:date'
+//}
+//
+//var frequencyQuery = {
+//    auth: authClient,
+//    'ids': IDS,
+//    'start-date': '2015-02-11',
+//    'end-date': '2015-11-05',
+//    'metrics': 'ga:sessions',
+//    'dimensions': 'ga:daysSinceLastSession'
+//}
+//
+//var loyaltyQuery = {
+//    auth: authClient,
+//    'ids': IDS,
+//    'start-date': '2015-10-22',
+//    'end-date': '2015-11-08',
+//    'metrics': 'ga:sessions',
+//    'dimensions': 'ga:sessionCount'
+//}
+//
+//var visitorTypesQuery = {
+//    auth: authClient,
+//    'ids': IDS,
+//    'start-date': '2015-10-22',
+//    'end-date': '2015-11-08',
+//    'metrics': 'ga:visits',
+//    'dimensions': 'ga:userType'
+//}
