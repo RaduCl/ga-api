@@ -169,3 +169,48 @@ module.exports = getData;
 //    'metrics': 'ga:visits',
 //    'dimensions': 'ga:userType'
 //}
+
+//var querie = {
+//
+//    osQuery: {
+//        'start-date': '2015-02-11',
+//        'end-date': '2015-11-05',
+//        'metrics': 'ga:visits',
+//        'dimensions': 'ga:operatingSystemVersion, ga:operatingSystem'
+//    },
+//
+//    countryVisitsQuery: {
+//        'start-date': '2015-02-11',
+//        'end-date': '2015-11-05',
+//        'metrics': 'ga:visits',
+//        'dimensions': 'ga:country'
+//    },
+//
+//    dailyUsersQuery: {
+//        'start-date': '2015-02-11',
+//        'end-date': '2015-11-05',
+//        'metrics': 'ga:1dayUsers',
+//        'dimensions': 'ga:date'
+//    },
+//
+//    frequencyQuery: {
+//        'start-date': '2015-02-11',
+//        'end-date': '2015-11-05',
+//        'metrics': 'ga:sessions',
+//        'dimensions': 'ga:daysSinceLastSession'
+//    },
+//
+//    loyaltyQuery: {
+//        'start-date': '2015-10-22',
+//        'end-date': '2015-11-08',
+//        'metrics': 'ga:sessions',
+//        'dimensions': 'ga:sessionCount'
+//    },
+//
+//    visitorTypesQuery: {
+//        'start-date': '2015-10-22',
+//        'end-date': '2015-11-08',
+//        'metrics': 'ga:visits',
+//        'dimensions': 'ga:userType'
+//    }
+//}

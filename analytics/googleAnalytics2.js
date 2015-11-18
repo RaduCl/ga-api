@@ -36,21 +36,18 @@ function getData(callback, query){
     var resultQuery = {};
     for (var attrname in baseQuery) { resultQuery[attrname] = baseQuery[attrname]; }
     for (var attrname in query) { resultQuery[attrname] = query[attrname]; }
-    console.log(resultQuery)
+    //console.log(resultQuery)
     authClient.authorize(function(err, tokens) {
-
-        //console.log('hello from getData')
         if (err) {
             console.error(err);
         }
         // building the query
-
         analytics.data.ga.get(resultQuery, function(err, result) {
             if(err)
                 console.error(err)
             if(result){
                 //console.log("reuslt is: " + result)
-                    gaResults.push(result);
+                gaResults.push(result);
                 //console.log("gaResults inside" + gaResults+"\n");
                 console.log("intru in callback")
                 callback(err, result)
