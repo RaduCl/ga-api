@@ -32,7 +32,8 @@ var baseQuery = {
     'ids': IDS
 }
 
-function getData(callback, query){
+function getData(callback, query, queryKey){
+    console.log('\n\nqueryKey is: ' + queryKey)
     var resultQuery = {};
     for (var attrname in baseQuery) { resultQuery[attrname] = baseQuery[attrname]; }
     for (var attrname in query) { resultQuery[attrname] = query[attrname]; }
@@ -46,24 +47,21 @@ function getData(callback, query){
             if(err)
                 console.error(err)
             if(result){
-                //console.log("reuslt is: " + result)
-                gaResults.push(result);
-                //console.log("gaResults inside" + gaResults+"\n");
                 console.log("intru in callback")
-                callback(err, result)
+                callback(err, result, queryKey)
             }
         })
     })
 }
 
-function returnResult(err, result){
-    if(err) return console.log(err)
-    if(result){
-        //console.log("The result is inside callback:" + JSON.stringify(gaResult))
-        console.log("Result inside callback is" + result);
-        return result;
-    }
-}
+//function returnResult(err, result){
+//    if(err) return console.log(err)
+//    if(result){
+//        //console.log("The result is inside callback:" + JSON.stringify(gaResult))
+//        console.log("Result inside callback is" + result);
+//        return result;
+//    }
+//}
 
 
 //var data = getData(returnResult);
