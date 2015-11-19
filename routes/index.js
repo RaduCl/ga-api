@@ -76,6 +76,7 @@ module.exports = function(passport){
 		var i=0;
 		var queryLength = Object.keys(queries).length;
 
+		//run all analytics queries
 		for(var q in queries){
 			//console.log('\n \n \n querie.q is: ' + querie[q])
 
@@ -84,12 +85,12 @@ module.exports = function(passport){
 				if(err) return console.log(err)
 				if(result){
 					i++;
-					console.log('\n \n \n i is: ' + i)
-					console.log('\n \n \n q in query is: ' + q)
+					//console.log('\n \n \n i is: ' + i)
+					//console.log('\n \n \n q in query is: ' + q)
 					var queryResults = {}
 					queryResults[q] = result.rows
 					data.push(queryResults)
-					console.log('\n \n \n' + 'data is: ' + data)
+					//console.log('\n \n \n' + 'data is: ' + data)
 					//res.send(result);
 				}
 				//console.log('querie.i is: ' + i)
@@ -101,7 +102,7 @@ module.exports = function(passport){
 			}, queries[q])
 		}
 
-
+		//test with one query
 		//googleAnalytics(function (err, result){
 		//	if(err) return console.log(err)
 		//	if(result){
