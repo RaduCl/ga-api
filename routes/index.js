@@ -70,14 +70,19 @@ module.exports = function(passport){
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
 
+		//get the parametrized partial querie objects
 		var queries = require('../analytics/AnalyticsQueries')
-		var data = []
+		//get the google-analytics authentication module
 		var googleAnalytics = require('../analytics/googleAnalytics2');
+
+
+		var data = {}
 		var i=0;
 		var queryLength = Object.keys(queries).length;
 		//console.log('queryLength is: ' + queryLength)
-		//run all analytics queries
 		//var queryKeys = Object.keys(queries);
+
+		//run all analytics queries
 		for(var q in queries){
 			console.log('\n \n \n q is: ' + q)
 			//console.log('\n \n \n querie.q is: ' + queries[q])
@@ -90,8 +95,9 @@ module.exports = function(passport){
 					console.log('\n \n \n queryKey inside index.js is : ' + queryKey)
 					var queryResults = {}
 					//rename object key with the query key
-					queryResults[queryKey] = result.rows
-					data.push(queryResults)
+					//queryResults[queryKey] = result.rows
+					data[queryKey] = result.rows
+					//data.push(queryResults)
 					//console.log('\n \n \n' + 'data is: ' + data)
 					//res.send(result);
 					i++;
@@ -105,7 +111,7 @@ module.exports = function(passport){
 			}, queries[q], q)
 		}
 
-		//test with one query
+		////test with one query
 		//googleAnalytics(function (err, result){
 		//	if(err) return console.log(err)
 		//	if(result){

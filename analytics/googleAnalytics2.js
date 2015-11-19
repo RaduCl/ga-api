@@ -47,25 +47,11 @@ function getData(callback, query, queryKey){
             if(err)
                 console.error(err)
             if(result){
-                console.log("intru in callback")
                 callback(err, result, queryKey)
             }
         })
     })
 }
 
-//function returnResult(err, result){
-//    if(err) return console.log(err)
-//    if(result){
-//        //console.log("The result is inside callback:" + JSON.stringify(gaResult))
-//        console.log("Result inside callback is" + result);
-//        return result;
-//    }
-//}
 
-
-//var data = getData(returnResult);
-//console.log("datata is:" + data)
 module.exports = getData;
-//module.exports = getData(returnResult);
-//module.exports = getData;
