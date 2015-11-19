@@ -79,27 +79,19 @@ module.exports = function(passport){
 		var data = {}
 		var i=0;
 		var queryLength = Object.keys(queries).length;
-		//console.log('queryLength is: ' + queryLength)
-		//var queryKeys = Object.keys(queries);
 
 		//run all analytics queries
 		for(var q in queries){
-			console.log('\n \n \n q is: ' + q)
-			//console.log('\n \n \n querie.q is: ' + queries[q])
-			//console.log('\n \n \n queryKey is: ' + queryKey)
+			//console.log('\n q is: ' + q)
 			googleAnalytics(function (err, result, queryKey){
 
 				if(err) return console.log(err)
 				if(result){
-					console.log('\n \n \n i is: ' + i)
-					console.log('\n \n \n queryKey inside index.js is : ' + queryKey)
-					var queryResults = {}
+					//console.log('\n i is: ' + i)
+					//console.log('\n queryKey inside index.js is : ' + queryKey)
+
 					//rename object key with the query key
-					//queryResults[queryKey] = result.rows
 					data[queryKey] = result.rows
-					//data.push(queryResults)
-					//console.log('\n \n \n' + 'data is: ' + data)
-					//res.send(result);
 					i++;
 				}
 				//console.log('querie.i is: ' + i)

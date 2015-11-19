@@ -2,8 +2,8 @@ google.load('visualization', '1', {packages:['table']});
 // google.load('visualization', '1.1', {packages:['table']});
 // Load the Visualization API and the piechart package.
 google.load('visualization', '1.0', {packages: ['corechart']});
-google.load("visualization", "1.1", {packages:["bar"]});
-google.load("visualization", "1.1", {packages:["sankey"]});
+google.load("visualization", "1.1", {packages: ["bar"]});
+google.load("visualization", "1.1", {packages: ["sankey"]});
 
 
 google.setOnLoadCallback(initialize);
@@ -193,19 +193,6 @@ function initialize() {
                 ["51-100", 94],
                 ["101-200", 1]
             ]);
-        var query = {
-            'start-date': '2015-10-22',
-            'end-date': '2015-11-08',
-            'metrics': 'ga:sessions',
-            'dimensions': 'ga:sessionCount'
-        }
-        //var testData = require('../../analytics/googleAnalytics2')(function (err, result){
-        //    if(err) return console.log(err)
-        //    if(result){
-        //        return result
-        //    }
-        //}, query)
-        //console.log('testData' + testData)
 
         var view = new google.visualization.DataView(data);
         view.setColumns([0, 1,

@@ -12,7 +12,6 @@ var queryController = function(){
         if(mm<10){
             mm='0'+mm
         }
-        console.log("azi "+today);
         return today = yyyy+'-'+mm+'-'+dd;
     }
 
@@ -29,7 +28,6 @@ var queryController = function(){
             mm='0'+mm
         }
         return oneWeekAgo = yyyy+'-'+mm+'-'+dd;
-        //console.log("acum o saptamana "+oneWeekAgo);
     }
 
     function setMonthAgo(){
@@ -44,7 +42,6 @@ var queryController = function(){
         if(mm<10){
             mm='0'+mm
         }
-        console.log("acum o luna "+monthAgo);
         return monthAgo = yyyy+'-'+mm+'-'+dd;
     }
 
@@ -52,7 +49,7 @@ var queryController = function(){
     var startDate = setWeekAgo();
     //var startDate = setMonthAgo()
 
-
+    // Query objects used in getData()
     var queries = {
 
         osQuery: {
