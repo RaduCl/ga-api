@@ -9,10 +9,20 @@ google.load("visualization", "1.1", {packages:["sankey"]});
 google.setOnLoadCallback(initialize);
 
 
+$(document).ready(function () {
+    var fname = "Yasser"; // can be a value from a txtbox
+    var url = '/ga-data';
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (result) {
+            console.log(result)
+        }
+    });
+});
 
 
 function initialize() {
-
 
     function getMyData(linkToGs, myQuery, responseCallback) {
 
@@ -27,7 +37,6 @@ function initialize() {
             }
             responseCallback(response);
         };
-
     };
 
 
@@ -37,22 +46,22 @@ function initialize() {
 
     // });
 
-    var table = getMyData('http://spreadsheets.google.com/tq?key=0Anr_udlm_tcjdFFhTGc2LUl2UlRfV3hWLTVlYXl1bWc&range=A1:S5&pub=1&sheet=table','select A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S', function(result) {
-
-        var data = result.getDataTable();
-
-        var formatter = new google.visualization.ColorFormat();
-        formatter.addRange(null, 0, '#FF0000', '');
-        formatter.addRange(0, null, '#41CC00', '');
-
-        for (var i=2;i<20;i=i+2) {
-            formatter.format(data, i);
-        }
-
-        var table_kpi = new google.visualization.Table(document.getElementById('user-increase2'));
-        table_kpi.draw(data, {allowHtml : true});
-
-    });
+    //var table = getMyData('http://spreadsheets.google.com/tq?key=0Anr_udlm_tcjdFFhTGc2LUl2UlRfV3hWLTVlYXl1bWc&range=A1:S5&pub=1&sheet=table','select A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S', function(result) {
+    //
+    //    var data = result.getDataTable();
+    //
+    //    var formatter = new google.visualization.ColorFormat();
+    //    formatter.addRange(null, 0, '#FF0000', '');
+    //    formatter.addRange(0, null, '#41CC00', '');
+    //
+    //    for (var i=2;i<20;i=i+2) {
+    //        formatter.format(data, i);
+    //    }
+    //
+    //    var table_kpi = new google.visualization.Table(document.getElementById('user-increase2'));
+    //    table_kpi.draw(data, {allowHtml : true});
+    //
+    //});
 
     // App Usage statistics
 
