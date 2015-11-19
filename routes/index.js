@@ -70,46 +70,45 @@ module.exports = function(passport){
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
 
-		var testQuery = require('../analytics/AnalyticsQueries')
-		//console.log("\n \n queryTest.osQuery is: " + Object.parse(testQuery.osQuery))
+		var queries = require('../analytics/AnalyticsQueries')
 		var data = []
 		var googleAnalytics = require('../analytics/googleAnalytics2');
-		//var i=0;
-		//var queryLength = Object.keys(querie).length;
+		var i=0;
+		var queryLength = Object.keys(queries).length;
 
-		//for(var q in querie){
-		//	//console.log('\n \n \n querie.q is: ' + querie[q])
-        //
-		//	googleAnalytics(function (err, result){
-        //
-		//		if(err) return console.log(err)
-		//		if(result){
-		//			i++;
-		//			console.log('\n \n \n i is: ' + i)
-		//			console.log('\n \n \n q in query is: ' + q)
-		//			var queryResults = {}
-		//			queryResults[q] = result.rows
-		//			data.push(queryResults)
-		//			console.log('\n \n \n' + 'data is: ' + data)
-		//			//res.send(result);
-		//		}
-		//		//console.log('querie.i is: ' + i)
-		//		if(i==queryLength-1)
-		//		{
-		//			console.log(data)
-		//			res.send(data)
-		//		}
-		//	}, querie[q])
-		//}
+		for(var q in queries){
+			//console.log('\n \n \n querie.q is: ' + querie[q])
+
+			googleAnalytics(function (err, result){
+
+				if(err) return console.log(err)
+				if(result){
+					i++;
+					console.log('\n \n \n i is: ' + i)
+					console.log('\n \n \n q in query is: ' + q)
+					var queryResults = {}
+					queryResults[q] = result.rows
+					data.push(queryResults)
+					console.log('\n \n \n' + 'data is: ' + data)
+					//res.send(result);
+				}
+				//console.log('querie.i is: ' + i)
+				if(i==queryLength-1)
+				{
+					console.log(data)
+					res.send(data)
+				}
+			}, queries[q])
+		}
 
 
-		googleAnalytics(function (err, result){
-			if(err) return console.log(err)
-			if(result){
-				data.push(result.rows)
-				res.send(result.rows);
-			}
-		}, testQuery.osQuery)
+		//googleAnalytics(function (err, result){
+		//	if(err) return console.log(err)
+		//	if(result){
+		//		data.push(result.rows)
+		//		res.send(result.rows);
+		//	}
+		//}, testQuery.osQuery)
 
 	});
 
