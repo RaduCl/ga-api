@@ -9,40 +9,116 @@ google.load("visualization", "1.1", {packages: ["sankey"]});
 google.setOnLoadCallback(initialize);
 
 
-$(document).ready(function () {
-    var url = '/ga-data';
-    $.ajax({
-        url: url,
-        type: 'GET',
-        success: function (result) {
-            //console.log(result)
-            alert(result)
-        }
-    });
-});
+//$(document).ready(function () {
+//    var url = '/ga-data';
+//    $.ajax({
+//        url: url,
+//        type: 'GET',
+//        success: function (result) {
+//            //console.log(result)
+//            alert(result)
+//        }
+//    });
+//});
 
 
 function initialize() {
 
     var ajaxData = {};
-    var getAjaxData = function(responseCallback){
+
+    //api routes
+    const userTypeLink = '/ga-data/os-data';
+    const countryVisitsLink = '/ga-data/visits-by-country-data';
+    const daylyUsersLink = '/ga-data/dayly-users-data';
+    //implmentation for single query
+    //var getAjaxData = function(apiLink, responseCallback){
+    //    //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
+    //    //var date = '2015-11-05'; // can be a value from a txtbox
+    //    var url = '/ga-data';
+    //    $.ajax({
+    //        url: url,
+    //        type: 'GET',
+    //        success: function (result) {
+    //            //console.log('result inside ajax is: '+ result)
+    //            //ajaxData['queryResults'] = result
+    //            //alert(ajaxData)
+    //            //console.log(ajaxData);
+    //            responseCallback(result)
+    //        }
+    //    });
+    //}
+
+    var getAjaxData = function(){
         //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
         //var date = '2015-11-05'; // can be a value from a txtbox
         var url = '/ga-data';
         $.ajax({
             url: url,
             type: 'GET',
-            success: function (result) {
-                //console.log('result inside ajax is: '+ result)
-                ajaxData['queryResults'] = result
-                //alert(ajaxData)
-                //console.log(ajaxData);
-                responseCallback(result)
+            success: function(results){
+                charts(results);
             }
         });
     }
 
+    var charts = function(results){
+        newReturningUsersData(results);
+        countryVisitsData(results);
+    }
+
+
+
     getAjaxData();
+
+    var newReturningUsersData = function(result){
+        var ajaxData = result.visitorTypesQuery;
+        var data = new google.visualization.DataTable();
+
+        var newVisitors = parseInt(ajaxData[0][1]);
+        var returningVisitors = parseInt(ajaxData[1][1]);
+
+        data.addColumn('string', 'User Type');
+        data.addColumn('number', 'Sessions');
+        data.addRows([
+            ['Returning Visitors', {v: newVisitors}],
+            ['New Visitors', {v: returningVisitors}]
+        ]);
+        var options = {
+            'title': 'New versus Returning Users',
+            'width': '100%',
+            'height': '100%'
+        }
+        var table= new google.visualization.Table(document.getElementById('new-vs-returning-users'));
+        // var formatter = new google.visualization.ArrowFormat();
+        // formatter.format(data, 1);
+        table.draw(data, options);
+    }
+
+    var countryVisitsData = function(result){
+        var ajaxData = result.countryVisitsQuery
+        var data = new google.visualization.DataTable();
+        //TODO implment a sorting function
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'Users');
+        data.addRows([
+            ['Japan', {v:12, f:'12.0%'}],
+            ['France', {v:-7.3, f:'-7.3%'}],
+            ['Italy', {v:0, f:'0%'}],
+            ['Germany', {v:-2.1, f:'-2.1%'}],
+            ['Spain', {v:22, f:'22.0%'}]
+        ]);
+        var options = {
+            'title': 'Top 5 Countries by Total Users',
+            'showRowNumber': true,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_c = new google.visualization.Table(document.getElementById('top-countries'));
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 1);
+        table_c.draw(data, options);
+    }
+
 
     function getMyData(linkToGs, myQuery, responseCallback) {
 
@@ -85,31 +161,9 @@ function initialize() {
 
     // App Usage statistics
 
-    function newReturningUsersTest(result){
-        var data = new google.visualization.DataTable();
-
-        var returningVisitors = null;
-        var newVisitors = null;
-
-        data.addColumn('string', 'User Type');
-        data.addColumn('number', 'Sessions');
-        data.addRows([
-            ['Returning Visitors', {v:returningVisitors}],
-            ['New Visitors', {v: newVisitors}]
-        ]);
-        var options = {
-            'title': 'New versus Returning Users',
-            'width': '100%',
-            'height': '100%'
-        }
-        var table= new google.visualization.Table(document.getElementById('new-vs-returning-users'));
-        // var formatter = new google.visualization.ArrowFormat();
-        // formatter.format(data, 1);
-        table.draw(data, options);
-    }
 
 
-    function tableCountries(){
+    function countryVisits(){
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Country');
         data.addColumn('number', 'Users');
@@ -339,8 +393,8 @@ function initialize() {
     userIncrease();
     appStoreDownloads();
     googlePlayDownloads();
-    tableCountries();
-    newReturningUsers();
+    //countryVisits();
+    //newReturningUsers();
     behaviorFlowByOS();
 
     var visitors = getMyData('http://spreadsheets.google.com/tq?key=0Anr_udlm_tcjdFFhTGc2LUl2UlRfV3hWLTVlYXl1bWc&range=A1:E13&pub=1&sheet=channel_product','select B, sum(C) GROUP BY B', function(result) {

@@ -143,7 +143,7 @@ module.exports = function(passport){
 
 	/* GET  daily users analytics data */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/ga-data/country-visits-data', function(req, res){
+	router.get('/ga-data/dayly-users-data', function(req, res){
 
 		//get the parametrized partial query objects
 		var query = require('../analytics/AnalyticsQueries').dailyUsersQuery
