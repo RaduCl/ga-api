@@ -10,20 +10,39 @@ google.setOnLoadCallback(initialize);
 
 
 $(document).ready(function () {
-    var fname = "Yasser"; // can be a value from a txtbox
     var url = '/ga-data';
     $.ajax({
         url: url,
         type: 'GET',
         success: function (result) {
-            console.log(result)
-            alert(data)
+            //console.log(result)
+            alert(result)
         }
     });
 });
 
 
 function initialize() {
+
+    var ajaxData = {};
+    var getAjaxData = function(responseCallback){
+        //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
+        //var date = '2015-11-05'; // can be a value from a txtbox
+        var url = '/ga-data';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (result) {
+                //console.log('result inside ajax is: '+ result)
+                ajaxData['queryResults'] = result
+                //alert(ajaxData)
+                //console.log(ajaxData);
+                responseCallback(result)
+            }
+        });
+    }
+
+    getAjaxData();
 
     function getMyData(linkToGs, myQuery, responseCallback) {
 
@@ -65,6 +84,30 @@ function initialize() {
     //});
 
     // App Usage statistics
+
+    function newReturningUsersTest(result){
+        var data = new google.visualization.DataTable();
+
+        var returningVisitors = null;
+        var newVisitors = null;
+
+        data.addColumn('string', 'User Type');
+        data.addColumn('number', 'Sessions');
+        data.addRows([
+            ['Returning Visitors', {v:returningVisitors}],
+            ['New Visitors', {v: newVisitors}]
+        ]);
+        var options = {
+            'title': 'New versus Returning Users',
+            'width': '100%',
+            'height': '100%'
+        }
+        var table= new google.visualization.Table(document.getElementById('new-vs-returning-users'));
+        // var formatter = new google.visualization.ArrowFormat();
+        // formatter.format(data, 1);
+        table.draw(data, options);
+    }
+
 
     function tableCountries(){
         var data = new google.visualization.DataTable();

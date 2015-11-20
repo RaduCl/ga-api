@@ -66,14 +66,14 @@ module.exports = function(passport){
 		res.redirect('/');
 	});
 
-	/* GET  google analytics data */
+	/* GET  google all analytics data */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
 
-		//get the parametrized partial querie objects
+		//get the parametrized partial query objects
 		var queries = require('../analytics/AnalyticsQueries')
 		//get the google-analytics authentication module
-		var googleAnalytics = require('../analytics/googleAnalytics2');
+		var googleAnalytics = require('../analytics/googleAnalytics2').getAllData;
 
 
 		var data = {}
@@ -82,19 +82,15 @@ module.exports = function(passport){
 
 		//run all analytics queries
 		for(var q in queries){
-			//console.log('\n q is: ' + q)
 			googleAnalytics(function (err, result, queryKey){
 
 				if(err) return console.log(err)
 				if(result){
-					//console.log('\n i is: ' + i)
-					//console.log('\n queryKey inside index.js is : ' + queryKey)
 
 					//rename object key with the query key
 					data[queryKey] = result.rows
 					i++;
 				}
-				//console.log('querie.i is: ' + i)
 				if(i==queryLength)
 				{
 					console.log(data)
@@ -102,16 +98,127 @@ module.exports = function(passport){
 				}
 			}, queries[q], q)
 		}
+	});
 
-		////test with one query
-		//googleAnalytics(function (err, result){
-		//	if(err) return console.log(err)
-		//	if(result){
-		//		data.push(result.rows)
-		//		res.send(result.rows);
-		//	}
-		//}, testQuery.osQuery)
+	/* GET  google operating system related analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/os-data', function(req, res){
 
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').osQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['osQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
+	});
+
+	/* GET  google operating system related analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/visits-by-country-data', function(req, res){
+
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').countryVisitsQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['countryVisitsQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
+	});
+
+	/* GET  daily users analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/country-visits-data', function(req, res){
+
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').dailyUsersQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['dailyUsersQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
+	});
+
+	/* GET  daily users analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/user-frequency-data', function(req, res){
+
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').frequencyQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['frequencyQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
+	});
+
+	/* GET  users loyalty analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/user-loyalty-data', function(req, res){
+
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').loyaltyQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['loyaltyQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
+	});
+
+	/* GET  users loyalty analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/visitor-type-data', function(req, res){
+
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').visitorTypesQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['visitorTypesQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
 	});
 
 	return router;
