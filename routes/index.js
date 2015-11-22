@@ -100,22 +100,21 @@ module.exports = function(passport){
 		}
 	});
 
-	/* GET  google operating system related analytics data */
+	/* GET  users loyalty analytics data */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/ga-data/os-data', function(req, res){
+	router.get('/ga-data/visitor-type-data', function(req, res){
 
 		//get the parametrized partial query objects
-		var query = require('../analytics/AnalyticsQueries').osQuery
+		var query = require('../analytics/AnalyticsQueries').visitorTypesQuery
 		//get the google-analytics authentication module
 		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
 
 		googleAnalytics(function (err, result){
-
 			if(err) return console.log(err)
 			if(result){
 				//rename object key with the query key
 				var data = {}
-				data['osQuery'] = result.rows
+				data['visitorTypesQuery'] = result.rows
 				res.send(data)
 			}
 		}, query)
@@ -140,6 +139,28 @@ module.exports = function(passport){
 			}
 		}, query)
 	});
+
+	/* GET  google operating system related analytics data */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/ga-data/os-data', function(req, res){
+
+		//get the parametrized partial query objects
+		var query = require('../analytics/AnalyticsQueries').osQuery
+		//get the google-analytics authentication module
+		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
+
+		googleAnalytics(function (err, result){
+
+			if(err) return console.log(err)
+			if(result){
+				//rename object key with the query key
+				var data = {}
+				data['osQuery'] = result.rows
+				res.send(data)
+			}
+		}, query)
+	});
+
 
 	/* GET  daily users analytics data */
 	//TODO in production secure this route by using isAuthenticated param
@@ -201,25 +222,7 @@ module.exports = function(passport){
 		}, query)
 	});
 
-	/* GET  users loyalty analytics data */
-	//TODO in production secure this route by using isAuthenticated param
-	router.get('/ga-data/visitor-type-data', function(req, res){
 
-		//get the parametrized partial query objects
-		var query = require('../analytics/AnalyticsQueries').visitorTypesQuery
-		//get the google-analytics authentication module
-		var googleAnalytics = require('../analytics/googleAnalytics2').getData;
-
-		googleAnalytics(function (err, result){
-			if(err) return console.log(err)
-			if(result){
-				//rename object key with the query key
-				var data = {}
-				data['visitorTypesQuery'] = result.rows
-				res.send(data)
-			}
-		}, query)
-	});
 
 	return router;
 }

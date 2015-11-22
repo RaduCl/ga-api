@@ -52,32 +52,45 @@ var queryController = function(){
     // Query objects used in getData()
     var queries = {
 
-        osQuery: {
+        visitorTypesQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
-            'dimensions': 'ga:operatingSystemVersion, ga:operatingSystem'
+            'dimensions': 'ga:userType'
         },
 
         countryVisitsQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
-            'dimensions': 'ga:country'
+            'dimensions': 'ga:country',
+            //sort descending
+            'sort':'-ga:visits',
+            'max-results': 5
+        },
+
+        osQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
+            'sort': '-ga:visits',
+            //'filters': 'ga:visits>60'
+            //'output': 'dataTable'
         },
 
         dailyUsersQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:1dayUsers',
-            'dimensions': 'ga:date'
+            'dimensions': 'ga:date',
         },
 
         frequencyQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:sessions',
-            'dimensions': 'ga:daysSinceLastSession'
+            'dimensions': 'ga:daysSinceLastSession',
         },
 
         loyaltyQuery: {
@@ -87,12 +100,6 @@ var queryController = function(){
             'dimensions': 'ga:sessionCount'
         },
 
-        visitorTypesQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:visits',
-            'dimensions': 'ga:userType'
-        }
     }
 
     return queries;
