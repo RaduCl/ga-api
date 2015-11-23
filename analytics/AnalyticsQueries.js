@@ -59,14 +59,33 @@ var queryController = function(){
             'dimensions': 'ga:userType'
         },
 
-        countryVisitsQuery: {
+        //countryVisitsQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:visits',
+        //    'dimensions': 'ga:country',
+        //    'sort':'-ga:visits',//sort descending
+        //    'max-results': 5
+        //},
+
+        AndroidcountryVisitsQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
+            'filters': 'ga:operatingSystem==Android',
             'dimensions': 'ga:country',
-            //sort descending
-            'sort':'-ga:visits',
-            'max-results': 5
+            'sort': '-ga:visits',//sort descending
+            'max-results': 5,
+        },
+
+        iOScountryVisitsQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:visits',
+            'filters': 'ga:operatingSystem==iOS',
+            'dimensions': 'ga:country',
+            'sort': '-ga:visits',//sort descending
+            'max-results': 5,
         },
 
         osQuery: {
@@ -93,12 +112,72 @@ var queryController = function(){
             'dimensions': 'ga:daysSinceLastSession',
         },
 
-        loyaltyQuery: {
+        //loyaltyQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:sessions',
+        //    'dimensions': 'ga:sessionCount'
+        //},
+
+        AndroidLoyaltyQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:sessions',
-            'dimensions': 'ga:sessionCount'
+            'dimensions': 'ga:sessionCount',
+            'filters': 'ga:operatingSystem==Android'
         },
+
+        iOSLoyaltyQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:sessions',
+            'dimensions': 'ga:sessionCount',
+            'filters': 'ga:operatingSystem==iOS'
+        },
+
+        //new tabels queries
+        //popularBikesQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:totalEvents',
+        //    'filters': 'ga:eventCategory==Bike', //ga:operatingSystem==iOS',
+        //    'dimensions': 'ga:eventLabel',
+        //    'sort': '-ga:totalEvents'
+        //},
+        //
+        //popularPartsQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:totalEvents',
+        //    'filters': 'ga:eventCategory==Part', //ga:operatingSystem==iOS',
+        //    'dimensions': 'ga:eventLabel',
+        //    'sort': '-ga:totalEvents'
+        //},
+        //
+        //sharesQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:totalEvents',
+        //    'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
+        //},
+        //
+        //iOSExitQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:visits',
+        //    'dimensions': 'ga:exitScreenName',
+        //    'filters': 'ga:operatingSystem==iOS',
+        //    'sort': '-ga:visits'
+        //},
+        //
+        //AndroidExitQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:visits',
+        //    'dimensions': 'ga:exitScreenName',
+        //    'filters': 'ga:operatingSystem==Android',
+        //    'sort': '-ga:visits'
+        //}
 
     }
 

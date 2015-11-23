@@ -55,11 +55,15 @@ function initialize() {
 
     var charts = function(results){
         newReturningUsersData(results);
-        countryVisitsData(results);
+        //countryVisitsData(results);
+        iOScountryVisitsData(results);
+        AndroidcountryVisitsData(results);
         downloadsByOsData(results);
         daylyUsersData(results);
         recencyData(results);
-        loyaltyData(results);
+        //loyaltyData(results);
+        iOSLoyaltyData(results);
+        androidloyaltyData(results);
     }
 
 
@@ -96,28 +100,6 @@ function initialize() {
         ajaxData.unshift(['Country', 'Users'])
         var data = google.visualization.arrayToDataTable(ajaxData)
 
-        //var data = new google.visualization.DataTable();
-
-        // convert array of arrays to objects
-        //var convertedToObj = ajaxData.map(function(arr){
-        //    var obj = {}
-        //    obj.country = arr[0]
-        //    obj.visits = parseInt(arr[1])
-        //    return obj
-        //})
-        // sort descending by number of visits
-        //var sortedVisitNrDesc = convertedToObj.sort(function(a, b){
-        //    return parseInt(b.visits)-parseInt(a.visits)
-        //})
-
-        //data.addColumn('string', 'Country');
-        //data.addColumn('number', 'Users');
-        //for(var i = 0; i<5; i++){
-        //    data.addRows([
-        //        [convertedToObj[i].country, {v:convertedToObj[i].visits}]
-        //    ]);
-        //}
-
         var options = {
             'title': 'Top 5 Countries by Total Users',
             'showRowNumber': true,
@@ -125,6 +107,38 @@ function initialize() {
             'height': "100%"
         }
         var table_c = new google.visualization.Table(document.getElementById('top-countries'));
+        table_c.draw(data, options);
+    }
+
+    var iOScountryVisitsData = function(result){
+        var ajaxData = result.iOScountryVisitsQuery
+        //adding column headers
+        ajaxData.unshift(['Country', 'Users'])
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Top 5 Countries by Total Users',
+            'showRowNumber': true,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_c = new google.visualization.Table(document.getElementById('top-countries-iOS'));
+        table_c.draw(data, options);
+    }
+
+    var AndroidcountryVisitsData = function(result){
+        var ajaxData = result.AndroidcountryVisitsQuery
+        //adding column headers
+        ajaxData.unshift(['Country', 'Users'])
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Top 5 Countries by Total Users',
+            'showRowNumber': true,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_c = new google.visualization.Table(document.getElementById('top-countries-android'));
         table_c.draw(data, options);
     }
 
@@ -145,7 +159,7 @@ function initialize() {
         //var otherOS = 0;
 
         var formatedData = ajaxData.map(function(arr){
-            formatedArr = [];
+            var formatedArr = [];
             formatedArr[0] = arr[0]+ ' ' + arr[1];
             formatedArr[1] = parseInt(arr[2]);
             return formatedArr;
@@ -178,6 +192,7 @@ function initialize() {
         var chart = new google.visualization.PieChart(document.getElementById('total-downloads-byOS'));
         chart.draw(data, options);
     }
+
 
     function daylyUsersData(result){
         var ajaxData = result.dailyUsersQuery
@@ -296,6 +311,19 @@ function initialize() {
         chart.draw(view, options);
     }
 
+    //helper function for loyalty charts
+    var filterAndSumSessions = function(array, min, max){
+        var sessionsSum =  array.filter(function(element){
+            if (element[0] >= min && element[0] <= max) return element
+        }).map(function(element){
+            return element[1]
+        }).reduce(function(prev, next){
+            return parseInt(prev) + parseInt(next)
+        }, 0)
+        return [min + '-' + max, sessionsSum]
+    }
+
+
     function loyaltyData(result){
         var ajaxData = result.loyaltyQuery;
         var formatedData = ajaxData.map(function(element){
@@ -305,22 +333,6 @@ function initialize() {
         }).sort(function(a,b){
             return a[0] - b[0]
         })
-
-        var filterAndSumSessions = function(array, min, max){
-            console.log(array)
-            var sessionsSum =  array.filter(function(element){
-                if (element[0] >= min && element[0] <= max)
-                {
-                    //element.shift()
-                    return element
-                }
-            }).map(function(element){
-                return element[1]
-            }).reduce(function(prev, next){
-                return parseInt(prev) + parseInt(next)
-            }, 0)
-            return [min + '-' + max, sessionsSum]
-        }
 
         var sessionInstances9to14 = filterAndSumSessions(formatedData, 9, 14)
         var sessionInstances15to25 = filterAndSumSessions(formatedData, 15, 25)
@@ -366,6 +378,131 @@ function initialize() {
             legend: { position: "none" },
         };
         var chart = new google.visualization.BarChart(document.getElementById("loyalty"));
+        chart.draw(view, options);
+    }
+
+    function androidloyaltyData(result){
+        var ajaxData = result.AndroidLoyaltyQuery;
+        var formatedData = ajaxData.map(function(element){
+            element[0] = parseInt(element[0]);
+            element[1] = parseInt(element[1]);
+            return element;
+        }).sort(function(a,b){
+            return a[0] - b[0]
+        })
+
+
+        var sessionInstances9to14 = filterAndSumSessions(formatedData, 9, 14)
+        var sessionInstances15to25 = filterAndSumSessions(formatedData, 15, 25)
+        var sessionInstances26to50 = filterAndSumSessions(formatedData, 26, 50)
+        var sessionInstances51to100 = filterAndSumSessions(formatedData, 51, 100)
+        var sessionInstances101to200 = filterAndSumSessions(formatedData, 101, 200)
+        for ( var i = 0; i < formatedData.length; i++){
+            if (formatedData[i][0] > 8){
+                formatedData.splice(i, formatedData.length-i)
+            }
+        }
+
+        formatedData.map(function(element){
+            element[0]=String(element[0])
+            element[1]=parseInt(element[1])
+            return element
+        })
+
+        formatedData.unshift(["Session Instances", "Sessions"]);
+
+        formatedData.push(sessionInstances9to14);
+        formatedData.push(sessionInstances15to25);
+        formatedData.push(sessionInstances26to50);
+        formatedData.push(sessionInstances51to100);
+        formatedData.push(sessionInstances101to200);
+
+        //console.log('formatedData is: '+formatedData)
+        var data = google.visualization.arrayToDataTable(formatedData)
+
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+            { calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation" }]);
+        var options = {
+            // title: "Loyalty Android",
+            width: 380,
+            height: 400,
+            bar: {groupWidth: "60%"},
+            legend: { position: "none" },
+        };
+        var chart = new google.visualization.BarChart(document.getElementById("loyalty-android"));
+        chart.draw(view, options);
+    }
+
+    function iOSLoyaltyData(result){
+        var ajaxData = result.iOSLoyaltyQuery;
+        var formatedData = ajaxData.map(function(element){
+            element[0] = parseInt(element[0]);
+            element[1] = parseInt(element[1]);
+            return element;
+        }).sort(function(a,b){
+            return a[0] - b[0]
+        })
+
+        var filterAndSumSessions = function(array, min, max){
+            var sessionsSum =  array.filter(function(element){
+                if (element[0] >= min && element[0] <= max) return element
+            }).map(function(element){
+                return element[1]
+            }).reduce(function(prev, next){
+                return parseInt(prev) + parseInt(next)
+            }, 0)
+            return [min + '-' + max, sessionsSum]
+        }
+
+        var sessionInstances9to14 = filterAndSumSessions(formatedData, 9, 14)
+        var sessionInstances15to25 = filterAndSumSessions(formatedData, 15, 25)
+        var sessionInstances26to50 = filterAndSumSessions(formatedData, 26, 50)
+        var sessionInstances51to100 = filterAndSumSessions(formatedData, 51, 100)
+        var sessionInstances101to200 = filterAndSumSessions(formatedData, 101, 200)
+
+        for ( var i = 0; i < formatedData.length; i++){
+            if (formatedData[i][0] > 8){
+                formatedData.splice(i, formatedData.length-i)
+            }
+        }
+
+        formatedData.map(function(element){
+            element[0]=String(element[0])
+            element[1]=parseInt(element[1])
+            return element
+        })
+
+        formatedData.unshift(["Session Instances", "Sessions"]);
+
+        formatedData.push(sessionInstances9to14);
+        formatedData.push(sessionInstances15to25);
+        formatedData.push(sessionInstances26to50);
+        formatedData.push(sessionInstances51to100);
+        formatedData.push(sessionInstances101to200);
+
+        //console.log('formatedData is: '+formatedData)
+        var data = google.visualization.arrayToDataTable(formatedData)
+
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+            { calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation" }]);
+        var options = {
+            // title: "Loyalty iOS",
+            width: 380,
+            height: 400,
+            bar: {groupWidth: "60%"},
+            legend: { position: "none" },
+        };
+        var chart = new google.visualization.BarChart(document.getElementById("loyalty-iOS"));
         chart.draw(view, options);
     }
 
