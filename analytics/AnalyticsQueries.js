@@ -52,73 +52,73 @@ var queryController = function(){
     // Query objects used in getData()
     var queries = {
 
-        visitorTypesQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:visits',
-            'dimensions': 'ga:userType'
-        },
-
-        //countryVisitsQuery: {
+        //visitorTypesQuery: {
         //    'start-date': startDate,
         //    'end-date': endDate,
         //    'metrics': 'ga:visits',
-        //    'dimensions': 'ga:country',
-        //    'sort':'-ga:visits',//sort descending
-        //    'max-results': 5
+        //    'dimensions': 'ga:userType'
         //},
-
-        AndroidcountryVisitsQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:visits',
-            'filters': 'ga:operatingSystem==Android',
-            'dimensions': 'ga:country',
-            'sort': '-ga:visits',//sort descending
-            'max-results': 5,
-        },
-
-        iOScountryVisitsQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:visits',
-            'filters': 'ga:operatingSystem==iOS',
-            'dimensions': 'ga:country',
-            'sort': '-ga:visits',//sort descending
-            'max-results': 5,
-        },
-
-        osQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:visits',
-            'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
-            'sort': '-ga:visits',
-            //'filters': 'ga:visits>60'
-            //'output': 'dataTable'
-        },
-
-        dailyUsersQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:1dayUsers',
-            'dimensions': 'ga:date',
-        },
-
-        frequencyQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:sessions',
-            'dimensions': 'ga:daysSinceLastSession',
-        },
-
-        //loyaltyQuery: {
+        //
+        ////countryVisitsQuery: {
+        ////    'start-date': startDate,
+        ////    'end-date': endDate,
+        ////    'metrics': 'ga:visits',
+        ////    'dimensions': 'ga:country',
+        ////    'sort':'-ga:visits',//sort descending
+        ////    'max-results': 5
+        ////},
+        //
+        //AndroidcountryVisitsQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:visits',
+        //    'filters': 'ga:operatingSystem==Android',
+        //    'dimensions': 'ga:country',
+        //    'sort': '-ga:visits',//sort descending
+        //    'max-results': 5,
+        //},
+        //
+        //iOScountryVisitsQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:visits',
+        //    'filters': 'ga:operatingSystem==iOS',
+        //    'dimensions': 'ga:country',
+        //    'sort': '-ga:visits',//sort descending
+        //    'max-results': 5,
+        //},
+        //
+        //osQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:visits',
+        //    'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
+        //    'sort': '-ga:visits',
+        //    //'filters': 'ga:visits>60'
+        //    //'output': 'dataTable'
+        //},
+        //
+        //dailyUsersQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:1dayUsers',
+        //    'dimensions': 'ga:date',
+        //},
+        //
+        //frequencyQuery: {
         //    'start-date': startDate,
         //    'end-date': endDate,
         //    'metrics': 'ga:sessions',
-        //    'dimensions': 'ga:sessionCount'
+        //    'dimensions': 'ga:daysSinceLastSession',
         //},
-
+        //
+        ////loyaltyQuery: {
+        ////    'start-date': startDate,
+        ////    'end-date': endDate,
+        ////    'metrics': 'ga:sessions',
+        ////    'dimensions': 'ga:sessionCount'
+        ////},
+        //
         AndroidLoyaltyQuery: {
             'start-date': startDate,
             'end-date': endDate,

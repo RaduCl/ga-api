@@ -54,14 +54,14 @@ function initialize() {
     }
 
     var charts = function(results){
-        newReturningUsersData(results);
+        //newReturningUsersData(results);
         ////countryVisitsData(results);
-        iOScountryVisitsData(results);
-        AndroidcountryVisitsData(results);
-        downloadsByOsData(results);
-        daylyUsersData(results);
-        recencyData(results);
-        //loyaltyData(results);
+        //iOScountryVisitsData(results);
+        //AndroidcountryVisitsData(results);
+        //downloadsByOsData(results);
+        //daylyUsersData(results);
+        //recencyData(results);
+        ////loyaltyData(results);
         iOSLoyaltyData(results);
         androidloyaltyData(results);
         popularBikesData(results);
