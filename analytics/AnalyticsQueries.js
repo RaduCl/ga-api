@@ -145,14 +145,15 @@ var queryController = function(){
         //    'sort': '-ga:totalEvents'
         //},
         //
-        //popularPartsQuery: {
-        //    'start-date': startDate,
-        //    'end-date': endDate,
-        //    'metrics': 'ga:totalEvents',
-        //    'filters': 'ga:eventCategory==Part', //ga:operatingSystem==iOS',
-        //    'dimensions': 'ga:eventLabel',
-        //    'sort': '-ga:totalEvents'
-        //},
+        popularPartsQuery: {
+           'start-date': startDate,
+           'end-date': endDate,
+           'metrics': 'ga:totalEvents',
+           'filters': 'ga:eventCategory==Part', //ga:operatingSystem==iOS',
+           'dimensions': 'ga:eventLabel',
+           'max-results': 5,
+           'sort': '-ga:totalEvents'
+        },
         //
         //sharesQuery: {
         //    'start-date': startDate,

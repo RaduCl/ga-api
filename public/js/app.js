@@ -57,6 +57,7 @@ function initialize() {
         newReturningUsersData(results);
         //countryVisitsData(results);
         iOScountryVisitsData(results);
+        popularPartsData(results);
         AndroidcountryVisitsData(results);
         downloadsByOsData(results);
         daylyUsersData(results);
@@ -106,8 +107,24 @@ function initialize() {
             'width': "100%",
             'height': "100%"
         }
-        var table_c = new google.visualization.Table(document.getElementById('top-countries'));
-        table_c.draw(data, options);
+        var table_p = new google.visualization.Table(document.getElementById('top-countries'));
+        table_p.draw(data, options);
+    }
+
+    var popularPartsData = function(result){
+        var ajaxData = result.popularPartsQuery
+        //adding column headers
+        ajaxData.unshift(['eventLabel', 'totalEvents'])
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Top 5 Popular Parts',
+            'showRowNumber': true,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_part = new google.visualization.Table(document.getElementById('top-parts'));
+        table_part.draw(data, options);
     }
 
     var iOScountryVisitsData = function(result){
