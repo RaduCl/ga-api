@@ -152,14 +152,17 @@ var queryController = function(){
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Part', //ga:operatingSystem==iOS',
             'dimensions': 'ga:eventLabel',
-            'sort': '-ga:totalEvents'
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
         },
 
-        sharesQuery: {
+        AndroidExitQuery: {
             'start-date': startDate,
             'end-date': endDate,
-            'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:exitScreenName',
+            'filters': 'ga:operatingSystem==Android',
+            'sort': '-ga:visits'
         },
 
         iOSExitQuery: {
@@ -171,14 +174,13 @@ var queryController = function(){
             'sort': '-ga:visits'
         },
 
-        AndroidExitQuery: {
+        sharesQuery: {
             'start-date': startDate,
             'end-date': endDate,
-            'metrics': 'ga:visits',
-            'dimensions': 'ga:exitScreenName',
-            'filters': 'ga:operatingSystem==Android',
-            'sort': '-ga:visits'
-        }
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
+        },
+
 
     }
 
