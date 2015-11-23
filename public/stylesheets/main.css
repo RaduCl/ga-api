@@ -1,0 +1,10 @@
+/*
+ * Import nib
+ * nib automaticaly prefixes all atributes
+ */
+.vertical-spacer {
+  min-height: 30vh;
+}
+.chart-element {
+  margin-bottom: 40px;
+}
