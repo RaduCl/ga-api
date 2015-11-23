@@ -68,6 +68,7 @@ function initialize() {
         popularPartsData(results);
         AndroidExitData(results);
         iOSExitData(results);
+        totalShareData(results);
     }
 
 
@@ -569,6 +570,11 @@ function initialize() {
         }
         var table_part = new google.visualization.Table(document.getElementById('iOS-exit-event'));
         table_part.draw(data, options);
+    }
+
+    var totalShareData = function(result){
+        var ajaxData = result.sharesQuery;
+        $('#share-number').html(result.sharesQuery)
     }
 
 }
