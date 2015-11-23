@@ -543,7 +543,7 @@ function initialize() {
     var AndroidExitData = function(result){
         var ajaxData = result.AndroidExitQuery
         //adding column headers
-        ajaxData.unshift(['Exit event', 'Event Number'])
+        ajaxData.unshift(['Exit Event Name', 'Events'])
         var data = google.visualization.arrayToDataTable(ajaxData)
 
         var options = {
@@ -559,7 +559,7 @@ function initialize() {
     var iOSExitData = function(result){
         var ajaxData = result.iOSExitQuery
         //adding column headers
-        ajaxData.unshift(['Exit event', 'Event Number'])
+        ajaxData.unshift(['Exit Event Name', 'Events'])
         var data = google.visualization.arrayToDataTable(ajaxData)
 
         var options = {
@@ -573,7 +573,6 @@ function initialize() {
     }
 
     var totalShareData = function(result){
-        var ajaxData = result.sharesQuery;
         $('#share-number').html(result.sharesQuery)
     }
 
