@@ -54,16 +54,16 @@ function initialize() {
     }
 
     var charts = function(results){
-        //newReturningUsersData(results);
+        newReturningUsersData(results);
         ////countryVisitsData(results);
-        //iOScountryVisitsData(results);
-        //AndroidcountryVisitsData(results);
-        //downloadsByOsData(results);
-        //daylyUsersData(results);
-        //recencyData(results);
-        ////loyaltyData(results);
-        //iOSLoyaltyData(results);
-        //androidloyaltyData(results);
+        iOScountryVisitsData(results);
+        AndroidcountryVisitsData(results);
+        downloadsByOsData(results);
+        daylyUsersData(results);
+        recencyData(results);
+        //loyaltyData(results);
+        iOSLoyaltyData(results);
+        androidloyaltyData(results);
         popularBikesData(results);
         popularPartsData(results);
         AndroidExitData(results);
@@ -573,7 +573,7 @@ function initialize() {
     }
 
     var totalShareData = function(result){
-        $('#share-number').html(result.sharesQuery)
+        $('#share-number').html('      ' + result.sharesQuery)
     }
 
 }
