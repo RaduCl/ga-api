@@ -70,6 +70,7 @@ function initialize() {
         iOSExitData(results);
         totalShareData(results);
         savedConfigsData(results);
+        contactDealerData(results);
     }
 
 
@@ -579,5 +580,9 @@ function initialize() {
 
    var savedConfigsData = function(result){
         $('#saved-configs').html('      ' + result.savedConfigsQuery)
+    } 
+
+    var contactDealerData = function(result){
+        $('#dealer-contacted').html('      ' + result.dealerContactedQuery)
     } 
 }
