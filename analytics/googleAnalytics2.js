@@ -40,11 +40,14 @@ function getAllData(callback, query, queryKey){
     authClient.authorize(function(err, tokens) {
         if (err) {
             console.error(err);
+            callback(err)
         }
         // building the query
         analytics.data.ga.get(resultQuery, function(err, result) {
-            if(err)
+            if(err){
                 console.error(err)
+                callback(err)
+            }
             if(result){
                 callback(err, result, queryKey)
             }

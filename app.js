@@ -11,7 +11,8 @@ var nib = require('nib');
 var dbConfig = require('./db');
 var mongoose = require('mongoose');
 // Connect to DB
-mongoose.connect(dbConfig.url);
+mongoose.connect(dbConfig.url);//ORM for Schema data like users
+var db = require('mongoskin').db(url);//mongo driver for loose data manipulation
 
 var app = express();
 

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 //var gaData = require('../models/AnalyticsData')
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
@@ -98,6 +99,12 @@ module.exports = function(passport){
 				}
 			}, queries[q], q)
 		}
+	});
+
+	/* GET  google all analytics data from DB */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/mongo-data', function(req, res){
+		res.send('data from mongo')
 	});
 
 	/* GET  users loyalty analytics data */
