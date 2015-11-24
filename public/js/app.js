@@ -54,13 +54,13 @@ function initialize() {
     }
 
     var charts = function(results){
-        newReturningUsersData(results);
-        ////countryVisitsData(results);
-        iOScountryVisitsData(results);
-        AndroidcountryVisitsData(results);
-        downloadsByOsData(results);
-        daylyUsersData(results);
-        recencyData(results);
+        // newReturningUsersData(results);
+        // ////countryVisitsData(results);
+        // iOScountryVisitsData(results);
+        // AndroidcountryVisitsData(results);
+        // downloadsByOsData(results);
+        // daylyUsersData(results);
+        // recencyData(results);
         //loyaltyData(results);
         iOSLoyaltyData(results);
         androidloyaltyData(results);
@@ -69,6 +69,7 @@ function initialize() {
         AndroidExitData(results);
         iOSExitData(results);
         totalShareData(results);
+        savedConfigsData(results);
     }
 
 
@@ -576,4 +577,7 @@ function initialize() {
         $('#share-number').html('      ' + result.sharesQuery)
     }
 
+   var savedConfigsData = function(result){
+        $('#saved-configs').html('      ' + result.savedConfigsQuery)
+    } 
 }
