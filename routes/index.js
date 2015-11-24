@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var dbConfig = require('../db');
+var db = require('mongoskin').db(dbConfig.url);//mongo driver for loose data manipulation
+
 //var gaData = require('../models/AnalyticsData')
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
@@ -104,7 +107,11 @@ module.exports = function(passport){
 	/* GET  google all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/mongo-data', function(req, res){
-		res.send('data from mongo')
+		db.collection(dbConfig.collection).findOne(function(e, results){
+			if(e) return next(e)
+			res.send(results.Data)
+		})
+		//res.send('data from mongo')
 	});
 
 	/* GET  users loyalty analytics data */

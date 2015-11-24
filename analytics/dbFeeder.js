@@ -2,7 +2,10 @@
 //var Q = require('q');
 var dbConfig = require('../db');
 var url = dbConfig.url;
+var collection = dbConfig.collection;
 var db = require('mongoskin').db(url);
+
+//RUN this script in console: node dbFeeder.js week[month]
 
 /* GET  google all analytics data */
 var getAanalyticsData = function(period){
@@ -27,8 +30,6 @@ var getAanalyticsData = function(period){
     var queryKeys = Object.keys(queries).map(function(keyName, index){
         return keyName;
     })
-    console.log('queryKeys: ' +queryKeys);
-    //run all analytics queries
 
     function syncLoop(iterations, process, exit){
         var index = 0,
@@ -63,12 +64,14 @@ var getAanalyticsData = function(period){
         return loop;
     }
 
+    //run all analytics queries
     syncLoop(queryLength, function(loop){
         setTimeout(function(){
             var i = loop.iteration();
             //console.log(i);
             //process implmentation
             var q = queryKeys[i];
+            console.log('getting results for: ' + q);
             function callBack(err, result, queryKey) {
                 //console.log("iul este: " + i)
                 if (err)  console.log(err)
@@ -85,8 +88,8 @@ var getAanalyticsData = function(period){
         //console.log('done data is: ' + data);
         JSONobj.Data = data;
         //console.log(JSON.stringify(JSONobj))
-        db.collection('analytics').insert(JSONobj, function(err, result) {
-            console.log(result);
+        db.collection(collection).insert(JSONobj, function(err, result) {
+            //console.log(result);
             //db.collection('analytics').drop();
             db.close();
         });

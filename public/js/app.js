@@ -43,7 +43,8 @@ function initialize() {
     var getAjaxData = function(){
         //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
         //var date = '2015-11-05'; // can be a value from a txtbox
-        var url = '/ga-data';
+        //var url = '/ga-data';
+        var url = '/mongo-data';
         $.ajax({
             url: url,
             type: 'GET',
@@ -54,14 +55,14 @@ function initialize() {
     }
 
     var charts = function(results){
-        //newReturningUsersData(results);
-        ////countryVisitsData(results);
-        //iOScountryVisitsData(results);
-        //AndroidcountryVisitsData(results);
-        //downloadsByOsData(results);
-        //daylyUsersData(results);
-        //recencyData(results);
-        ////loyaltyData(results);
+        newReturningUsersData(results);
+        //countryVisitsData(results);
+        iOScountryVisitsData(results);
+        AndroidcountryVisitsData(results);
+        downloadsByOsData(results);
+        daylyUsersData(results);
+        recencyData(results);
+        //loyaltyData(results);
         iOSLoyaltyData(results);
         androidloyaltyData(results);
         popularBikesData(results);
