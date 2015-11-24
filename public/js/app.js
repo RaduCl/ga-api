@@ -62,13 +62,13 @@ function initialize() {
         // daylyUsersData(results);
         // recencyData(results);
         //loyaltyData(results);
-        iOSLoyaltyData(results);
-        androidloyaltyData(results);
-        popularBikesData(results);
-        popularPartsData(results);
-        AndroidExitData(results);
+        // iOSLoyaltyData(results);
+        // androidloyaltyData(results);
+        // popularBikesData(results);
+        // popularPartsData(results);
+        // AndroidExitData(results);
         iOSExitData(results);
-        totalShareData(results);
+        totalShareData(results);   
         savedConfigsData(results);
         contactDealerData(results);
     }

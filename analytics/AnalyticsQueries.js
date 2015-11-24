@@ -45,9 +45,16 @@ var queryController = function(){
         return monthAgo = yyyy+'-'+mm+'-'+dd;
     }
 
+    function setYearToDate(){
+        var monthAgo = new Date();
+        var yyyy = monthAgo.getFullYear();
+        return monthAgo = yyyy+'-'+'01'+'-'+'01';
+    }
+
     var endDate = setToday();
-    var startDate = setWeekAgo();
-    //var startDate = setMonthAgo()
+ //   var startDate = setWeekAgo();
+    var startDate = setMonthAgo()
+    // var startDate = setYearToDate();
 
     // Query objects used in getData()
     var queries = {
