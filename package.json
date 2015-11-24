@@ -6,9 +6,9 @@
     "start": "node ./bin/www"
   },
   "devDependencies": {
-    "gulp-nodemon": "^2.0.4",
+    "browserify": "~12.0.1",
     "gulp": "^3.9.0",
-    "browserify": "~12.0.1"
+    "gulp-nodemon": "^2.0.4"
   },
   "dependencies": {
     "bcrypt-nodejs": "*",
@@ -23,11 +23,12 @@
     "json2csv": "^2.12.0",
     "mongodb": "~2.0.49",
     "mongoose": "~4.2.4",
-    "mongoskin": "^2.0.3",
+    "mongoskin": "~2.0.3",
     "morgan": "~1.0.0",
     "nib": "^1.1.0",
     "passport": "~0.3.0",
     "passport-local": "~1.0.0",
+    "q": "^1.4.1",
     "static-favicon": "~1.0.0",
     "stylus": "^0.52.4"
   }
