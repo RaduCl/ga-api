@@ -11,7 +11,7 @@ var db = require('mongoskin').db(url);
 var getAanalyticsData = function(period){
     console.log('process.argv[2]' + process.argv[2]);
     //get the parametrized partial query objects
-    var queries = require('../analytics/AnalyticsQueries')('year')
+    var queries = require('../analytics/AnalyticsQueries')(period)
 
     //get the google-analytics authentication module
     var googleAnalytics = require('../analytics/googleAnalytics2').getAllData;
