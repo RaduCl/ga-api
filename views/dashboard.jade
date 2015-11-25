@@ -12,14 +12,16 @@ block content
         //            a(href='#') Month
         //        li
         //            a(href='#') Year
-
-    div.mainwrapper
+    div.modal.fade#loading
+        div.modal-dialog
+            img(src='../img/ajax-loader.gif')
+    div.mainwrapper#content
         div.time-interval
             select#time-interval
                 option(value='' selected='select' disabled='disabled') Time Interval
                 option(value='week') Week
                 option(value='month') Month
-                option(value='Year') Year
+                option(value='year') Year
         div.col-md-6.widget
             div.panel.panel-primary
                 div.widget-header.panel-heading App Usage

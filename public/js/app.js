@@ -41,22 +41,30 @@ function initialize() {
     //}
 
     var getAjaxData = function(period){
-        //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
-        //var date = '2015-11-05'; // can be a value from a txtbox
-        //var url = '/ga-data';
         var period = typeof period !== 'undefined' ? period : '';
         var url = '/mongo-data/'+ period;
         $.ajax({
             url: url,
             type: 'GET',
+            beforeSend: function(){
+                $('#loading').show();
+                $('#content').hide();
+            },
+            complete: function(){
+                $('#loading').hide();
+                $('#content').show();
+            },
             success: function(results){
                 charts(results);
+                $('#loading').hide();
+                $('#content').show();
+                console.log(results)
             }
         });
     }
 
     var charts = function(results){
-        alert('inside charts')
+        //alert('inside charts')
 
         newReturningUsersData(results);
         //countryVisitsData(results);
@@ -77,13 +85,11 @@ function initialize() {
         contactDealerData(results);
     }
 
-
-    //TODO implement time interval parameter(week, month, year)
+    //default load with week data
     getAjaxData('week');
 
     $('#time-interval').change(function(){
-        var interval = $('#time-interval').value;
-        alert('change event')
+        var interval = $('#time-interval').val();
         getAjaxData(interval);
     })
 
@@ -375,7 +381,7 @@ function initialize() {
         formatedData.push(sessionInstances51to100);
         formatedData.push(sessionInstances101to200);
 
-        console.log('formatedData is: '+formatedData)
+        //console.log('formatedData is: '+formatedData)
         var data = google.visualization.arrayToDataTable(formatedData)
 
 
