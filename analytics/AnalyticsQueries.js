@@ -1,6 +1,6 @@
 
-var queryController = function(){
-
+module.exports = function(timeInterval){
+    var timeInterval = timeInterval
     function setToday(){
         var today = new Date();
         var dd = today.getDate();
@@ -45,9 +45,33 @@ var queryController = function(){
         return monthAgo = yyyy+'-'+mm+'-'+dd;
     }
 
+    function setYearToDate(){
+        var monthAgo = new Date();
+        var yyyy = monthAgo.getFullYear();
+        return monthAgo = yyyy+'-'+'01'+'-'+'01';
+    }
+
     var endDate = setToday();
-    var startDate = setWeekAgo();
+    //var startDate = '';
+    //var startDate = setWeekAgo();
     //var startDate = setMonthAgo()
+
+    var setStartData = function(timeInterval){
+        var startDate = ''
+        switch (timeInterval) {
+            case 'week':
+                startDate = setWeekAgo()
+                break;
+            case 'month':
+                startDate = setMonthAgo()
+                break;
+            case 'year':
+                startDate = setYearToDate()
+                break;
+        }
+        return startDate
+    }
+    var startDate = setStartData(timeInterval)
 
     // Query objects used in getData()
     var queries = {
@@ -199,8 +223,10 @@ var queryController = function(){
     }
 
     return queries;
-
+    //var getQueries = function(){
+    //    return queries
+    //}
 }
 
 
-module.exports = queryController();
+//module.exports = queryController();
