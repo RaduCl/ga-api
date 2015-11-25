@@ -16,7 +16,7 @@ var getAanalyticsData = function(period){
     var googleAnalytics = require('../analytics/googleAnalytics2').getAllData;
 
     var JSONobj = {};
-    var createDate = Date();
+    var createDate = Date().slice(0, 15);
     var timeInterval = 'month';//week or month time interval
     JSONobj = {
         createDate: createDate,

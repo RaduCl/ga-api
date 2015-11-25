@@ -181,7 +181,21 @@ var queryController = function(){
             'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
         },
 
+        savedConfigsQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save',
+            // 'dimensions': 'ga:eventAction'
+        },
 
+        dealerContactedQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==contactdealer',
+            // 'dimensions': 'ga:eventAction'
+        },
     }
 
     return queries;

@@ -2,7 +2,24 @@ extend layout
 block content
     div#logo
         h3 Yamaha Dashboard
+        //div.dropdown
+        //    button(type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-default dropdown-toggle") Time interval
+        //        span.carret
+        //    ul(aria-labelledby="dropdownMenu").dropdown-menu
+        //        li
+        //            a(href='#') Week
+        //        li
+        //            a(href='#') Month
+        //        li
+        //            a(href='#') Year
+
     div.mainwrapper
+        div.time-interval
+            select#time-interval
+                option(value='' selected='select' disabled='disabled') Time Interval
+                option(value='week') Week
+                option(value='month') Month
+                option(value='Year') Year
         div.col-md-6.widget
             div.panel.panel-primary
                 div.widget-header.panel-heading App Usage
@@ -67,6 +84,14 @@ block content
                         h4
                             | Total number of shares:
                             span#share-number
+                    div.chart-element
+                        h4
+                            | Saved Configurations:
+                            span#saved-configs
+                    div.chart-element
+                        h4
+                            | Contacted a dealer:
+                            span#dealer-contacted
 
 
 

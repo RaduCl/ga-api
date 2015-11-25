@@ -40,11 +40,12 @@ function initialize() {
     //    });
     //}
 
-    var getAjaxData = function(){
+    var getAjaxData = function(period){
         //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
         //var date = '2015-11-05'; // can be a value from a txtbox
         //var url = '/ga-data';
-        var url = '/mongo-data';
+        var period = typeof period !== 'undefined' ? period : '';
+        var url = '/mongo-data/'+ period;
         $.ajax({
             url: url,
             type: 'GET',
@@ -55,6 +56,8 @@ function initialize() {
     }
 
     var charts = function(results){
+        alert('inside charts')
+
         newReturningUsersData(results);
         //countryVisitsData(results);
         iOScountryVisitsData(results);
@@ -70,11 +73,19 @@ function initialize() {
         AndroidExitData(results);
         iOSExitData(results);
         totalShareData(results);
+        savedConfigsData(results);
+        contactDealerData(results);
     }
 
 
+    //TODO implement time interval parameter(week, month, year)
+    getAjaxData('week');
 
-    getAjaxData();
+    $('#time-interval').change(function(){
+        var interval = $('#time-interval').value;
+        alert('change event')
+        getAjaxData(interval);
+    })
 
     var newReturningUsersData = function(result){
         var ajaxData = result.visitorTypesQuery;
@@ -575,6 +586,14 @@ function initialize() {
 
     var totalShareData = function(result){
         $('#share-number').html('      ' + result.sharesQuery)
+    }
+
+    var savedConfigsData = function(result){
+        $('#saved-configs').html('      ' + result.savedConfigsQuery)
+    }
+
+    var contactDealerData = function(result){
+        $('#dealer-contacted').html('      ' + result.dealerContactedQuery)
     }
 
 }
