@@ -4,7 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var CronJob = require('cron').CronJob;
 var stylus = require('stylus');
 var nib = require('nib');
 
@@ -67,6 +67,53 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+
+//database feed Cron job
+
+//var cronTime = '00 30 23 * * *';
+//var cronTime = '59 * * * * *';//every minute
+var cronTime = {
+    week: '00 30 23 * * *',//every day @ 23:30
+    month: '00 31 23 * * *',//every day @ 23:31
+    year: '00 32 23 * * *',//every day @ 23:32
+}
+var timeZone = 'Europe/Amsterdam'
+var dbSeedWeekData = require('./analytics/dbFeeder')
+
+var getWeekDataJob = new CronJob({
+    //cronTime: '00 30 23 * * *',//every day @ 23:00
+    cronTime: cronTime.week,
+    onTick: function(){
+        dbSeedWeekData('week')
+    },
+    start:false,
+    timeZone:timeZone
+})
+
+var getMonthDataJob = new CronJob({
+    cronTime: cronTime.month,
+    onTick: function(){
+        dbSeedWeekData('month')
+    },
+    start:false,
+    timeZone:timeZone
+})
+
+var getYearDataJob = new CronJob({
+    cronTime: cronTime.year,
+    onTick: function(){
+        dbSeedWeekData('year')
+    },
+    start:false,
+    timeZone:timeZone
+})
+
+
+getWeekDataJob.start()
+getMonthDataJob.start()
+getYearDataJob.start()
+
 
 // development error handler
 // will print stacktrace

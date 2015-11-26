@@ -223,10 +223,5 @@ module.exports = function(timeInterval){
     }
 
     return queries;
-    //var getQueries = function(){
-    //    return queries
-    //}
+
 }
-
-
-//module.exports = queryController();

@@ -5,11 +5,10 @@ var url = dbConfig.url;
 var collection = dbConfig.collection;
 var db = require('mongoskin').db(url);
 
-//RUN this script in console: node dbFeeder.js week[month]
 
 /* GET  google all analytics data */
-var getAanalyticsData = function(period){
-    console.log('process.argv[2]' + process.argv[2]);
+var getAnalyticsData = function(period){
+    //console.log('process.argv[2]' + process.argv[2]);
     //get the parametrized partial query objects
     var queries = require('../analytics/AnalyticsQueries')(period)
 
@@ -97,5 +96,9 @@ var getAanalyticsData = function(period){
     });
 };
 
-getAanalyticsData(process.argv[2]);
-//module.exports = getAanalyticsData;
+// for manualy feed db run CLI command "node dbFeeder.js week" week/month/year param is necesary to set the timeInterval for analytics API queries
+if(process.argv[2]){
+    getAnalyticsData(process.argv[2]);
+}
+
+module.exports = getAnalyticsData;

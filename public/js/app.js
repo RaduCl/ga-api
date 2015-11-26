@@ -197,14 +197,14 @@ function initialize() {
             //'title': 'Total Downloads by OS',
             'width': "100%",
             'height': 400,
-            'pieHole': 0.5,
+            'pieHole': 0.4,
             'pieSliceText': 'percentage',
             'titleTextStyle': {
                 fontSize: 20
             },
             'chartArea': {
                 left: 50,
-                top: 40,
+                top: 50,
                 width: "100%",
                 height: "100%"
             },
@@ -233,7 +233,13 @@ function initialize() {
             // title: 'User Increase / Decrease',
             // hAxis: {title: 'Month',  titleTextStyle: {color: '#333'}},
             hAxis: {titleTextStyle: {color: '#333'}},
-            vAxis: {minValue: 0}
+            vAxis: {minValue: 0},
+            chartArea: {
+                left:30,
+                //top:30,
+                width:'100%',
+                height:'90%'
+            }
         };
 
         var chart = new google.visualization.AreaChart(document.getElementById('user-increase'));
