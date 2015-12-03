@@ -83,6 +83,7 @@ function initialize() {
         totalShareData(results);
         savedConfigsData(results);
         contactDealerData(results);
+        appStoreDownloads();
     }
 
     //default load with week data
@@ -606,6 +607,23 @@ function initialize() {
 
     var contactDealerData = function(result){
         $('#dealer-contacted').html('      ' + result.dealerContactedQuery)
+    }
+
+    function appStoreDownloads(){
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Units');
+        data.addColumn('number', 'Previous');
+        data.addColumn('number', 'Range');
+        data.addRows([
+            [{v: 726}, {v: 776}, {v:-6.4}]
+        ]);
+        var options = {
+            'title': 'Total Downloads by App Store',
+            'width': '100%',
+            'height': '100%'
+        }
+        var table= new google.visualization.Table(document.getElementById('app-store-downloads'));
+        table.draw(data, options);
     }
 
 }
