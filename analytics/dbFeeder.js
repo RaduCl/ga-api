@@ -66,6 +66,7 @@ var getAnalyticsData = function(period){
 
     //run all analytics queries
     syncLoop(queryLength, function(loop){
+        //get googleAnalytics data
         setTimeout(function(){
             var i = loop.iteration();
             //console.log(i);
@@ -82,17 +83,24 @@ var getAnalyticsData = function(period){
                 }
             }
             googleAnalytics(callBack, queries[q], q)
-            //loop.next();
         }, 110);
     }, function(){
-        //console.log('done data is: ' + data);
-        JSONobj.Data = data;
-        //console.log(JSON.stringify(JSONobj))
-        db.collection(collection).insert(JSONobj, function(err, result) {
-            //console.log(result);
-            //db.collection('analytics').drop();
-            db.close();
-        });
+        //get appStoreData
+        var AppStoreData = require('../analytics/AppStoreAnalytics')
+        AppStoreData(period, function(result){
+            if(result){
+                console.log('getting results for: appStoreDownloads')
+                data['appStoreDownloads'] = result;
+
+                //console.log('done data is: ' + data);
+                JSONobj.Data = data;
+                //console.log(JSON.stringify(JSONobj))
+                db.collection(collection).insert(JSONobj, function(err, result) {
+                    //db.collection('analytics').drop();
+                    db.close();
+                });
+            }
+        })
     });
 };
 

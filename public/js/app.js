@@ -83,7 +83,7 @@ function initialize() {
         totalShareData(results);
         savedConfigsData(results);
         contactDealerData(results);
-        appStoreDownloads();
+        appStoreDownloads(results);
     }
 
     //default load with week data
@@ -235,12 +235,12 @@ function initialize() {
             // hAxis: {title: 'Month',  titleTextStyle: {color: '#333'}},
             hAxis: {titleTextStyle: {color: '#333'}},
             vAxis: {minValue: 0},
-            chartArea: {
-                left:30,
-                //top:30,
-                width:'100%',
-                height:'90%'
-            }
+            //chartArea: {
+            //    left: 100,
+            //    top: 100,
+            //    width: 600,
+            //    height: 350
+            //}
         };
 
         var chart = new google.visualization.AreaChart(document.getElementById('user-increase'));
@@ -327,7 +327,7 @@ function initialize() {
             // title: "Recency",
             width: 380,
             height: 400,
-            bar: {groupWidth: "60%"},
+            bar: {groupWidth: "65%"},
             legend: { position: "none" },
             axes: {
                 x: {
@@ -459,7 +459,7 @@ function initialize() {
             // title: "Loyalty Android",
             width: 380,
             height: 400,
-            bar: {groupWidth: "60%"},
+            bar: {groupWidth: "65%"},
             legend: { position: "none" },
         };
         var chart = new google.visualization.BarChart(document.getElementById("loyalty-android"));
@@ -527,7 +527,7 @@ function initialize() {
             // title: "Loyalty iOS",
             width: 380,
             height: 400,
-            bar: {groupWidth: "60%"},
+            bar: {groupWidth: "65%"},
             legend: { position: "none" },
         };
         var chart = new google.visualization.BarChart(document.getElementById("loyalty-iOS"));
@@ -609,13 +609,14 @@ function initialize() {
         $('#dealer-contacted').html('      ' + result.dealerContactedQuery)
     }
 
-    function appStoreDownloads(){
+    var appStoreDownloads = function(result){
+        var appStoreData = result.appStoreDownloads;
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Units');
         data.addColumn('number', 'Previous');
-        data.addColumn('number', 'Range');
+        data.addColumn('string', 'Range');
         data.addRows([
-            [{v: 726}, {v: 776}, {v:-6.4}]
+            [ appStoreData.downloads, appStoreData.previousDownloads, appStoreData.deltaPercentage + ' %' ]
         ]);
         var options = {
             'title': 'Total Downloads by App Store',

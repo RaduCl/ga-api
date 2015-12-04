@@ -14,3 +14,6 @@
 #user-increase {
   width: 400px;
 }
+.chart-element td {
+  text-align: left;
+}

@@ -56,7 +56,7 @@ module.exports = function(passport){
 
     /* GET Dashboard Page */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/dashboard', function(req, res){
+	router.get('/dashboard', isAuthenticated, function(req, res){
 		res.render('dashboard', {
             user: req.user,
             title: 'Yamaha - Dashboard'
@@ -106,8 +106,7 @@ module.exports = function(passport){
 
 	router.get('/appstore-data', function(req, res){
 		var AppStoreData = require('../analytics/AppStoreAnalytics')
-		var resultObject = {}
-		AppStoreData(function(result){
+		AppStoreData('week', function(result){
 			//if(err) console.log(err)
 			if(result){
 				res.json(result)
@@ -115,6 +114,17 @@ module.exports = function(passport){
 			//console.log("res is: " + res)
 		})
 	})
+
+	/* GET  filtered by time interval all analytics data from DB */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/appstore-data/:timeInterval', function(req, res){
+		var today = Date().slice(0, 15)
+		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results){
+			//if(e) return next(e)
+			if(e) res.status(500).send(e)
+			res.send(results.Data)
+		})
+	});
 
 	/* GET  google all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
