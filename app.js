@@ -79,13 +79,13 @@ var cronTime = {
     year: '00 32 23 * * *',//every day @ 23:32
 }
 var timeZone = 'Europe/Amsterdam'
-var dbSeedWeekData = require('./analytics/dbFeeder')
+var dbSeedData = require('./analytics/dbFeeder')
 
 var getWeekDataJob = new CronJob({
     //cronTime: '00 30 23 * * *',//every day @ 23:00
     cronTime: cronTime.week,
     onTick: function(){
-        dbSeedWeekData('week')
+        dbSeedData('week')
     },
     start:false,
     timeZone:timeZone
@@ -94,7 +94,7 @@ var getWeekDataJob = new CronJob({
 var getMonthDataJob = new CronJob({
     cronTime: cronTime.month,
     onTick: function(){
-        dbSeedWeekData('month')
+        dbSeedData('month')
     },
     start:false,
     timeZone:timeZone
@@ -103,7 +103,7 @@ var getMonthDataJob = new CronJob({
 var getYearDataJob = new CronJob({
     cronTime: cronTime.year,
     onTick: function(){
-        dbSeedWeekData('year')
+        dbSeedData('year')
     },
     start:false,
     timeZone:timeZone

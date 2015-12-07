@@ -3,6 +3,9 @@ var router = express.Router();
 
 var dbConfig = require('../db');
 var db = require('mongoskin').db(dbConfig.url);//mongo driver for loose data manipulation
+var dbSeedData = require('../analytics/dbFeeder')
+
+
 
 //var gaData = require('../models/AnalyticsData')
 var isAuthenticated = function (req, res, next) {
@@ -128,7 +131,7 @@ module.exports = function(passport){
 
 	/* GET  google all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/mongo-data', function(req, res){
+	router.get('/mongo-data', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
 		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
 			if(e) return next(e)
@@ -141,10 +144,17 @@ module.exports = function(passport){
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/mongo-data/:timeInterval', function(req, res){
 		var today = Date().slice(0, 15)
-		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results){
+		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results, next){
 			//if(e) return next(e)
 			if(e) res.status(500).send(e)
-			res.send(results.Data)
+			if(results) res.send(results.Data)
+				else {
+				console.log('Empty db. Starting ingest cycle')
+				dbSeedData('week');
+				dbSeedData('month');
+				dbSeedData('year');
+				res.status(500).send('Empty db. Return in 5 minutes after ingest cycle is done')
+			}
 		})
 	});
 

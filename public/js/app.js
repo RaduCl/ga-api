@@ -46,6 +46,11 @@ function initialize() {
         $.ajax({
             url: url,
             type: 'GET',
+            statusCode:{
+              500: function(){
+                  alert('No data available, run ingest cycle')
+              }
+            },
             beforeSend: function(){
                 $('#loading').show();
                 $('#content').hide();
@@ -58,7 +63,9 @@ function initialize() {
                 charts(results);
                 $('#loading').hide();
                 $('#content').show();
-                console.log(results)
+            },
+            fail: function() {
+                console.log('error');
             }
         });
     }
