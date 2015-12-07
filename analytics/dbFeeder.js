@@ -72,7 +72,7 @@ var getAnalyticsData = function(period){
             //console.log(i);
             //process implmentation
             var q = queryKeys[i];
-            console.log('getting results for: ' + q);
+            console.log('getting results for: ' + q + 'interval: ' + period);
             function callBack(err, result, queryKey) {
                 //console.log("iul este: " + i)
                 if (err)  console.log(err)
