@@ -48,7 +48,7 @@ function initialize() {
             type: 'GET',
             statusCode:{
               500: function(){
-                  alert('No data available, run ingest cycle')
+                  alert('No data available, ingest cycle will start return when done')
               }
             },
             beforeSend: function(){

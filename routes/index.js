@@ -142,7 +142,7 @@ module.exports = function(passport){
 
 	/* GET  filtered by time interval all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/mongo-data/:timeInterval', function(req, res){
+	router.get('/mongo-data/:timeInterval', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
 		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results, next){
 			//if(e) return next(e)
@@ -150,17 +150,13 @@ module.exports = function(passport){
 			if(results) res.send(results.Data)
 				else {
 				console.log('Empty db. Starting ingest cycle')
-				Q.fcall(dbSeedData('week'))
-					.then(dbSeedData('month'))
-					.then(dbSeedData('year'))
-					.then(console.log('done q-ing'))
-					.catch(function (error) {
-						console.log(error)
+				dbSeedData('week',function(){
+					dbSeedData('month', function(){
+						dbSeedData('year', function(){
+							console.log('ingest cycle is done');
+						})
 					})
-					.done();
-				//dbSeedData('week');
-				//dbSeedData('month');
-				//dbSeedData('year');
+				})
 				res.status(500).send('Empty db. Return in 5 minutes after ingest cycle is done')
 			}
 		})

@@ -1,6 +1,7 @@
 
 module.exports = function(timeInterval){
     var timeInterval = timeInterval
+    console.log('timeInterval inside queries is: '+timeInterval);
     function setToday(){
         var today = new Date();
         var dd = today.getDate();
@@ -63,9 +64,11 @@ module.exports = function(timeInterval){
                 break;
             case 'month':
                 startDate = setMonthAgo()
+                startDatePrev = setMonthAgo(startDate)
                 break;
             case 'year':
                 startDate = setYearToDate()
+                startDatePrev = setYearToDate(startDate)
                 break;
         }
         return {startDate: startDate, startDatePrev: startDatePrev}

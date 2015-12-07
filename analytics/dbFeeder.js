@@ -1,5 +1,5 @@
 //var async = require('async')
-//var Q = require('q');
+var Q = require('q');
 var dbConfig = require('../db');
 var url = dbConfig.url;
 var collection = dbConfig.collection;
@@ -7,8 +7,7 @@ var db = require('mongoskin').db(url);
 
 
 /* GET  google all analytics data */
-var getAnalyticsData = function(period){
-    //console.log('process.argv[2]' + process.argv[2]);
+var getAnalyticsData = function(period, callback){
     //get the parametrized partial query objects
     var queries = require('../analytics/AnalyticsQueries')(period)
 
@@ -17,7 +16,6 @@ var getAnalyticsData = function(period){
 
     var JSONobj = {};
     var createDate = Date().slice(0, 15);
-    var timeInterval = 'month';//week or month time interval
     JSONobj = {
         createDate: createDate,
         timeInterval: period,
@@ -25,7 +23,6 @@ var getAnalyticsData = function(period){
     }
     var data = {};
 
-    //var i=0;
     var queryLength = Object.keys(queries).length;
     var queryKeys = Object.keys(queries).map(function(keyName, index){
         return keyName;
@@ -69,12 +66,10 @@ var getAnalyticsData = function(period){
         //get googleAnalytics data
         setTimeout(function(){
             var i = loop.iteration();
-            //console.log(i);
             //process implmentation
             var q = queryKeys[i];
             console.log('getting results for: ' + q + 'interval: ' + period);
             function callBack(err, result, queryKey) {
-                //console.log("iul este: " + i)
                 if (err)  console.log(err)
                 if (result) {
                     //rename object key with the query key
@@ -91,13 +86,15 @@ var getAnalyticsData = function(period){
             if(result){
                 console.log('getting results for: appStoreDownloads')
                 data['appStoreDownloads'] = result;
-
-                //console.log('done data is: ' + data);
                 JSONobj.Data = data;
-                //console.log(JSON.stringify(JSONobj))
                 db.collection(collection).insert(JSONobj, function(err, result) {
                     //db.collection('analytics').drop();
                     db.close();
+                    if(err) return err
+                    if(callback){
+                        console.log('intru in callback: ');
+                        callback()
+                    }
                 });
             }
         })
