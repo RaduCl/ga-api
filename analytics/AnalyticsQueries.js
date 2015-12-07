@@ -79,7 +79,7 @@ module.exports = function(timeInterval){
         visitorTypesQuery: {
             'start-date': startDate,
             'end-date': endDate,
-            'metrics': 'ga:visits',
+            'metrics': 'ga:users',
             'dimensions': 'ga:userType'
         },
 
@@ -218,6 +218,14 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==contactdealer',
+            // 'dimensions': 'ga:eventAction'
+        },
+
+        averageUsageQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:avgSessionDuration',
             // 'dimensions': 'ga:eventAction'
         },
     }
