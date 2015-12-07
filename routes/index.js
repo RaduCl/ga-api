@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var Q = require('q');
 var dbConfig = require('../db');
 var db = require('mongoskin').db(dbConfig.url);//mongo driver for loose data manipulation
 var dbSeedData = require('../analytics/dbFeeder')
@@ -150,9 +150,17 @@ module.exports = function(passport){
 			if(results) res.send(results.Data)
 				else {
 				console.log('Empty db. Starting ingest cycle')
-				dbSeedData('week');
-				dbSeedData('month');
-				dbSeedData('year');
+				Q.fcall(dbSeedData('week'))
+					.then(dbSeedData('month'))
+					.then(dbSeedData('year'))
+					.then(console.log('done q-ing'))
+					.catch(function (error) {
+						console.log(error)
+					})
+					.done();
+				//dbSeedData('week');
+				//dbSeedData('month');
+				//dbSeedData('year');
 				res.status(500).send('Empty db. Return in 5 minutes after ingest cycle is done')
 			}
 		})
