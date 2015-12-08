@@ -1,6 +1,7 @@
 
 module.exports = function(timeInterval){
     var timeInterval = timeInterval
+    console.log('timeInterval inside queries is: '+timeInterval);
     function setToday(){
         var today = new Date();
         var dd = today.getDate();
@@ -15,8 +16,8 @@ module.exports = function(timeInterval){
         return today = yyyy+'-'+mm+'-'+dd;
     }
 
-    function setWeekAgo(){
-        var oneWeekAgo = new Date();
+    function setWeekAgo(referenceDate){
+        var oneWeekAgo = typeof referenceDate !== 'undefined' ? new Date(referenceDate) : new Date();
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
         var dd = oneWeekAgo.getDate();
         var mm = oneWeekAgo.getMonth()+1; //January is 0!
@@ -30,8 +31,8 @@ module.exports = function(timeInterval){
         return oneWeekAgo = yyyy+'-'+mm+'-'+dd;
     }
 
-    function setMonthAgo(){
-        var monthAgo = new Date();
+    function setMonthAgo(referenceDate){
+        var monthAgo = typeof referenceDate !== 'undefined' ? new Date(referenceDate) : new Date();
         monthAgo.setMonth(monthAgo.getMonth() - 1);
         var dd = monthAgo.getDate();
         var mm = monthAgo.getMonth()+1; //January is 0!
@@ -45,34 +46,40 @@ module.exports = function(timeInterval){
         return monthAgo = yyyy+'-'+mm+'-'+dd;
     }
 
+    //TODO not sure if this returns correct date
     function setYearToDate(){
         var monthAgo = new Date();
         var yyyy = monthAgo.getFullYear();
         return monthAgo = yyyy+'-'+'01'+'-'+'01';
     }
 
-    var endDate = setToday();
-    //var startDate = '';
-    //var startDate = setWeekAgo();
-    //var startDate = setMonthAgo()
 
     var setStartData = function(timeInterval){
         var startDate = ''
+        var startDatePrev = ''
         switch (timeInterval) {
             case 'week':
                 startDate = setWeekAgo()
+                startDatePrev = setWeekAgo(startDate)
                 break;
             case 'month':
                 startDate = setMonthAgo()
+                startDatePrev = setMonthAgo(startDate)
                 break;
             case 'year':
                 startDate = setYearToDate()
+                startDatePrev = setYearToDate(startDate)
                 break;
         }
-        return startDate
+        return {startDate: startDate, startDatePrev: startDatePrev}
     }
-    var startDate = setStartData(timeInterval)
 
+
+    var startDate = setStartData(timeInterval).startDate
+    var startDatePrev = setStartData(timeInterval).startDatePrev
+
+    var endDate = setToday();
+    var endDatePrev = startDate;
     // Query objects used in getData()
     var queries = {
 
@@ -86,7 +93,7 @@ module.exports = function(timeInterval){
         visitorTypesQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
-            'metrics': 'ga:visits',
+            'metrics': 'ga:users',
             'dimensions': 'ga:userType'
         },
 
@@ -102,6 +109,15 @@ module.exports = function(timeInterval){
         AndroidcountryVisitsQuery: {
             'start-date': startDate,
             'end-date': endDate,
+            'metrics': 'ga:visits',
+            'filters': 'ga:operatingSystem==Android',
+            'dimensions': 'ga:country',
+            'sort': '-ga:visits',//sort descending
+            'max-results': 5,
+        },
+        AndroidcountryVisitsQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'filters': 'ga:operatingSystem==Android',
             'dimensions': 'ga:country',
@@ -316,13 +332,23 @@ module.exports = function(timeInterval){
             'filters': 'ga:eventAction==contactdealer',
             // 'dimensions': 'ga:eventAction'
         },
-
+        dealerContactedQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==contactdealer',
+        },
         averageUsageQuery: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:eventValue',
             'filters': 'ga:avgSessionDuration',
-            // 'dimensions': 'ga:eventAction'
+        },
+        averageUsageQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:avgSessionDuration',
         },
     }
 
