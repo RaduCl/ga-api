@@ -338,6 +338,17 @@ module.exports = function(timeInterval){
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==contactdealer',
         },
+
+        averageUsageQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:avgSessionDuration',
+        },
+        averageUsageQueryPrev: {
+        'start-date': startDatePrev,
+        'end-date': endDatePrev,
+        'metrics': 'ga:avgSessionDuration',
+        },
     }
 
     return queries;

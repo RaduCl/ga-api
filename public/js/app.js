@@ -621,10 +621,14 @@ function initialize() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Units');
         data.addColumn('number', 'Previous');
-        data.addColumn('string', 'Range');
+        data.addColumn('number', 'Range');
         data.addRows([
-            [ appStoreData.downloads, appStoreData.previousDownloads, appStoreData.deltaPercentage + ' %' ]
+            [ appStoreData.downloads, appStoreData.previousDownloads, {v: appStoreData.deltaPercentage, f: appStoreData.deltaPercentage+' %'}]
         ]);
+
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 2);
+
         var options = {
             'title': 'Total Downloads by App Store',
             'width': '100%',

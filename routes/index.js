@@ -73,7 +73,7 @@ module.exports = function(passport){
 		res.redirect('/');
 	});
 
-	/* GET  google all analytics data */
+	/* GET  google all analytics data google API */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
 
@@ -118,16 +118,6 @@ module.exports = function(passport){
 		})
 	})
 
-	/* GET  filtered by time interval all analytics data from DB */
-	//TODO in production secure this route by using isAuthenticated param
-	router.get('/appstore-data/:timeInterval', function(req, res){
-		var today = Date().slice(0, 15)
-		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results){
-			//if(e) return next(e)
-			if(e) res.status(500).send(e)
-			res.send(results.Data)
-		})
-	});
 
 	/* GET  google all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
