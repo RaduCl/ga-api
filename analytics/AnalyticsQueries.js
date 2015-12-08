@@ -341,14 +341,12 @@ module.exports = function(timeInterval){
         averageUsageQuery: {
             'start-date': startDate,
             'end-date': endDate,
-            'metrics': 'ga:eventValue',
-            'filters': 'ga:avgSessionDuration',
+            'metrics': 'ga:avgSessionDuration',
         },
         averageUsageQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
-            'metrics': 'ga:eventValue',
-            'filters': 'ga:avgSessionDuration',
+            'metrics': 'ga:avgSessionDuration',
         },
     }
 
