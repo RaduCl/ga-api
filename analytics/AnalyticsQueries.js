@@ -1,6 +1,8 @@
 
-module.exports = function(timeInterval){
+module.exports = function(timeInterval, selectedCountry, selectedApp){
     var timeInterval = timeInterval
+    var selectedCountry = selectedCountry
+    var selectedApp = selectedApp
     console.log('timeInterval inside queries is: '+timeInterval);
     function setToday(){
         var today = new Date();
@@ -87,14 +89,28 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:users',
-            'dimensions': 'ga:userType'
+            'dimensions': 'ga:userType', 
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
 
         visitorTypesQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:users',
-            'dimensions': 'ga:userType'
+            'dimensions': 'ga:userType',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
 
         //countryVisitsQuery: {
@@ -150,6 +166,13 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
             'sort': '-ga:visits',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
             //'filters': 'ga:visits>60'
             //'output': 'dataTable'
         },
@@ -159,6 +182,13 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
             'sort': '-ga:visits',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
 
         dailyUsersQuery: {
@@ -166,12 +196,26 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:1dayUsers',
             'dimensions': 'ga:date',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
         dailyUsersQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:1dayUsers',
             'dimensions': 'ga:date',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
 
         frequencyQuery: {
@@ -179,12 +223,26 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
         frequencyQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
 
         //loyaltyQuery: {
@@ -342,11 +400,25 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:avgSessionDuration',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
         averageUsageQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:avgSessionDuration',
+            if(selectedCountry!='All Countries')
+                if(selectedApp!='All Applications')
+                    'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+                else
+                    'filters': 'ga:country=='+selectedCountry
+            else if(selectedCountry=='All Countries' && selectedApp!='All Applications')
+                'filters': 'ga:appID=='+selectedApp
         },
     }
 
