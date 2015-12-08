@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
-
+var Q = require('q');
 var dbConfig = require('../db');
 var db = require('mongoskin').db(dbConfig.url);//mongo driver for loose data manipulation
+var dbSeedData = require('../analytics/dbFeeder')
+
+
 
 //var gaData = require('../models/AnalyticsData')
 var isAuthenticated = function (req, res, next) {
@@ -56,7 +59,7 @@ module.exports = function(passport){
 
     /* GET Dashboard Page */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/dashboard', function(req, res){
+	router.get('/dashboard', isAuthenticated, function(req, res){
 		res.render('dashboard', {
             user: req.user,
             title: 'Yamaha - Dashboard'
@@ -104,9 +107,31 @@ module.exports = function(passport){
 		}
 	});
 
+	router.get('/appstore-data', function(req, res){
+		var AppStoreData = require('../analytics/AppStoreAnalytics')
+		AppStoreData('week', function(result){
+			//if(err) console.log(err)
+			if(result){
+				res.json(result)
+			}
+			//console.log("res is: " + res)
+		})
+	})
+
+	/* GET  filtered by time interval all analytics data from DB */
+	//TODO in production secure this route by using isAuthenticated param
+	router.get('/appstore-data/:timeInterval', function(req, res){
+		var today = Date().slice(0, 15)
+		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results){
+			//if(e) return next(e)
+			if(e) res.status(500).send(e)
+			res.send(results.Data)
+		})
+	});
+
 	/* GET  google all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/mongo-data', function(req, res){
+	router.get('/mongo-data', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
 		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
 			if(e) return next(e)
@@ -117,12 +142,23 @@ module.exports = function(passport){
 
 	/* GET  filtered by time interval all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/mongo-data/:timeInterval', function(req, res){
+	router.get('/mongo-data/:timeInterval', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
-		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results){
+		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results, next){
 			//if(e) return next(e)
-			if(e) res.status(500).send(err)
-			res.send(results.Data)
+			if(e) res.status(500).send(e)
+			if(results) res.send(results.Data)
+				else {
+				console.log('Empty db. Starting ingest cycle')
+				dbSeedData('week',function(){
+					dbSeedData('month', function(){
+						dbSeedData('year', function(){
+							console.log('ingest cycle is done');
+						})
+					})
+				})
+				res.status(500).send('Empty db. Return in 5 minutes after ingest cycle is done')
+			}
 		})
 	});
 

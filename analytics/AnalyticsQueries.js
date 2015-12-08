@@ -83,6 +83,13 @@ module.exports = function(timeInterval){
             'dimensions': 'ga:userType'
         },
 
+        visitorTypesQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType'
+        },
+
         //countryVisitsQuery: {
         //    'start-date': startDate,
         //    'end-date': endDate,
@@ -111,6 +118,15 @@ module.exports = function(timeInterval){
             'sort': '-ga:visits',//sort descending
             'max-results': 5,
         },
+        iOScountryVisitsQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'filters': 'ga:operatingSystem==iOS',
+            'dimensions': 'ga:country',
+            'sort': '-ga:visits',//sort descending
+            'max-results': 5,
+        },
 
         osQuery: {
             'start-date': startDate,
@@ -121,6 +137,13 @@ module.exports = function(timeInterval){
             //'filters': 'ga:visits>60'
             //'output': 'dataTable'
         },
+        osQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
+            'sort': '-ga:visits',
+        },
 
         dailyUsersQuery: {
             'start-date': startDate,
@@ -128,10 +151,22 @@ module.exports = function(timeInterval){
             'metrics': 'ga:1dayUsers',
             'dimensions': 'ga:date',
         },
+        dailyUsersQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:1dayUsers',
+            'dimensions': 'ga:date',
+        },
 
         frequencyQuery: {
             'start-date': startDate,
             'end-date': endDate,
+            'metrics': 'ga:sessions',
+            'dimensions': 'ga:daysSinceLastSession',
+        },
+        frequencyQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
         },
@@ -150,10 +185,24 @@ module.exports = function(timeInterval){
             'dimensions': 'ga:sessionCount',
             'filters': 'ga:operatingSystem==Android'
         },
+        AndroidLoyaltyQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:sessions',
+            'dimensions': 'ga:sessionCount',
+            'filters': 'ga:operatingSystem==Android'
+        },
 
         iOSLoyaltyQuery: {
             'start-date': startDate,
             'end-date': endDate,
+            'metrics': 'ga:sessions',
+            'dimensions': 'ga:sessionCount',
+            'filters': 'ga:operatingSystem==iOS'
+        },
+        iOSLoyaltyQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
             'filters': 'ga:operatingSystem==iOS'
@@ -163,6 +212,15 @@ module.exports = function(timeInterval){
         popularBikesQuery: {
             'start-date': startDate,
             'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+        popularBikesQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Bike', //ga:operatingSystem==iOS',
             'dimensions': 'ga:eventLabel',
@@ -179,10 +237,27 @@ module.exports = function(timeInterval){
             'sort': '-ga:totalEvents',
             'max-results': 5,
         },
+        popularPartsQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
 
         AndroidExitQuery: {
             'start-date': startDate,
             'end-date': endDate,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:exitScreenName',
+            'filters': 'ga:operatingSystem==Android',
+            'sort': '-ga:visits'
+        },
+        AndroidExitQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==Android',
@@ -197,6 +272,14 @@ module.exports = function(timeInterval){
             'filters': 'ga:operatingSystem==iOS',
             'sort': '-ga:visits'
         },
+        iOSExitQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:exitScreenName',
+            'filters': 'ga:operatingSystem==iOS',
+            'sort': '-ga:visits'
+        },
 
         sharesQuery: {
             'start-date': startDate,
@@ -204,10 +287,23 @@ module.exports = function(timeInterval){
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
         },
+        sharesQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
+        },
 
         savedConfigsQuery: {
             'start-date': startDate,
             'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save',
+            // 'dimensions': 'ga:eventAction'
+        },
+        savedConfigsQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==save',
             // 'dimensions': 'ga:eventAction'

@@ -46,6 +46,11 @@ function initialize() {
         $.ajax({
             url: url,
             type: 'GET',
+            statusCode:{
+              500: function(){
+                  alert('No data available, ingest cycle will start return when done')
+              }
+            },
             beforeSend: function(){
                 $('#loading').show();
                 $('#content').hide();
@@ -58,7 +63,9 @@ function initialize() {
                 charts(results);
                 $('#loading').hide();
                 $('#content').show();
-                console.log(results)
+            },
+            fail: function() {
+                console.log('error');
             }
         });
     }
@@ -83,6 +90,7 @@ function initialize() {
         totalShareData(results);
         savedConfigsData(results);
         contactDealerData(results);
+        appStoreDownloads(results);
     }
 
     //default load with week data
@@ -234,12 +242,12 @@ function initialize() {
             // hAxis: {title: 'Month',  titleTextStyle: {color: '#333'}},
             hAxis: {titleTextStyle: {color: '#333'}},
             vAxis: {minValue: 0},
-            chartArea: {
-                left:30,
-                //top:30,
-                width:'100%',
-                height:'90%'
-            }
+            //chartArea: {
+            //    left: 100,
+            //    top: 100,
+            //    width: 600,
+            //    height: 350
+            //}
         };
 
         var chart = new google.visualization.AreaChart(document.getElementById('user-increase'));
@@ -326,7 +334,7 @@ function initialize() {
             // title: "Recency",
             width: 380,
             height: 400,
-            bar: {groupWidth: "60%"},
+            bar: {groupWidth: "65%"},
             legend: { position: "none" },
             axes: {
                 x: {
@@ -458,7 +466,7 @@ function initialize() {
             // title: "Loyalty Android",
             width: 380,
             height: 400,
-            bar: {groupWidth: "60%"},
+            bar: {groupWidth: "65%"},
             legend: { position: "none" },
         };
         var chart = new google.visualization.BarChart(document.getElementById("loyalty-android"));
@@ -526,7 +534,7 @@ function initialize() {
             // title: "Loyalty iOS",
             width: 380,
             height: 400,
-            bar: {groupWidth: "60%"},
+            bar: {groupWidth: "65%"},
             legend: { position: "none" },
         };
         var chart = new google.visualization.BarChart(document.getElementById("loyalty-iOS"));
@@ -606,6 +614,24 @@ function initialize() {
 
     var contactDealerData = function(result){
         $('#dealer-contacted').html('      ' + result.dealerContactedQuery)
+    }
+
+    var appStoreDownloads = function(result){
+        var appStoreData = result.appStoreDownloads;
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Units');
+        data.addColumn('number', 'Previous');
+        data.addColumn('string', 'Range');
+        data.addRows([
+            [ appStoreData.downloads, appStoreData.previousDownloads, appStoreData.deltaPercentage + ' %' ]
+        ]);
+        var options = {
+            'title': 'Total Downloads by App Store',
+            'width': '100%',
+            'height': '100%'
+        }
+        var table= new google.visualization.Table(document.getElementById('app-store-downloads'));
+        table.draw(data, options);
     }
 
 }
