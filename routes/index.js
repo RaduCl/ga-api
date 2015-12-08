@@ -118,6 +118,28 @@ module.exports = function(passport){
 		})
 	})
 
+	/* GET  all analytics data from DB for MyGarage stats table */
+	router.get('/mygarage-data', isAuthenticated, function(req, res){
+		var today = Date().slice(0, 15)
+		var allResults = {}
+		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
+			if(e) return next(e)
+			if(results) {
+				allResults.weekResults = results
+				db.collection(dbConfig.collection).findOne({timeInterval: 'month', createDate: today}, function (e, results) {
+					if (e) return next(e)
+					if (results) {
+						allResults.monthResults = results
+						db.collection(dbConfig.collection).findOne({timeInterval: 'year', createDate: today}, function(e, results){
+							allResults.yearResults = results
+							res.send(allResults)
+						})
+					}
+				})
+			}
+		})
+	})
+
 
 	/* GET  google all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
