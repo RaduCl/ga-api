@@ -55,14 +55,14 @@ function initialize() {
                   alert('No data available, ingest cycle will start return when done')
               }
             },
-            beforeSend: function(){
-                $('#loading').show();
-                $('#content').hide();
-            },
-            complete: function(){
-                $('#loading').hide();
-                $('#content').show();
-            },
+            //beforeSend: function(){
+            //    $('#loading').show();
+            //    $('#content').hide();
+            //},
+            //complete: function(){
+            //    $('#loading').hide();
+            //    $('#content').show();
+            //},
             success: function(results){
                 charts(results, period);
                 $('#loading').hide();
@@ -665,7 +665,7 @@ function initialize() {
         table.draw(data, options);
     }
 
-    var myGarage = function(result, period){
+    var myGarage = function(result){
         var weekResults = result.weekResults;
         var monthResults = result.monthResults;
         var yearResults = result.yearResults;
@@ -822,7 +822,28 @@ function initialize() {
                     v: parseInt(getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev)),
                     f: getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev) + ' %'
                 },
+            ],
 
+            [
+                'Popular bike',
+                {v: parseInt(yearResults.Data.popularBikesQuery[0][0]), f: String(yearResults.Data.popularBikesQuery[0][0])},
+                {v: parseInt(monthResults.Data.popularBikesQuery[0][0]), f: monthResults.Data.popularBikesQuery[0][0]},
+                {v: parseInt(monthResults.Data.popularBikesQueryPrev[0][0]), f: monthResults.Data.popularBikesQueryPrev[0][0]},
+                null,
+                {v: parseInt(weekResults.Data.popularBikesQuery[0][0]), f: weekResults.Data.popularBikesQuery[0][0]},
+                {v: parseInt(weekResults.Data.popularBikesQueryPrev[0][0]), f: weekResults.Data.popularBikesQueryPrev[0][0]},
+                null
+            ],
+
+            [
+                'Popular Accessory',
+                {v: parseInt(yearResults.Data.popularPartsQuery[0][0]), f: String(yearResults.Data.popularPartsQuery[0][0])},
+                {v: parseInt(monthResults.Data.popularPartsQuery[0][0]), f: monthResults.Data.popularPartsQuery[0][0]},
+                {v: parseInt(monthResults.Data.popularPartsQueryPrev[0][0]), f: monthResults.Data.popularPartsQueryPrev[0][0]},
+                null,
+                {v: parseInt(weekResults.Data.popularPartsQuery[0][0]), f: weekResults.Data.popularPartsQuery[0][0]},
+                {v: parseInt(weekResults.Data.popularPartsQueryPrev[0][0]), f: weekResults.Data.popularPartsQueryPrev[0][0]},
+                null
             ],
         ])
 

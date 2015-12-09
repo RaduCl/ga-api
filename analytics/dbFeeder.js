@@ -82,10 +82,32 @@ var getAnalyticsData = function(period, callback){
     }, function(){
         //get appStoreData
         var AppStoreData = require('../analytics/AppStoreAnalytics')
-        AppStoreData(period, function(result){
+        AppStoreData.getAppStoreData(period, function(result){
             if(result){
                 console.log('getting results for: appStoreDownloads')
                 data['appStoreDownloads'] = result;
+                AppStoreData.getAppStoreDataByCountry(period, function(result){
+                    if(result){
+                        console.log('getting results for: appStoreDownloadsByCountry')
+                        data['appStoreDownloadsByCountry'] = result;
+                        JSONobj.Data = data;
+                        db.collection(collection).insert(JSONobj, function(err, result) {
+                            //db.collection('analytics').drop();
+                            db.close();
+                            if(err) return err
+                            if(callback){
+                                console.log('intru in callback: ');
+                                callback()
+                            }
+                        });
+                    }
+                })
+            }
+        })
+        AppStoreData.getAppStoreDataByCountry(period, function(result){
+            if(result){
+                console.log('getting results for: getAppStoreDataByCountry')
+                data['getAppStoreDataByCountry'] = result;
                 JSONobj.Data = data;
                 db.collection(collection).insert(JSONobj, function(err, result) {
                     //db.collection('analytics').drop();
