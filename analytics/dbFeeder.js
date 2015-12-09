@@ -9,7 +9,7 @@ var db = require('mongoskin').db(url);
 /* GET  google all analytics data */
 var getAnalyticsData = function(period, callback){
     //get the parametrized partial query objects
-    var queries = require('../analytics/AnalyticsQueries')(period)
+    var bdqueries = require('../analytics/BiDimQueries')(period)
 
     //get the google-analytics authentication module
     var googleAnalytics = require('../analytics/googleAnalytics2').getAllData;
@@ -23,8 +23,8 @@ var getAnalyticsData = function(period, callback){
     }
     var data = {};
 
-    var queryLength = Object.keys(queries).length;
-    var queryKeys = Object.keys(queries).map(function(keyName, index){
+    var queryLength = Object.keys(bdqueries).length;
+    var queryKeys = Object.keys(bdqueries).map(function(keyName, index){
         return keyName;
     })
 
@@ -77,7 +77,7 @@ var getAnalyticsData = function(period, callback){
                     loop.next();
                 }
             }
-            googleAnalytics(callBack, queries[q], q)
+            googleAnalytics(callBack, bdqueries[q], q)
         }, 110);
     }, function(){
         //get appStoreData
