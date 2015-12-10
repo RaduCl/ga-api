@@ -118,8 +118,7 @@ function initialize() {
             },
             success: function(results){
                 myGarage(results);
-                $('#loading').hide();
-                $('#content').show();
+                topAppStoreDownlodsByCountry(results);
             },
             fail: function() {
                 console.log('error');
@@ -648,7 +647,7 @@ function initialize() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Units');
         data.addColumn('number', 'Previous');
-        data.addColumn('number', 'Range');
+        data.addColumn('number', 'Growth');
         data.addRows([
             [ appStoreData.downloads, appStoreData.previousDownloads, {v: appStoreData.deltaPercentage, f: appStoreData.deltaPercentage+' %'}]
         ]);
@@ -860,5 +859,100 @@ function initialize() {
         var table= new google.visualization.Table(document.getElementById('my-garage'));
         table.draw(data, options);
     }
+
+    var topAppStoreDownlodsByCountry = function(result) {
+        var weekResults = result.weekResults.Data.appStoreDownloadsByCountry;
+        var monthResults = result.monthResults.Data.appStoreDownloadsByCountry;
+        var yearResults = result.yearResults.Data.appStoreDownloadsByCountry;
+        var weekResultsTotal = result.weekResults.Data.appStoreDownloads;
+        var monthResultsTotal = result.monthResults.Data.appStoreDownloads;
+        var yearResultsTotal = result.yearResults.Data.appStoreDownloads;
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows([
+            [
+                monthResults[0].name,
+                yearResults[0].downloads,
+                monthResults[0].downloads,
+                monthResults[0].previousDownloads,
+                {v: monthResults[0].deltaPercentage, f:monthResults[0].deltaPercentage+'%'},
+                weekResults[0].downloads,
+                weekResults[0].previousDownloads,
+                {v: weekResults[0].deltaPercentage, f: weekResults[0].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[1].name,
+                yearResults[1].downloads,
+                monthResults[1].downloads,
+                monthResults[1].previousDownloads,
+                {v: monthResults[1].deltaPercentage, f:monthResults[1].deltaPercentage+'%'},
+                weekResults[1].downloads,
+                weekResults[1].previousDownloads,
+                {v: weekResults[1].deltaPercentage, f: weekResults[1].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[2].name,
+                yearResults[2].downloads,
+                monthResults[2].downloads,
+                monthResults[2].previousDownloads,
+                {v: monthResults[2].deltaPercentage, f:monthResults[2].deltaPercentage+'%'},
+                weekResults[2].downloads,
+                weekResults[2].previousDownloads,
+                {v: weekResults[2].deltaPercentage, f: weekResults[2].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[3].name,
+                yearResults[3].downloads,
+                monthResults[3].downloads,
+                monthResults[3].previousDownloads,
+                {v: monthResults[3].deltaPercentage, f:monthResults[3].deltaPercentage+'%'},
+                weekResults[3].downloads,
+                weekResults[3].previousDownloads,
+                {v: weekResults[3].deltaPercentage, f: weekResults[3].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[4].name,
+                yearResults[4].downloads,
+                monthResults[4].downloads,
+                monthResults[4].previousDownloads,
+                {v: monthResults[4].deltaPercentage, f:monthResults[4].deltaPercentage+'%'},
+                weekResults[4].downloads,
+                weekResults[4].previousDownloads,
+                {v: weekResults[4].deltaPercentage, f: weekResults[4].deltaPercentage + '%'},
+            ],
+            [
+                'Total',
+                yearResultsTotal.downloads,
+                monthResultsTotal.downloads,
+                monthResultsTotal.previousDownloads,
+                {v: monthResultsTotal.deltaPercentage, f:monthResultsTotal.deltaPercentage+'%'},
+                weekResultsTotal.downloads,
+                weekResultsTotal.previousDownloads,
+                {v: weekResultsTotal.deltaPercentage, f: weekResultsTotal.deltaPercentage + '%'},
+            ],
+        ])
+
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 4);
+        formatter.format(data, 7);
+
+        var options = {
+            'title': 'My Garage: Sport Heritage',
+            'width': '100%',
+            'height': '100%'
+        }
+
+        var table= new google.visualization.Table(document.getElementById('appStore-coutries'));
+        table.draw(data, options);
+    }
+
 
 }
