@@ -764,6 +764,23 @@ function initialize() {
             ],
 
             [
+                'Send to dealer attempts',
+                parseInt(yearResults.Data.attdealerContactedQuery),
+                parseInt(monthResults.Data.attdealerContactedQuery),
+                parseInt(monthResults.Data.attdealerContactedQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(monthResults.Data.attdealerContactedQuery, monthResults.Data.attdealerContactedQueryPrev)),
+                    f: getDeltaPercentage(monthResults.Data.attdealerContactedQuery, monthResults.Data.attdealerContactedQueryPrev) + ' %'
+                },
+                parseInt(weekResults.Data.attdealerContactedQuery),
+                parseInt(weekResults.Data.attdealerContactedQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(weekResults.Data.attdealerContactedQuery, weekResults.Data.attdealerContactedQueryPrev)),
+                    f: getDeltaPercentage(weekResults.Data.attdealerContactedQuery, weekResults.Data.attdealerContactedQueryPrev) + ' %'
+                },
+            ],
+
+            [
                 'New Users',
                 parseInt(yearResults.Data.visitorTypesQuery[0][1]),
                 parseInt(monthResults.Data.visitorTypesQuery[0][1]),
