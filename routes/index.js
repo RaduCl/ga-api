@@ -73,7 +73,7 @@ module.exports = function(passport){
 		res.redirect('/');
 	});
 
-	/* GET  google all analytics data */
+	/* GET  google all analytics data google API */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/ga-data', function(req, res){
 
@@ -118,27 +118,39 @@ module.exports = function(passport){
 		})
 	})
 
-	/* GET  filtered by time interval all analytics data from DB */
-	//TODO in production secure this route by using isAuthenticated param
-	router.get('/appstore-data/:timeInterval', function(req, res){
+	/* GET  all analytics data from DB for MyGarage stats table */
+	router.get('/mygarage-data', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
-		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results){
-			//if(e) return next(e)
-			if(e) res.status(500).send(e)
-			res.send(results.Data)
-		})
-	});
-
-	/* GET  google all analytics data from DB */
-	//TODO in production secure this route by using isAuthenticated param
-	router.get('/mongo-data', isAuthenticated, function(req, res){
-		var today = Date().slice(0, 15)
+		var allResults = {}
 		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
 			if(e) return next(e)
-			res.send(results.Data)
+			if(results) {
+				allResults.weekResults = results
+				db.collection(dbConfig.collection).findOne({timeInterval: 'month', createDate: today}, function (e, results) {
+					if (e) return next(e)
+					if (results) {
+						allResults.monthResults = results
+						db.collection(dbConfig.collection).findOne({timeInterval: 'year', createDate: today}, function(e, results){
+							allResults.yearResults = results
+							res.send(allResults)
+						})
+					}
+				})
+			}
 		})
-		//res.send('data from mongo')
-	});
+	})
+
+
+	/* GET  google all analytics data from DB */
+	////TODO in production secure this route by using isAuthenticated param
+	//router.get('/mongo-data', isAuthenticated, function(req, res){
+	//	var today = Date().slice(0, 15)
+	//	db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
+	//		if(e) return next(e)
+	//		res.send(results.Data)
+	//	})
+	//	//res.send('data from mongo')
+	//});
 
 	/* GET  filtered by time interval all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param

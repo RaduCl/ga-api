@@ -22,6 +22,10 @@ function initialize() {
     const recencyLink = '/ga-data/user-frequency-data';
     const loyaltyLink = '/ga-data/user-loyalty-data';
 
+    var getDeltaPercentage = function(currentResult, prevResult){
+        return -Math.floor(100 - currentResult*100/prevResult);
+    };
+
     //implmentation for single query
     //var getAjaxData = function(apiLink, responseCallback){
     //    //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
@@ -51,16 +55,16 @@ function initialize() {
                   alert('No data available, ingest cycle will start return when done')
               }
             },
-            beforeSend: function(){
-                $('#loading').show();
-                $('#content').hide();
-            },
-            complete: function(){
-                $('#loading').hide();
-                $('#content').show();
-            },
+            //beforeSend: function(){
+            //    $('#loading').show();
+            //    $('#content').hide();
+            //},
+            //complete: function(){
+            //    $('#loading').hide();
+            //    $('#content').show();
+            //},
             success: function(results){
-                charts(results);
+                charts(results, period);
                 $('#loading').hide();
                 $('#content').show();
             },
@@ -70,7 +74,7 @@ function initialize() {
         });
     }
 
-    var charts = function(results){
+    var charts = function(results, period){
         //alert('inside charts')
 
         newReturningUsersData(results);
@@ -91,6 +95,7 @@ function initialize() {
         savedConfigsData(results);
         contactDealerData(results);
         appStoreDownloads(results);
+        myGarage(results, period)
     }
 
     //default load with week data
@@ -100,6 +105,27 @@ function initialize() {
         var interval = $('#time-interval').val();
         getAjaxData(interval);
     })
+
+    var getMyGarageData = function(){
+        var url = '/mygarage-data/';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            statusCode:{
+                500: function(){
+                    alert('No data available, ingest cycle will start return when done')
+                }
+            },
+            success: function(results){
+                myGarage(results);
+                topAppStoreDownlodsByCountry(results);
+            },
+            fail: function() {
+                console.log('error');
+            }
+        });
+    }
+    getMyGarageData()
 
     var newReturningUsersData = function(result){
         var ajaxData = result.visitorTypesQuery;
@@ -621,10 +647,14 @@ function initialize() {
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Units');
         data.addColumn('number', 'Previous');
-        data.addColumn('string', 'Range');
+        data.addColumn('number', 'Growth');
         data.addRows([
-            [ appStoreData.downloads, appStoreData.previousDownloads, appStoreData.deltaPercentage + ' %' ]
+            [ appStoreData.downloads, appStoreData.previousDownloads, {v: appStoreData.deltaPercentage, f: appStoreData.deltaPercentage+' %'}]
         ]);
+
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 2);
+
         var options = {
             'title': 'Total Downloads by App Store',
             'width': '100%',
@@ -633,5 +663,296 @@ function initialize() {
         var table= new google.visualization.Table(document.getElementById('app-store-downloads'));
         table.draw(data, options);
     }
+
+    var myGarage = function(result){
+        var weekResults = result.weekResults;
+        var monthResults = result.monthResults;
+        var yearResults = result.yearResults;
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'APP KPI');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows([
+            [
+                'Downloads iOS',
+                yearResults.Data.appStoreDownloads.downloads,
+                monthResults.Data.appStoreDownloads.downloads,
+                monthResults.Data.appStoreDownloads.previousDownloads,
+                {v: monthResults.Data.appStoreDownloads.deltaPercentage, f: monthResults.Data.appStoreDownloads.deltaPercentage + ' %'},
+                weekResults.Data.appStoreDownloads.downloads,
+                weekResults.Data.appStoreDownloads.previousDownloads,
+                {v: weekResults.Data.appStoreDownloads.deltaPercentage, f: weekResults.Data.appStoreDownloads.deltaPercentage + ' %'},
+            ],
+            //TODO implement when googlePlay API credentials are available
+            [
+                'Downloads Android',
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            //TODO implement when googlePlay API credentials are available
+            [
+                'Downloads Total',
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            ],
+
+            [
+                'Storaged Bikes',
+                parseInt(yearResults.Data.savedConfigsQuery),
+                parseInt(monthResults.Data.savedConfigsQuery),
+                parseInt(monthResults.Data.savedConfigsQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(monthResults.Data.savedConfigsQuery, monthResults.Data.savedConfigsQueryPrev)),
+                    f: getDeltaPercentage(monthResults.Data.savedConfigsQuery, monthResults.Data.savedConfigsQueryPrev) + ' %'
+                },
+                parseInt(weekResults.Data.savedConfigsQuery),
+                parseInt(weekResults.Data.savedConfigsQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(weekResults.Data.savedConfigsQuery, weekResults.Data.savedConfigsQueryPrev)),
+                    f: getDeltaPercentage(weekResults.Data.savedConfigsQuery, weekResults.Data.savedConfigsQueryPrev) + ' %'
+                },
+            ],
+
+            [
+                'Shared Pictures',
+                parseInt(yearResults.Data.sharesQuery),
+                parseInt(monthResults.Data.sharesQuery),
+                parseInt(monthResults.Data.sharesQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(monthResults.Data.sharesQuery, monthResults.Data.sharesQueryPrev)),
+                    f: getDeltaPercentage(monthResults.Data.sharesQuery, monthResults.Data.sharesQueryPrev) + ' %'
+                },
+                parseInt(weekResults.Data.sharesQuery),
+                parseInt(weekResults.Data.sharesQuery),
+                {
+                    v: parseInt(getDeltaPercentage(weekResults.Data.sharesQuery, weekResults.Data.sharesQueryPrev)),
+                    f: getDeltaPercentage(weekResults.Data.sharesQuery, weekResults.Data.sharesQueryPrev) + ' %'
+                },
+            ],
+
+            [
+                'Sent to a dealer',
+                parseInt(yearResults.Data.dealerContactedQuery),
+                parseInt(monthResults.Data.dealerContactedQuery),
+                parseInt(monthResults.Data.dealerContactedQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev)),
+                    f: getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev) + ' %'
+                },
+                parseInt(weekResults.Data.dealerContactedQuery),
+                parseInt(weekResults.Data.dealerContactedQueryPrev),
+                {
+                    v: parseInt(getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev)),
+                    f: getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev) + ' %'
+                },
+            ],
+
+            [
+                'New Accounts',
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            ],
+
+            [
+                'New Users',
+                parseInt(yearResults.Data.visitorTypesQuery[0][1]),
+                parseInt(monthResults.Data.visitorTypesQuery[0][1]),
+                parseInt(monthResults.Data.visitorTypesQueryPrev[0][1]),
+                {
+                    v: parseInt(getDeltaPercentage(monthResults.Data.visitorTypesQuery[0][1], monthResults.Data.visitorTypesQueryPrev[0][1])),
+                    f: getDeltaPercentage(monthResults.Data.visitorTypesQuery[0][1], monthResults.Data.visitorTypesQueryPrev[0][1]) + ' %'
+                },
+                parseInt(weekResults.Data.visitorTypesQuery[0][1]),
+                parseInt(weekResults.Data.visitorTypesQueryPrev[0][1]),
+                {
+                    v: parseInt(getDeltaPercentage(weekResults.Data.visitorTypesQuery[0][1], weekResults.Data.visitorTypesQueryPrev[0][1])),
+                    f: getDeltaPercentage(weekResults.Data.visitorTypesQuery[0][1], weekResults.Data.visitorTypesQueryPrev[0][1]) + ' %'
+                },
+            ],
+
+            [
+                'Average usage (min)',
+                {
+                    v: parseInt(yearResults.Data.averageUsageQuery),
+                    f: parseFloat(yearResults.Data.averageUsageQuery).toFixed(1)
+                },
+                {
+                    v: parseInt(monthResults.Data.averageUsageQuery),
+                    f: parseFloat(monthResults.Data.averageUsageQuery).toFixed(1)
+                },
+                {
+                    v: parseInt(monthResults.Data.averageUsageQueryPrev),
+                    f: parseFloat(monthResults.Data.averageUsageQueryPrev).toFixed(1)
+                },
+                {
+                    v: parseInt(getDeltaPercentage(monthResults.Data.averageUsageQuery, monthResults.Data.averageUsageQueryPrev)),
+                    f: getDeltaPercentage(monthResults.Data.averageUsageQuery, monthResults.Data.averageUsageQueryPrev) + ' %'
+                },
+                {
+                    v: parseInt(weekResults.Data.averageUsageQuery),
+                    f: parseFloat(weekResults.Data.averageUsageQuery).toFixed(1)
+                },
+                {
+                    v: parseInt(weekResults.Data.averageUsageQueryPrev),
+                    f: parseFloat(weekResults.Data.averageUsageQueryPrev).toFixed(1)
+                },
+                {
+                    v: parseInt(getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev)),
+                    f: getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev) + ' %'
+                },
+            ],
+
+            [
+                'Popular bike',
+                {v: parseInt(yearResults.Data.popularBikesQuery[0][0]), f: String(yearResults.Data.popularBikesQuery[0][0])},
+                {v: parseInt(monthResults.Data.popularBikesQuery[0][0]), f: monthResults.Data.popularBikesQuery[0][0]},
+                {v: parseInt(monthResults.Data.popularBikesQueryPrev[0][0]), f: monthResults.Data.popularBikesQueryPrev[0][0]},
+                null,
+                {v: parseInt(weekResults.Data.popularBikesQuery[0][0]), f: weekResults.Data.popularBikesQuery[0][0]},
+                {v: parseInt(weekResults.Data.popularBikesQueryPrev[0][0]), f: weekResults.Data.popularBikesQueryPrev[0][0]},
+                null
+            ],
+
+            [
+                'Popular Accessory',
+                {v: parseInt(yearResults.Data.popularPartsQuery[0][0]), f: String(yearResults.Data.popularPartsQuery[0][0])},
+                {v: parseInt(monthResults.Data.popularPartsQuery[0][0]), f: monthResults.Data.popularPartsQuery[0][0]},
+                {v: parseInt(monthResults.Data.popularPartsQueryPrev[0][0]), f: monthResults.Data.popularPartsQueryPrev[0][0]},
+                null,
+                {v: parseInt(weekResults.Data.popularPartsQuery[0][0]), f: weekResults.Data.popularPartsQuery[0][0]},
+                {v: parseInt(weekResults.Data.popularPartsQueryPrev[0][0]), f: weekResults.Data.popularPartsQueryPrev[0][0]},
+                null
+            ],
+        ])
+
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 4);
+        formatter.format(data, 7);
+
+        var options = {
+            'title': 'My Garage: Sport Heritage',
+            'width': '100%',
+            'height': '100%'
+        }
+
+        var table= new google.visualization.Table(document.getElementById('my-garage'));
+        table.draw(data, options);
+    }
+
+    var topAppStoreDownlodsByCountry = function(result) {
+        var weekResults = result.weekResults.Data.appStoreDownloadsByCountry;
+        var monthResults = result.monthResults.Data.appStoreDownloadsByCountry;
+        var yearResults = result.yearResults.Data.appStoreDownloadsByCountry;
+        var weekResultsTotal = result.weekResults.Data.appStoreDownloads;
+        var monthResultsTotal = result.monthResults.Data.appStoreDownloads;
+        var yearResultsTotal = result.yearResults.Data.appStoreDownloads;
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows([
+            [
+                monthResults[0].name,
+                yearResults[0].downloads,
+                monthResults[0].downloads,
+                monthResults[0].previousDownloads,
+                {v: monthResults[0].deltaPercentage, f:monthResults[0].deltaPercentage+'%'},
+                weekResults[0].downloads,
+                weekResults[0].previousDownloads,
+                {v: weekResults[0].deltaPercentage, f: weekResults[0].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[1].name,
+                yearResults[1].downloads,
+                monthResults[1].downloads,
+                monthResults[1].previousDownloads,
+                {v: monthResults[1].deltaPercentage, f:monthResults[1].deltaPercentage+'%'},
+                weekResults[1].downloads,
+                weekResults[1].previousDownloads,
+                {v: weekResults[1].deltaPercentage, f: weekResults[1].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[2].name,
+                yearResults[2].downloads,
+                monthResults[2].downloads,
+                monthResults[2].previousDownloads,
+                {v: monthResults[2].deltaPercentage, f:monthResults[2].deltaPercentage+'%'},
+                weekResults[2].downloads,
+                weekResults[2].previousDownloads,
+                {v: weekResults[2].deltaPercentage, f: weekResults[2].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[3].name,
+                yearResults[3].downloads,
+                monthResults[3].downloads,
+                monthResults[3].previousDownloads,
+                {v: monthResults[3].deltaPercentage, f:monthResults[3].deltaPercentage+'%'},
+                weekResults[3].downloads,
+                weekResults[3].previousDownloads,
+                {v: weekResults[3].deltaPercentage, f: weekResults[3].deltaPercentage + '%'},
+            ],
+            [
+                monthResults[4].name,
+                yearResults[4].downloads,
+                monthResults[4].downloads,
+                monthResults[4].previousDownloads,
+                {v: monthResults[4].deltaPercentage, f:monthResults[4].deltaPercentage+'%'},
+                weekResults[4].downloads,
+                weekResults[4].previousDownloads,
+                {v: weekResults[4].deltaPercentage, f: weekResults[4].deltaPercentage + '%'},
+            ],
+            [
+                'Total',
+                yearResultsTotal.downloads,
+                monthResultsTotal.downloads,
+                monthResultsTotal.previousDownloads,
+                {v: monthResultsTotal.deltaPercentage, f:monthResultsTotal.deltaPercentage+'%'},
+                weekResultsTotal.downloads,
+                weekResultsTotal.previousDownloads,
+                {v: weekResultsTotal.deltaPercentage, f: weekResultsTotal.deltaPercentage + '%'},
+            ],
+        ])
+
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 4);
+        formatter.format(data, 7);
+
+        var options = {
+            'title': 'My Garage: Sport Heritage',
+            'width': '100%',
+            'height': '100%'
+        }
+
+        var table= new google.visualization.Table(document.getElementById('appStore-coutries'));
+        table.draw(data, options);
+    }
+
 
 }
