@@ -3,8 +3,6 @@ module.exports = function(timeInterval, selectedCountry, selectedApp){
     var timeInterval = timeInterval
     var selectedCountry = selectedCountry
     var selectedApp = selectedApp
-    selectedApp = 'com.yamaha.mygaragemt'
-    selectedCountry = 'France'
     console.log('timeInterval inside queries is: '+timeInterval);
     function setToday(){
         var today = new Date();
