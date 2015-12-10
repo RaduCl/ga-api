@@ -266,11 +266,70 @@ module.exports = function(timeInterval){
             'sort': '-ga:totalEvents',
             'max-results': 5,
         },
+        popularBikesQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike;ga:appID==com.yamaha.mygarage', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularBikesQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike;ga:appID==com.yamaha.mygaragemt', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+        popularBikesQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike;ga:appID==com.yamaha.mygaragesupersport', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
         popularBikesQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Bike', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+         popularBikesQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike;ga:appID==com.yamaha.mygarage', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularBikesQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike;ga:appID==com.yamaha.mygaragemt', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularBikesQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Bike;ga:appID==com.yamaha.mygaragesupersport', //ga:operatingSystem==iOS',
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -285,11 +344,72 @@ module.exports = function(timeInterval){
             'sort': '-ga:totalEvents',
             'max-results': 5,
         },
+
+        popularPartsQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part;ga:appID==com.yamaha.mygarage', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularPartsQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part;ga:appID==com.yamaha.mygaragemt', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularPartsQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part;ga:appID==com.yamaha.mygaragesupersport', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
         popularPartsQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Part', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularPartsQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part;ga:appID==com.yamaha.mygarage', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularPartsQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part;ga:appID==com.yamaha.mygaragemt', //ga:operatingSystem==iOS',
+            'dimensions': 'ga:eventLabel',
+            'sort': '-ga:totalEvents',
+            'max-results': 5,
+        },
+
+        popularPartsQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Part;ga:appID==com.yamaha.mygaragesupersport', //ga:operatingSystem==iOS',
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -339,11 +459,54 @@ module.exports = function(timeInterval){
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
         },
+
+        sharesQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share;ga:appID==com.yamaha.mygarage', //ga:operatingSystem==iOS',
+        },
+
+        sharesQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share;ga:appID==com.yamaha.mygaragemt', //ga:operatingSystem==iOS',
+        },
+
+        sharesQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share;ga:appID==com.yamaha.mygaragesupersport', //ga:operatingSystem==iOS',
+        },
+
         sharesQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Share', //ga:operatingSystem==iOS',
+        },
+
+        sharesQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share;ga:appID==com.yamaha.mygarage', //ga:operatingSystem==iOS',
+        },
+
+        sharesQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share;ga:appID==com.yamaha.mygaragemt', //ga:operatingSystem==iOS',
+        },
+
+        sharesQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventCategory==Share;ga:appID==com.yamaha.mygaragesupersport', //ga:operatingSystem==iOS',
         },
 
         savedConfigsQuery: {
@@ -353,12 +516,54 @@ module.exports = function(timeInterval){
             'filters': 'ga:eventAction==save',
             // 'dimensions': 'ga:eventAction'
         },
+
+        savedConfigsQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save;ga:appID==com.yamaha.mygarage',
+        },
+
+        savedConfigsQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save;ga:appID==com.yamaha.mygaragemt',
+        },
+
+        savedConfigsQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save;ga:appID==com.yamaha.mygaragesupersport',
+        },
         savedConfigsQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==save',
             // 'dimensions': 'ga:eventAction'
+        },
+
+        savedConfigsQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save;ga:appID==com.yamaha.mygarage',
+        },
+
+        savedConfigsQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save;ga:appID==com.yamaha.mygaragemt',
+        },
+
+        savedConfigsQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:eventValue',
+            'filters': 'ga:eventAction==save;ga:appID==com.yamaha.mygaragesupersport',
         },
 
         dealerContactedQuery: {
@@ -368,11 +573,50 @@ module.exports = function(timeInterval){
             'filters': 'ga:eventLabel==success',
             // 'dimensions': 'ga:eventAction'
         },
+        dealerContactedQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success;ga:appID==com.yamaha.mygarage',
+            // 'dimensions': 'ga:eventAction'
+        },
+        dealerContactedQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success;ga:appID==com.yamaha.mygaragemt',
+            // 'dimensions': 'ga:eventAction'
+        },
+        dealerContactedQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success;ga:appID==com.yamaha.mygaragesupersport',
+            // 'dimensions': 'ga:eventAction'
+        },
         dealerContactedQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventLabel==success',
+        },
+        dealerContactedQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success;ga:appID==com.yamaha.mygarage',
+        },
+        dealerContactedQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success;ga:appID==com.yamaha.mygaragemt',
+        },
+        dealerContactedQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success;ga:appID==com.yamaha.mygaragesupersport',
         },
 
         attdealerContactedQuery: {
@@ -382,11 +626,51 @@ module.exports = function(timeInterval){
             'filters': 'ga:eventLabel==success,ga:eventLabel==error',
             // 'dimensions': 'ga:eventAction'
         },
+        attdealerContactedQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error;ga:appID==com.yamaha.mygarage',
+            // 'dimensions': 'ga:eventAction'
+        },
+         attdealerContactedQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error;ga:appID==com.yamaha.mygaragemt',
+            // 'dimensions': 'ga:eventAction'
+        },
+        attdealerContactedQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error;ga:appID==com.yamaha.mygaragesupersport',
+            // 'dimensions': 'ga:eventAction'
+        },
+
         attdealerContactedQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+        },
+        attdealerContactedQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error;ga:appID==com.yamaha.mygarage',
+        },
+        attdealerContactedQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error;ga:appID==com.yamaha.mygaragemt',
+        },
+        attdealerContactedQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error;ga:appID==com.yamaha.mygaragesupersport',
         },
 
         averageUsageQuery: {
@@ -394,10 +678,47 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:avgSessionDuration',
         },
+        averageUsageQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:avgSessionDuration',
+            'filters': 'ga:appID==com.yamaha.mygarage'
+        },
+         averageUsageQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:avgSessionDuration',
+            'filters': 'ga:appID==com.yamaha.mygaragemt'
+        },
+         averageUsageQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:avgSessionDuration',
+            'filters': 'ga:appID==com.yamaha.mygaragesupersport'
+        },
+
         averageUsageQueryPrev: {
         'start-date': startDatePrev,
         'end-date': endDatePrev,
         'metrics': 'ga:avgSessionDuration',
+        },
+        averageUsageQueryPrevMG: {
+        'start-date': startDatePrev,
+        'end-date': endDatePrev,
+        'metrics': 'ga:avgSessionDuration',
+        'filters': 'ga:appID==com.yamaha.mygarage'
+        },
+        averageUsageQueryPrevMT: {
+        'start-date': startDatePrev,
+        'end-date': endDatePrev,
+        'metrics': 'ga:avgSessionDuration',
+        'filters': 'ga:appID==com.yamaha.mygaragemt'
+        },
+        averageUsageQueryPrevSS: {
+        'start-date': startDatePrev,
+        'end-date': endDatePrev,
+        'metrics': 'ga:avgSessionDuration',
+        'filters': 'ga:appID==com.yamaha.mygaragesupersport'
         },
     }
 
