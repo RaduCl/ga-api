@@ -116,9 +116,53 @@ var getAppStoreData = function(interval, callback){
 
 }
 
+var getAppStoreDataSS = function(interval, callback){
+
+    itunes.request(Report.ranked().time(1, interval+"s"), function (error, result) {
+        var finalRes = {}
+        if(error) return error
+        if (result){
+            finalRes.downloads = result[1].units;
+            itunes.request(Report.ranked().time(2, interval+'s'), function (error, result) {
+                if(error) return error
+                if(result){
+                    finalRes.previousDownloads = result[1].units - finalRes.downloads;
+                    finalRes.delta = finalRes.downloads - finalRes.previousDownloads;
+                    finalRes.deltaPercentage = getDeltaPercentage(finalRes.downloads, finalRes.previousDownloads);
+                    if(callback) callback(finalRes)
+                }
+            });
+        }
+    });
+
+}
+
+var getAppStoreDataMT = function(interval, callback){
+
+    itunes.request(Report.ranked().time(1, interval+"s"), function (error, result) {
+        var finalRes = {}
+        if(error) return error
+        if (result){
+            finalRes.downloads = result[2].units;
+            itunes.request(Report.ranked().time(2, interval+'s'), function (error, result) {
+                if(error) return error
+                if(result){
+                    finalRes.previousDownloads = result[2].units - finalRes.downloads;
+                    finalRes.delta = finalRes.downloads - finalRes.previousDownloads;
+                    finalRes.deltaPercentage = getDeltaPercentage(finalRes.downloads, finalRes.previousDownloads);
+                    if(callback) callback(finalRes)
+                }
+            });
+        }
+    });
+
+}
+
 
 module.exports = {
     getAppStoreData: getAppStoreData,
+    getAppStoreDataSS: getAppStoreDataSS,
+    getAppStoreDataMT: getAppStoreDataMT,
     getAppStoreDataByCountry: getAppStoreDataByCountry
 }
 //module.exports = getAppStoreDataByCountry

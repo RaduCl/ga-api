@@ -285,7 +285,7 @@ module.exports = function(timeInterval){
             'sort': '-ga:totalEvents',
             'max-results': 5,
         },
-        popularBikesQueryMG: {
+        popularBikesQuerySS: {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',

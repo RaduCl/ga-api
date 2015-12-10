@@ -86,6 +86,18 @@ var getAnalyticsData = function(period, callback){
             if(result){
                 console.log('getting results for: appStoreDownloads' +' interval: '+ period)
                 data['appStoreDownloads'] = result;
+                AppStoreData.getAppStoreDataSS(period, function(resultss){
+                    if(resultss){
+                    console.log('getting results for: appStoreDownloads SS' +' interval: '+ period)
+                        data['appStoreDownloadsSS'] = resultss;
+                    }
+                })
+                AppStoreData.getAppStoreDataMT(period, function(resultmt){
+                    if(resultmt){
+                    console.log('getting results for: appStoreDownloads MT' +' interval: '+ period)
+                        data['appStoreDownloadsMT'] = resultmt;
+                    }
+                })
                 AppStoreData.getAppStoreDataByCountry(period, function(result){
                     if(result){
                         console.log('getting results for: appStoreDownloadsByCountry'+ ' interval: ' + period)
