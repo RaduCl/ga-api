@@ -23,7 +23,7 @@ function initialize() {
     const loyaltyLink = '/ga-data/user-loyalty-data';
 
     var getDeltaPercentage = function(currentResult, prevResult){
-        return -Math.floor(100 - currentResult*100/prevResult);
+        return Math.floor((currentResult-prevResult)/prevResult*100);
     };
 
     //implmentation for single query
@@ -864,9 +864,9 @@ function initialize() {
         var weekResults = result.weekResults.Data.appStoreDownloadsByCountry;
         var monthResults = result.monthResults.Data.appStoreDownloadsByCountry;
         var yearResults = result.yearResults.Data.appStoreDownloadsByCountry;
-        var weekResultsTotal = result.weekResults.Data.appStoreDownloads;
-        var monthResultsTotal = result.monthResults.Data.appStoreDownloads;
-        var yearResultsTotal = result.yearResults.Data.appStoreDownloads;
+        //var weekResultsTotal = result.weekResults.Data.appStoreDownloadsByCountry;
+        //var monthResultsTotal = result.monthResults.Data.appStoreDownloadsByCountry;
+        //var yearResultsTotal = result.yearResults.Data.appStoreDownloadsByCountry;
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Country');
@@ -929,14 +929,24 @@ function initialize() {
                 {v: weekResults[4].deltaPercentage, f: weekResults[4].deltaPercentage + '%'},
             ],
             [
+                'Others',
+                yearResults[5].downloads,
+                monthResults[5].downloads,
+                monthResults[5].previousDownloads,
+                {v: monthResults[5].deltaPercentage, f:monthResults[5].deltaPercentage+'%'},
+                weekResults[5].downloads,
+                weekResults[5].previousDownloads,
+                {v: weekResults[5].deltaPercentage, f: weekResults[5].deltaPercentage + '%'},
+            ],
+            [
                 'Total',
-                yearResultsTotal.downloads,
-                monthResultsTotal.downloads,
-                monthResultsTotal.previousDownloads,
-                {v: monthResultsTotal.deltaPercentage, f:monthResultsTotal.deltaPercentage+'%'},
-                weekResultsTotal.downloads,
-                weekResultsTotal.previousDownloads,
-                {v: weekResultsTotal.deltaPercentage, f: weekResultsTotal.deltaPercentage + '%'},
+                yearResults[6].downloads,
+                monthResults[6].downloads,
+                monthResults[6].previousDownloads,
+                {v: monthResults[6].deltaPercentage, f:monthResults[6].deltaPercentage+'%'},
+                weekResults[6].downloads,
+                weekResults[6].previousDownloads,
+                {v: weekResults[6].deltaPercentage, f: weekResults[6].deltaPercentage + '%'},
             ],
         ])
 
