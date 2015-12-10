@@ -764,17 +764,6 @@ function initialize() {
             ],
 
             [
-                'New Accounts',
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-            ],
-
-            [
                 'New Users',
                 parseInt(yearResults.Data.visitorTypesQuery[0][1]),
                 parseInt(monthResults.Data.visitorTypesQuery[0][1]),
