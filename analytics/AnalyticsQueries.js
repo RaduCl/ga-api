@@ -87,7 +87,31 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
-            'dimensions': 'ga:userType'
+            'dimensions': 'ga:userType',
+        },
+
+        visitorTypesQueryMG: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType',
+            'filters': 'ga:appID==com.yamaha.mygarage'
+        },
+
+        visitorTypesQueryMT: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType',
+            'filters': 'ga:appID==com.yamaha.mygaragemt'
+        },
+
+        visitorTypesQuerySS: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType',
+            'filters': 'ga:appID==com.yamaha.mygaragesupersport'
         },
 
         visitorTypesQueryPrev: {
@@ -97,14 +121,29 @@ module.exports = function(timeInterval){
             'dimensions': 'ga:userType'
         },
 
-        //countryVisitsQuery: {
-        //    'start-date': startDate,
-        //    'end-date': endDate,
-        //    'metrics': 'ga:visits',
-        //    'dimensions': 'ga:country',
-        //    'sort':'-ga:visits',//sort descending
-        //    'max-results': 5
-        //},
+        visitorTypesQueryPrevMG: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType',
+            'filters': 'ga:appID==com.yamaha.mygarage'
+        },
+
+         visitorTypesQueryPrevMT: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType',
+            'filters': 'ga:appID==com.yamaha.mygaragemt'
+        },
+
+         visitorTypesQueryPrevSS: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:visits',
+            'dimensions': 'ga:userType',
+            'filters': 'ga:appID==com.yamaha.mygaragesupersport'
+        },
 
         AndroidcountryVisitsQuery: {
             'start-date': startDate,
@@ -186,13 +225,6 @@ module.exports = function(timeInterval){
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
         },
-
-        //loyaltyQuery: {
-        //    'start-date': startDate,
-        //    'end-date': endDate,
-        //    'metrics': 'ga:sessions',
-        //    'dimensions': 'ga:sessionCount'
-        //},
 
         AndroidLoyaltyQuery: {
             'start-date': startDate,
