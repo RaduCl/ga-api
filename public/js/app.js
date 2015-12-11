@@ -109,6 +109,35 @@ function initialize() {
         getAjaxData(interval);
     })
 
+    var csvData = []
+    //function drawToolbar() {
+    //    var components = [
+    //        {type: 'csv', datasource: csvData},
+    //    ];
+    //
+    //    var container = document.getElementById('toolbar_div');
+    //    google.visualization.drawToolbar(container, components);
+    //};
+    //drawToolbar()
+
+
+
+    // This must be a hyperlink
+    $("#export-mygarageMG").click(function (event) {
+        var csv = $('#my-garagemg').table2CSV({delivery:'value'});
+        window.location.href = 'data:text/csv;charset=UTF-8,'+ encodeURIComponent(csv);
+    });
+    $("#export-mygarageMT").click(function (event) {
+        var csv = $('#my-garagemt').table2CSV({delivery:'value'});
+        window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+    });
+    $("#export-mygarageSS").click(function (event) {
+        var csv = $('#my-garagess').table2CSV({delivery:'_blank'});
+        window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+    });
+
+
+
     var getMyGarageData = function(){
         var url = '/mygarage-data/';
         $.ajax({
@@ -877,16 +906,7 @@ function initialize() {
         var monthResults = result.monthResults;
         var yearResults = result.yearResults;
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'APP KPI');
-        data.addColumn('number', 'YTD');
-        data.addColumn('number', 'Month');
-        data.addColumn('number', 'Previous Month');
-        data.addColumn('number', 'Growth month');
-        data.addColumn('number', 'Week');
-        data.addColumn('number', 'Previous Week');
-        data.addColumn('number', 'Growth Week');
-        data.addRows([
+        csvData['myGarageMG'] = [
             [
                 'Downloads iOS',
                 yearResults.Data.appStoreDownloads.downloads,
@@ -1058,7 +1078,17 @@ function initialize() {
                 {v: parseInt(weekResults.Data.popularPartsQueryPrevMG[0][0]), f: weekResults.Data.popularPartsQueryPrevMG[0][0]},
                 null
             ],
-        ])
+        ]
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'APP KPI');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows(csvData['myGarageMG'])
 
         var formatter = new google.visualization.ArrowFormat();
         formatter.format(data, 4);
@@ -1079,16 +1109,7 @@ function initialize() {
         var monthResults = result.monthResults;
         var yearResults = result.yearResults;
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'APP KPI');
-        data.addColumn('number', 'YTD');
-        data.addColumn('number', 'Month');
-        data.addColumn('number', 'Previous Month');
-        data.addColumn('number', 'Growth month');
-        data.addColumn('number', 'Week');
-        data.addColumn('number', 'Previous Week');
-        data.addColumn('number', 'Growth Week');
-        data.addRows([
+        csvData['myGarageMT'] = [
             [
                 'Downloads iOS',
                 yearResults.Data.appStoreDownloadsMT.downloads,
@@ -1260,7 +1281,17 @@ function initialize() {
                 {v: parseInt(weekResults.Data.popularPartsQueryPrevMT[0][0]), f: weekResults.Data.popularPartsQueryPrevMT[0][0]},
                 null
             ],
-        ])
+        ]
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'APP KPI');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows(csvData['myGarageMT'])
 
         var formatter = new google.visualization.ArrowFormat();
         formatter.format(data, 4);
@@ -1281,16 +1312,7 @@ function initialize() {
         var monthResults = result.monthResults;
         var yearResults = result.yearResults;
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'APP KPI');
-        data.addColumn('number', 'YTD');
-        data.addColumn('number', 'Month');
-        data.addColumn('number', 'Previous Month');
-        data.addColumn('number', 'Growth month');
-        data.addColumn('number', 'Week');
-        data.addColumn('number', 'Previous Week');
-        data.addColumn('number', 'Growth Week');
-        data.addRows([
+        csvData['myGarageSS'] =[
             [
                 'Downloads iOS',
                 yearResults.Data.appStoreDownloadsSS.downloads,
@@ -1462,7 +1484,17 @@ function initialize() {
                 {v: parseInt(weekResults.Data.popularPartsQueryPrevSS[0][0]), f: weekResults.Data.popularPartsQueryPrevSS[0][0]},
                 null
             ],
-        ])
+        ]
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'APP KPI');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows(csvData['myGarageSS'])
 
         var formatter = new google.visualization.ArrowFormat();
         formatter.format(data, 4);
@@ -1486,16 +1518,7 @@ function initialize() {
         //var monthResultsTotal = result.monthResults.Data.appStoreDownloadsByCountry;
         //var yearResultsTotal = result.yearResults.Data.appStoreDownloadsByCountry;
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Country');
-        data.addColumn('number', 'YTD');
-        data.addColumn('number', 'Month');
-        data.addColumn('number', 'Previous Month');
-        data.addColumn('number', 'Growth month');
-        data.addColumn('number', 'Week');
-        data.addColumn('number', 'Previous Week');
-        data.addColumn('number', 'Growth Week');
-        data.addRows([
+        csvData['appStoreDLbyCountry'] = [
             [
                 monthResults[0].name,
                 yearResults[0].downloads,
@@ -1566,7 +1589,17 @@ function initialize() {
                 weekResults[6].previousDownloads,
                 {v: weekResults[6].deltaPercentage, f: weekResults[6].deltaPercentage + '%'},
             ],
-        ])
+        ]
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Country');
+        data.addColumn('number', 'YTD');
+        data.addColumn('number', 'Month');
+        data.addColumn('number', 'Previous Month');
+        data.addColumn('number', 'Growth month');
+        data.addColumn('number', 'Week');
+        data.addColumn('number', 'Previous Week');
+        data.addColumn('number', 'Growth Week');
+        data.addRows(csvData['appStoreDLbyCountry'])
 
         var formatter = new google.visualization.ArrowFormat();
         formatter.format(data, 4);
