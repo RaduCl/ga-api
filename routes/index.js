@@ -161,11 +161,11 @@ module.exports = function(passport){
 			if(e) res.status(500).send(e)
 			if(results) res.send(results.Data)
 				else {
-				console.log('Empty db. Starting ingest cycle')
+				console.log('Empty db. Starting ingest cycle at' + new Date())
 				dbSeedData('week',function(){
 					dbSeedData('month', function(){
 						dbSeedData('year', function(){
-							console.log('ingest cycle is done');
+							console.log('ingest cycle is done at: ' + new Date());
 						})
 					})
 				})
