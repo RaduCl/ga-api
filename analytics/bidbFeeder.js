@@ -7,7 +7,7 @@ var db = require('mongoskin').db(url);
 
 
 /* GET  google all analytics data */
-var getAnalyticsData = function(period, selectedCountry, selectedApp, callback){
+var getAnalyticsData = function(period, callback){
     //get the parametrized partial query objects
     var bdqueries = require('../analytics/BiDimQueries')(period)
 

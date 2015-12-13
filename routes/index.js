@@ -3,7 +3,7 @@ var router = express.Router();
 var Q = require('q');
 var dbConfig = require('../db');
 var db = require('mongoskin').db(dbConfig.url);//mongo driver for loose data manipulation
-var dbSeedData = require('../analytics/dbFeeder')
+var dbSeedData = require('../analytics/bidbFeeder')
 
 
 

@@ -79,40 +79,27 @@ var cronTime = {
     year: '00 32 23 * * *',//every day @ 23:32
 }
 var timeZone = 'Europe/Amsterdam'
-var dbSeedData = require('./analytics/dbFeeder')
+var dbSeedData = require('./analytics/bidbFeeder')
 
-var getWeekDataJob = new CronJob({
+var getAllDataJob = new CronJob({
     //cronTime: '00 30 23 * * *',//every day @ 23:00
-    cronTime: cronTime.week,
+    cronTime: '00 30 23 * * *',
     onTick: function(){
-        dbSeedData('week')
+        console.log('Starting ingest cycle CronJob')
+        dbSeedData('week',function(){
+            dbSeedData('month', function(){
+                dbSeedData('year', function(){
+                    console.log('ingest CronJob is done');
+                })
+            })
+        })
     },
     start:false,
     timeZone:timeZone
 })
 
-var getMonthDataJob = new CronJob({
-    cronTime: cronTime.month,
-    onTick: function(){
-        dbSeedData('month')
-    },
-    start:false,
-    timeZone:timeZone
-})
+getAllDataJob.start()
 
-var getYearDataJob = new CronJob({
-    cronTime: cronTime.year,
-    onTick: function(){
-        dbSeedData('year')
-    },
-    start:false,
-    timeZone:timeZone
-})
-
-
-getWeekDataJob.start()
-getMonthDataJob.start()
-getYearDataJob.start()
 
 
 // development error handler
