@@ -83,14 +83,14 @@ module.exports = function(timeInterval){
     var endDate = setToday();
     var endDatePrev = startDate;
     //Query objects used in getData()
-    var bdqueries = function(selectedCountry, selectedApp){
+    var bdqueries = function(selectedApp, selectedCountry){
 
         this.visitorTypesQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:users',
             'dimensions': 'ga:userType',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp :'ga:appID=='+selectedApp
         }
 
         this.visitorTypesQueryPrev = {
@@ -98,7 +98,7 @@ module.exports = function(timeInterval){
             'end-date': endDatePrev,
             'metrics': 'ga:users',
             'dimensions': 'ga:userType',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp :'ga:appID=='+selectedApp
         }
 
         this.osQuery = {
@@ -107,9 +107,7 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
             'sort': '-ga:visits',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-            //'filters': 'ga:visits>60'
-            //'output': 'dataTable'
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp :'ga:appID=='+selectedApp
         }
         this.osQueryPrev = {
             'start-date': startDatePrev,
@@ -117,7 +115,7 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
             'sort': '-ga:visits',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp :'ga:appID=='+selectedApp
         }
 
         this.frequencyQuery = {
@@ -125,14 +123,14 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp :'ga:appID=='+selectedApp
         }
         this.frequencyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp :'ga:appID=='+selectedApp
         }
 
         this.AndroidLoyaltyQuery = {
@@ -140,14 +138,14 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
-            'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
         this.AndroidLoyaltyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
-            'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
 
         this.iOSLoyaltyQuery = {
@@ -155,14 +153,14 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
-            'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
         this.iOSLoyaltyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
-            'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
 
         //new tabels queries
@@ -170,7 +168,7 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:appID=='+selectedApp,
             'sort': '-ga:totalEvents',
             'max-results': 5,
         }
@@ -178,7 +176,7 @@ module.exports = function(timeInterval){
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:appID=='+selectedApp,
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -188,7 +186,7 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Part;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, //ga:operatingSystem==iOS',
+            'filters': selectedCountry ? 'ga:eventCategory==Part;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventCategory==Part;ga:appID=='+selectedApp,
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -197,7 +195,7 @@ module.exports = function(timeInterval){
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Part;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, //ga:operatingSystem==iOS',
+            'filters': selectedCountry ? 'ga:eventCategory==Part;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventCategory==Part;ga:appID=='+selectedApp,
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -208,7 +206,7 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
-            'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:operatingSystem==Android;ga:appID=='+selectedApp,
             'sort': '-ga:visits'
         }
         this.AndroidExitQueryPrev = {
@@ -216,7 +214,7 @@ module.exports = function(timeInterval){
             'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
-            'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:operatingSystem==Android;ga:appID=='+selectedApp,
             'sort': '-ga:visits'
         }
 
@@ -225,7 +223,7 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
-            'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==iOS;ga:appID=='+selectedApp,
             'sort': '-ga:visits'
         }
         this.iOSExitQueryPrev = {
@@ -233,7 +231,7 @@ module.exports = function(timeInterval){
             'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
-            'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==iOS;ga:appID=='+selectedApp,
             'sort': '-ga:visits'
         }
 
@@ -241,55 +239,52 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Share;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, //ga:operatingSystem==iOS',
+            'filters': selectedCountry ? 'ga:eventCategory==Share;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventCategory==Share;ga:appID=='+selectedApp,
         }
         this.sharesQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Share;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, //ga:operatingSystem==iOS',
+            'filters': selectedCountry ? 'ga:eventCategory==Share;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventCategory==Share;ga:appID=='+selectedApp,
         }
 
         this.savedConfigsQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:eventValue',
-            'filters': 'ga:eventAction==save;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
-            // 'dimensions': 'ga:eventAction'
+            'filters': selectedCountry ? 'ga:eventAction==save;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventAction==save;ga:appID=='+selectedApp,
         }
         this.savedConfigsQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:eventValue',
-            'filters': 'ga:eventAction==save;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
-            // 'dimensions': 'ga:eventAction'
+            'filters': selectedCountry ? 'ga:eventAction==save;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventAction==save;ga:appID=='+selectedApp,
         }
 
         this.dealerContactedQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:eventValue',
-            'filters': 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
-            // 'dimensions': 'ga:eventAction'
+            'filters': selectedCountry ? 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventAction==contactdealer;ga:appID=='+selectedApp,
         }
         this.dealerContactedQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:eventValue',
-            'filters': 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventAction==contactdealer;ga:appID=='+selectedApp,
         }
 
         this.averageUsageQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:avgSessionDuration',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:appID=='+selectedApp
         }
         this.averageUsageQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:avgSessionDuration',
-            'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:appID=='+selectedApp
         }
     }
 
@@ -300,9 +295,12 @@ module.exports = function(timeInterval){
         var queries = require('./AnalyticsQueries')(timeInterval)
         for(var attrname in queries){finalQueries[attrname]=queries[attrname]}
         for(var app in apps){
+            var tempQueries = new bdqueries(apps[app]);
+            for(var attrname in tempQueries){
+                finalQueries[attrname+'_'+apps[app].replace('com.yamaha.', '')] = tempQueries[attrname]
+            }
             for(var country in countries){
-                //finalQueries[apps[app].replace('com.yamaha.', '')+'_'+countries[country]] = new bdqueries(countries[country], apps[app])
-                var tempQueries = new bdqueries(countries[country], apps[app]);
+                var tempQueries = new bdqueries(apps[app], countries[country]);
                 for(var attrname in tempQueries){
                     finalQueries[attrname+'_'+apps[app].replace('com.yamaha.', '')+'_'+countries[country]] = tempQueries[attrname]
                 }
@@ -310,9 +308,9 @@ module.exports = function(timeInterval){
         }
     }
     generateQueries()
+    //TODO remove logs in production
     console.log('finalQueries.length: ' +Object.keys(finalQueries).length);
     console.log("finalQueries :\n"+prettyjson.render(finalQueries));
-    //module.exports=finalQueries
     return finalQueries;
 
 }
