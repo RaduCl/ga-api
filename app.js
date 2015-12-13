@@ -83,7 +83,7 @@ var dbSeedData = require('./analytics/bidbFeeder')
 
 var getAllDataJob = new CronJob({
     //cronTime: '00 30 23 * * *',//every day @ 23:00
-    cronTime: '00 30 23 * * *',
+    cronTime: '00 01 00 * * *',
     onTick: function(){
         console.log('Starting ingest cycle CronJob')
         dbSeedData('week',function(){
