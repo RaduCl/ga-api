@@ -9,7 +9,7 @@ var db = require('mongoskin').db(url);
 /* GET  google all analytics data */
 var getAnalyticsData = function(period, selectedCountry, selectedApp, callback){
     //get the parametrized partial query objects
-    var bdqueries = require('../analytics/BiDimQueries')(period, selectedCountry, selectedApp)
+    var bdqueries = require('../analytics/BiDimQueries')(period)
 
     //get the google-analytics authentication module
     var googleAnalytics = require('../analytics/googleAnalytics2').getAllData;
@@ -111,7 +111,7 @@ var getAnalyticsData = function(period, selectedCountry, selectedApp, callback){
 
 // for manualy feed db run CLI command "node dbFeeder.js week" week/month/year param is necesary to set the timeInterval for analytics API queries
 if(process.argv[2]){
-    getAnalyticsData(process.argv[2], process.argv[3], process.argv[4]);
+    getAnalyticsData(process.argv[2]);
 }
 
 module.exports = getAnalyticsData;

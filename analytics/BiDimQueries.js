@@ -1,8 +1,8 @@
-
-module.exports = function(timeInterval, selectedCountry, selectedApp){
+var prettyjson = require('prettyjson')
+module.exports = function(timeInterval){
     var timeInterval = timeInterval
-    var selectedCountry = selectedCountry
-    var selectedApp = selectedApp
+    //var selectedCountry = selectedCountry
+    //var selectedApp = selectedApp
     console.log('timeInterval inside queries is: '+timeInterval);
     function setToday(){
         var today = new Date();
@@ -82,35 +82,26 @@ module.exports = function(timeInterval, selectedCountry, selectedApp){
 
     var endDate = setToday();
     var endDatePrev = startDate;
-    // Query objects used in getData()
-    var bdqueries = {
+    //Query objects used in getData()
+    var bdqueries = function(selectedApp, selectedCountry){
 
-        bdvisitorTypesQuery: {
+        this.visitorTypesQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:users',
-            'dimensions': 'ga:userType', 
+            'dimensions': 'ga:userType',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
 
-        bdvisitorTypesQueryPrev: {
+        this.visitorTypesQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:users',
             'dimensions': 'ga:userType',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
 
-        //countryVisitsQuery: {
-        //    'start-date': startDate,
-        //    'end-date': endDate,
-        //    'metrics': 'ga:visits',
-        //    'dimensions': 'ga:country',
-        //    'sort':'-ga:visits',//sort descending
-        //    'max-results': 5
-        //},
-
-        bdosQuery: {
+        this.osQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
@@ -119,96 +110,81 @@ module.exports = function(timeInterval, selectedCountry, selectedApp){
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
             //'filters': 'ga:visits>60'
             //'output': 'dataTable'
-        },
-        bdosQueryPrev: {
+        }
+        this.osQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'dimensions': 'ga:operatingSystem, ga:operatingSystemVersion',
             'sort': '-ga:visits',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
 
-        // bddailyUsersQuery: {
-        //     'start-date': startDate,
-        //     'end-date': endDate,
-        //     'metrics': 'ga:1dayUsers',
-        //     'dimensions': 'ga:date',
-        //     'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        // },
-        // bddailyUsersQueryPrev: {
-        //     'start-date': startDatePrev,
-        //     'end-date': endDatePrev,
-        //     'metrics': 'ga:1dayUsers',
-        //     'dimensions': 'ga:date',
-        //     'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        // },
-
-        bdfrequencyQuery: {
+        this.frequencyQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
-        bdfrequencyQueryPrev: {
+        }
+        this.frequencyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:daysSinceLastSession',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
 
-        bdAndroidLoyaltyQuery: {
+        this.AndroidLoyaltyQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
             'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
-        bdAndroidLoyaltyQueryPrev: {
+        }
+        this.AndroidLoyaltyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
             'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
 
-        bdiOSLoyaltyQuery: {
+        this.iOSLoyaltyQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
             'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
-        bdiOSLoyaltyQueryPrev: {
+        }
+        this.iOSLoyaltyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
             'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
 
         //new tabels queries
-        bdpopularBikesQuery: {
+        this.popularBikesQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, 
+            'filters': 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             'sort': '-ga:totalEvents',
             'max-results': 5,
-        },
-        bdpopularBikesQueryPrev: {
+        }
+        this.popularBikesQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, 
+            'filters': 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
-        },
+        }
 
-        bdpopularPartsQuery: {
+        this.popularPartsQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
@@ -216,8 +192,8 @@ module.exports = function(timeInterval, selectedCountry, selectedApp){
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
-        },
-        bdpopularPartsQueryPrev: {
+        }
+        this.popularPartsQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
@@ -225,97 +201,119 @@ module.exports = function(timeInterval, selectedCountry, selectedApp){
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
-        },
+        }
 
-        bdAndroidExitQuery: {
+        this.AndroidExitQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             'sort': '-ga:visits'
-        },
-        bdAndroidExitQueryPrev: {
+        }
+        this.AndroidExitQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             'sort': '-ga:visits'
-        },
+        }
 
-        bdiOSExitQuery: {
+        this.iOSExitQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             'sort': '-ga:visits'
-        },
-        bdiOSExitQueryPrev: {
+        }
+        this.iOSExitQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             'sort': '-ga:visits'
-        },
+        }
 
-        bdsharesQuery: {
+        this.sharesQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Share;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, //ga:operatingSystem==iOS',
-        },
-        bdsharesQueryPrev: {
+        }
+        this.sharesQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
             'filters': 'ga:eventCategory==Share;ga:country=='+selectedCountry+';ga:appID=='+selectedApp, //ga:operatingSystem==iOS',
-        },
+        }
 
-        bdsavedConfigsQuery: {
+        this.savedConfigsQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==save;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             // 'dimensions': 'ga:eventAction'
-        },
-        bdsavedConfigsQueryPrev: {
+        }
+        this.savedConfigsQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==save;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             // 'dimensions': 'ga:eventAction'
-        },
+        }
 
-        bddealerContactedQuery: {
+        this.dealerContactedQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
             // 'dimensions': 'ga:eventAction'
-        },
-        bddealerContactedQueryPrev: {
+        }
+        this.dealerContactedQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:eventValue',
             'filters': 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp,
-        },
-        bdaverageUsageQuery: {
+        }
+
+        this.averageUsageQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:avgSessionDuration',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
-        bdaverageUsageQueryPrev: {
+        }
+        this.averageUsageQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:avgSessionDuration',
             'filters': 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp
-        },
+        }
     }
 
-    return bdqueries;
+    var countries = ['France','Italy', 'Spain', 'Germany', 'Thailand']
+    var apps  = ['com.yamaha.mygarage', 'com.yamaha.mygaragesupersport', 'com.yamaha.mygaragemt']
+    var finalQueries = {}
+    var generateQueries = function(){
+        var queries = require('./AnalyticsQueries')(timeInterval)
+        for(var attrname in queries){finalQueries[attrname]=queries[attrname]}
+        for(var app in apps){
+            for(var country in countries){
+                //finalQueries[apps[app].replace('com.yamaha.', '')+'_'+countries[country]] = new bdqueries(countries[country], apps[app])
+                var tempQueries = new bdqueries(countries[country], apps[app]);
+                for(var attrname in tempQueries){
+                    finalQueries[attrname+'_'+apps[app].replace('com.yamaha.', '')+'_'+countries[country]] = tempQueries[attrname]
+                }
+            }
+        }
+    }
+    generateQueries()
+    console.log('finalQueries.length: ' +Object.keys(finalQueries).length);
+    console.log("finalQueries :\n"+prettyjson.render(finalQueries));
+    //module.exports=finalQueries
+    return finalQueries;
 
 }
+
