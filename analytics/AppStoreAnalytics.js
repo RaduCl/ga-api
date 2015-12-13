@@ -14,7 +14,7 @@ var finalRes = {
 
 //helper method for getting deference between current and previous time interval in percents
 var getDeltaPercentage = function(currentResult, prevResult){
-    return -Math.floor(100 - currentResult*100/prevResult);
+    return Math.floor((currentResult-prevResult)/prevResult*100);
 };
 //helper method to format by country respone object
 var formatByCountry = function(result, callback){
@@ -53,49 +53,41 @@ var getAppStoreDataByCountry = function(interval, callback){
                     })
 
                     //format othercountries downloads stats
-                    //TODO check why not deltaPercentage is NaN
                     var otherCountries = {}
 
                     otherCountries.name = 'Other countries'
-
-                    otherCountries.downloads = Object.keys(tempRes.res1).slice(4).map(function(country){
+                    otherCountries.downloads = Object.keys(tempRes.res1).slice(6).map(function(country){
                         return tempRes.res1[country]
                     }).reduce(function(prev, current){
                         return prev+current
                     },0)
-                    //console.log('otherCountries.downloads: '+otherCountries.downloads);
-
-                    otherCountries.previousDownloads = Object.keys(tempRes.res1).slice(4).map(function(country){
+                    otherCountries.previousDownloads = Object.keys(tempRes.res1).slice(6).map(function(country){
                         return tempRes.res2[country]
                     }).reduce(function(prev, current){
                         return prev+current
-                    },0)
-                    //console.log('otherCountries.previousDownloads: '+otherCountries.previousDownloads);
-
+                    },0);
+                    otherCountries.previousDownloads = otherCountries.previousDownloads - otherCountries.downloads;
                     otherCountries.delta = otherCountries.downloads - otherCountries.previousDownloads
-                    otherCountries.deltaPercentage = getDeltaPercentage(otherCountries.downloads - otherCountries.previousDownloads)
-                    console.log('otherCountries: '+JSON.stringify(otherCountries));
+                    otherCountries.deltaPercentage = getDeltaPercentage(otherCountries.downloads, otherCountries.previousDownloads)
 
                     //format total downlods stats
-                    //TODO check why not all stats are saved
                     var totalDl = {}
+
                     totalDl.name = 'Total Downloads'
                     totalDl.downloads = Object.keys(tempRes.res1).map(function(country){
                         return tempRes.res1[country]
                     }).reduce(function(prev, current){
                         return prev+current
                     },0)
-                    //console.log('totalDl.downloads: '+totalDl.downloads);
-
                     totalDl.previousDownloads = Object.keys(tempRes.res1).map(function(country){
                         return tempRes.res2[country]
                     }).reduce(function(prev, current){
                         return prev+current
                     },0)
-                    //console.log('totalDl.previousDownloads: '+totalDl.previousDownloads);
-                    //console.log('totalDl: '+JSON.stringify(totalDl));
+                    totalDl.previousDownloads = totalDl.previousDownloads - totalDl.downloads
+                    totalDl.delta = totalDl.downloads - totalDl.previousDownloads
+                    totalDl.deltaPercentage = getDeltaPercentage(totalDl.downloads, totalDl.previousDownloads)
                     finalRes.push(otherCountries, totalDl);
-                    //console.log('finalRes: ' + JSON.stringify(finalRes));
                     if(callback) callback(finalRes)
                 })
             })

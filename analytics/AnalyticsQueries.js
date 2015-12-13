@@ -271,7 +271,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==Android',
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10
         },
         AndroidExitQueryPrev: {
             'start-date': startDatePrev,
@@ -279,7 +280,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==Android',
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10,
         },
 
         iOSExitQuery: {
@@ -288,7 +290,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==iOS',
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10,
         },
         iOSExitQueryPrev: {
             'start-date': startDatePrev,
@@ -296,7 +299,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': 'ga:operatingSystem==iOS',
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10,
         },
 
         sharesQuery: {
@@ -330,15 +334,29 @@ module.exports = function(timeInterval){
         dealerContactedQuery: {
             'start-date': startDate,
             'end-date': endDate,
-            'metrics': 'ga:eventValue',
-            'filters': 'ga:eventAction==contactdealer',
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success',
             // 'dimensions': 'ga:eventAction'
         },
         dealerContactedQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
-            'metrics': 'ga:eventValue',
-            'filters': 'ga:eventAction==contactdealer',
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success',
+        },
+
+        attdealerContactedQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+            // 'dimensions': 'ga:eventAction'
+        },
+        attdealerContactedQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:totalEvents',
+            'filters': 'ga:eventLabel==success,ga:eventLabel==error',
         },
         averageUsageQuery: {
             'start-date': startDate,
