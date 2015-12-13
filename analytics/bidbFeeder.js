@@ -4,7 +4,7 @@ var dbConfig = require('../db');
 var url = dbConfig.url;
 var collection = dbConfig.collection;
 var db = require('mongoskin').db(url);
-
+var prettyjson = require('prettyjson')
 
 /* GET  google all analytics data */
 var getAnalyticsData = function(period, callback){
@@ -19,8 +19,8 @@ var getAnalyticsData = function(period, callback){
     JSONobj = {
         createDate: createDate,
         timeInterval: period,
-        selectedCountry: selectedCountry, 
-        selectedApp: selectedApp,
+        //selectedCountry: selectedCountry,
+        //selectedApp: selectedApp,
         Data: {},
     }
     var data = {};
@@ -70,12 +70,13 @@ var getAnalyticsData = function(period, callback){
             var i = loop.iteration();
             //process implmentation
             var q = queryKeys[i];
-            console.log('getting results for: ' + q + 'interval: ' + period);
+            console.log('getting results for: ' + q + ' interval: ' + period);
             function callBack(err, result, queryKey) {
                 if (err)  console.log(err)
                 if (result) {
                     //rename object key with the query key
                     data[queryKey] = result.rows
+                    console.log('return result is: \n'+prettyjson.render(result));
                     loop.next();
                 }
             }

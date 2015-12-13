@@ -83,7 +83,7 @@ module.exports = function(timeInterval){
     var endDate = setToday();
     var endDatePrev = startDate;
     //Query objects used in getData()
-    var bdqueries = function(selectedApp, selectedCountry){
+    var bdqueries = function(selectedCountry, selectedApp){
 
         this.visitorTypesQuery = {
             'start-date': startDate,
