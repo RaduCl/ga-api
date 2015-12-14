@@ -24,13 +24,18 @@ function initialize() {
 
     //helper methods
     var getDeltaPercentage = function(currentResult, prevResult){
-        return Math.floor((currentResult-prevResult)/prevResult*100);
+        if((prevResult)){
+            return Math.floor((currentResult-prevResult)/prevResult*100);
+        } else return('-')
     };
 
     var convertSecondsToMinutes = function(seconds){
         return (seconds/60).toFixed(2)
     }
 
+    var checkValue = function(value){
+        return value ? value : 0
+    }
     //implmentation for single query
     //var getAjaxData = function(apiLink, responseCallback){
     //    //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
@@ -770,18 +775,18 @@ function initialize() {
 
             [
                 'Sent to a dealer',
-                parseInt(yearResults.Data.dealerContactedQuery),
-                parseInt(monthResults.Data.dealerContactedQuery),
-                parseInt(monthResults.Data.dealerContactedQueryPrev),
+                parseInt(checkValue(yearResults.Data.dealerContactedQuery)),
+                parseInt(checkValue(monthResults.Data.dealerContactedQuery)),
+                parseInt(checkValue(monthResults.Data.dealerContactedQueryPrev)),
                 {
                     v: parseInt(getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev)),
-                    f: getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev) + ' %'
+                    f: parseInt(getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev)) ?  getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev) + ' %' : '-'
                 },
-                parseInt(weekResults.Data.dealerContactedQuery),
-                parseInt(weekResults.Data.dealerContactedQueryPrev),
+                parseInt(checkValue(weekResults.Data.dealerContactedQuery)),
+                parseInt(checkValue(weekResults.Data.dealerContactedQueryPrev)),
                 {
                     v: parseInt(getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev)),
-                    f: getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev) + ' %'
+                    f: parseInt(getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev)) ? getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev) + ' %' : '-'
                 },
             ],
 
