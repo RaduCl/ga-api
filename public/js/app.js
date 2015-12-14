@@ -717,6 +717,18 @@ function initialize() {
                 null,
             ],
 
+            //TODO implement when googlePlay API credentials are available
+            [
+                'Created User Accounts',
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            ],
+
             [
                 'Storaged Bikes',
                 parseInt(yearResults.Data.savedConfigsQuery),
