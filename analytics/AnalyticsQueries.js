@@ -345,19 +345,20 @@ module.exports = function(timeInterval){
             'filters': 'ga:eventLabel==success',
         },
 
-        attdealerContactedQuery: {
-            'start-date': startDate,
-            'end-date': endDate,
-            'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventLabel==success,ga:eventLabel==error',
-            // 'dimensions': 'ga:eventAction'
-        },
-        attdealerContactedQueryPrev: {
-            'start-date': startDatePrev,
-            'end-date': endDatePrev,
-            'metrics': 'ga:totalEvents',
-            'filters': 'ga:eventLabel==success,ga:eventLabel==error',
-        },
+        //attdealerContactedQuery: {
+        //    'start-date': startDate,
+        //    'end-date': endDate,
+        //    'metrics': 'ga:totalEvents',
+        //    'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+        //    // 'dimensions': 'ga:eventAction'
+        //},
+        //attdealerContactedQueryPrev: {
+        //    'start-date': startDatePrev,
+        //    'end-date': endDatePrev,
+        //    'metrics': 'ga:totalEvents',
+        //    'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+        //},
+
         averageUsageQuery: {
             'start-date': startDate,
             'end-date': endDate,
