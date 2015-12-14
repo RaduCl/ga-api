@@ -95,7 +95,7 @@ function initialize() {
         savedConfigsData(results);
         contactDealerData(results);
         appStoreDownloads(results);
-        myGarage(results, period)
+        //myGarage(results, period)
     }
 
     //default load with week data
@@ -118,6 +118,9 @@ function initialize() {
             },
             success: function(results){
                 myGarage(results);
+                myGarage(results, '_mygarage');
+                myGarage(results, '_mygaragesupersport');
+                myGarage(results, '_mygaragemt');
                 topAppStoreDownlodsByCountry(results);
             },
             fail: function() {
@@ -664,7 +667,9 @@ function initialize() {
         table.draw(data, options);
     }
 
-    var myGarage = function(result){
+    var myGarage = function(result, app){
+        var app = app ? app : '';
+        //alert('app is:' + app)
         var weekResults = result.weekResults;
         var monthResults = result.monthResults;
         var yearResults = result.yearResults;
@@ -857,12 +862,12 @@ function initialize() {
         formatter.format(data, 7);
 
         var options = {
-            'title': 'My Garage: Sport Heritage',
+            'title': 'My Garage',
             'width': '100%',
             'height': '100%'
         }
 
-        var table= new google.visualization.Table(document.getElementById('my-garage'));
+        var table= new google.visualization.Table(document.getElementById('garage' + app));
         table.draw(data, options);
     }
 
