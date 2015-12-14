@@ -22,9 +22,14 @@ function initialize() {
     const recencyLink = '/ga-data/user-frequency-data';
     const loyaltyLink = '/ga-data/user-loyalty-data';
 
+    //helper methods
     var getDeltaPercentage = function(currentResult, prevResult){
         return Math.floor((currentResult-prevResult)/prevResult*100);
     };
+
+    var convertSecondsToMinutes = function(seconds){
+        return (seconds/60).toFixed(2)
+    }
 
     //implmentation for single query
     //var getAjaxData = function(apiLink, responseCallback){
@@ -801,15 +806,15 @@ function initialize() {
                 'Average usage (min)',
                 {
                     v: parseInt(yearResults.Data.averageUsageQuery),
-                    f: parseFloat(yearResults.Data.averageUsageQuery).toFixed(1)
+                    f: parseFloat(convertSecondsToMinutes(yearResults.Data.averageUsageQuery)).toFixed(1)
                 },
                 {
                     v: parseInt(monthResults.Data.averageUsageQuery),
-                    f: parseFloat(monthResults.Data.averageUsageQuery).toFixed(1)
+                    f: parseFloat(convertSecondsToMinutes(monthResults.Data.averageUsageQuery)).toFixed(1)
                 },
                 {
                     v: parseInt(monthResults.Data.averageUsageQueryPrev),
-                    f: parseFloat(monthResults.Data.averageUsageQueryPrev).toFixed(1)
+                    f: parseFloat(convertSecondsToMinutes(monthResults.Data.averageUsageQueryPrev)).toFixed(1)
                 },
                 {
                     v: parseInt(getDeltaPercentage(monthResults.Data.averageUsageQuery, monthResults.Data.averageUsageQueryPrev)),
@@ -817,11 +822,11 @@ function initialize() {
                 },
                 {
                     v: parseInt(weekResults.Data.averageUsageQuery),
-                    f: parseFloat(weekResults.Data.averageUsageQuery).toFixed(1)
+                    f: parseFloat(convertSecondsToMinutes(weekResults.Data.averageUsageQuery)).toFixed(1)
                 },
                 {
                     v: parseInt(weekResults.Data.averageUsageQueryPrev),
-                    f: parseFloat(weekResults.Data.averageUsageQueryPrev).toFixed(1)
+                    f: parseFloat(convertSecondsToMinutes(weekResults.Data.averageUsageQueryPrev)).toFixed(1)
                 },
                 {
                     v: parseInt(getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev)),
