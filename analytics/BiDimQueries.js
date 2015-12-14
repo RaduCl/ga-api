@@ -288,7 +288,7 @@ module.exports = function(timeInterval){
         }
     }
 
-    var countries = ['France','Italy', 'Spain', 'Germany', 'Thailand']
+    var countries = ['France','Italy', 'Spain', 'Germany', 'United Kingdom']
     var apps  = ['com.yamaha.mygarage', 'com.yamaha.mygaragesupersport', 'com.yamaha.mygaragemt']
     var finalQueries = {}
     var generateQueries = function(){

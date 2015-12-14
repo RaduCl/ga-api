@@ -6,45 +6,68 @@ block content
         div.modal-dialog
             img(src='../img/ajax-loader.gif')
     div.mainwrapper#content
+        ul.nav.nav-tabs
+            li.active
+                a(data-toggle="tab" href='#bs_mygarageMG') My Garage: Sport Heritage
+            li
+                a(data-toggle="tab" href='#bs_mygarageMT') My Garage: MT
+            li
+                a(data-toggle="tab" href='#bs_mygarageSS') My Garage: Super Sport
+        div.tab-content
+            div.tab-pane.fade.in.active#bs_mygarageMG
+                div.chart-element
+                    h4 My Garage: Sports Heritage
+                    button#export-mygarageMG Export CSV
+                    #garage_mygarage
+            div.tab-pane.fade#bs_mygarageMT
+                div.chart-element
+                    h4 My Garage: MT
+                    button#export-mygarageMT Export CSV
+                    #garage_mygaragemt
+            div.tab-pane.fade#bs_mygarageSS
+                div.chart-element
+                    h4 My Garage: Super Sport
+                    button#export-mygarageSS Export CSV
+                    #garage_mygaragesupersport
         div.time-interval
             select#time-interval
                 option(value='' selected='select' disabled='disabled') Time Interval
                 option(value='week') Week
                 option(value='month') Month
                 option(value='year') Year
-        div.app-id
-            select#app-id
-                option(value='' selected='select' disabled='disabled') App ID
-                option(value='com.yamaha.mygarage') com.yamaha.mygarage
-                option(value='com.yamaha.mygaragesupersport') com.yamaha.mygaragesupersport
-                option(value='com.yamaha.mygaragemt') com.yamaha.mygaragemt
-        div.country-select
-            select#country-select
-                option(value='' selected='select' disabled='disabled') Country Selection
-                option(value='Spain') Spain
-                option(value='Italy') Italy
-                option(value='Germany') Germany
-                option(value='France') France
-                option(value='United Kingdom') United Kingdom
+        //div.app-id
+        //    select#app-id
+        //        option(value='' selected='select' disabled='disabled') App ID
+        //        option(value='com.yamaha.mygarage') com.yamaha.mygarage
+        //        option(value='com.yamaha.mygaragesupersport') com.yamaha.mygaragesupersport
+        //        option(value='com.yamaha.mygaragemt') com.yamaha.mygaragemt
+        //div.country-select
+        //    select#country-select
+        //        option(value='' selected='select' disabled='disabled') Country Selection
+        //        option(value='Spain') Spain
+        //        option(value='Italy') Italy
+        //        option(value='Germany') Germany
+        //        option(value='France') France
+        //        option(value='United Kingdom') United Kingdom
         div.col-md-12.widget
             div.panel.panel-primary
                 div.widget-header.panel-heading App Statistics
                 div.app-widget-body.panel-body
-                    div.chart-element
-                        h4 My Garage: Sports Heritage
-                        button#export-mygarageMG Export CSV
-                        #garage_mygarage
-                    div.chart-element
-                        h4 My Garage: MT
-                        button#export-mygarageMT Export CSV
-                        #garage_mygaragemt
-                    div.chart-element
-                        h4 My Garage: Super Sport
-                        button#export-mygarageSS Export CSV
-                        #garage_mygaragesupersport
-                    div.chart-element
-                        h4 Big Five Country Downloads
-                        #appStore-coutries
+                    //div.chart-element
+                    //    h4 My Garage: Sports Heritage
+                    //    button#export-mygarageMG Export CSV
+                    //    #garage_mygarage
+                    //div.chart-element
+                    //    h4 My Garage: MT
+                    //    button#export-mygarageMT Export CSV
+                    //    #garage_mygaragemt
+                    //div.chart-element
+                    //    h4 My Garage: Super Sport
+                    //    button#export-mygarageSS Export CSV
+                    //    #garage_mygaragesupersport
+                    //div.chart-element
+                    //    h4 Big Five Country Downloads
+                    //    #appStore-coutries
         div.col-md-6.widget
             div.panel.panel-primary
                 div.widget-header.panel-heading App Usage
