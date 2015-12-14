@@ -36,6 +36,21 @@ function initialize() {
     var checkValue = function(value){
         return value ? value : 0
     }
+
+    // This must be a hyperlink
+    $("#export-mygarageMG").click(function (event) {
+        var csv = $('#garage_mygarage').table2CSV({delivery:'value'});
+        window.location.href = 'data:text/csv;charset=UTF-8,'+ encodeURIComponent(csv);
+    });
+    $("#export-mygarageMT").click(function (event) {
+        var csv = $('#garage_mygaragemt').table2CSV({delivery:'value'});
+        window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+    });
+    $("#export-mygarageSS").click(function (event) {
+        var csv = $('#garage_mygaragesupersport').table2CSV({delivery:'_blank'});
+        window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+    });
+
     //implmentation for single query
     //var getAjaxData = function(apiLink, responseCallback){
     //    //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
@@ -127,7 +142,6 @@ function initialize() {
                 }
             },
             success: function(results){
-                myGarage(results);
                 myGarage(results, '_mygarage');
                 myGarage(results, '_mygaragesupersport');
                 myGarage(results, '_mygaragemt');
