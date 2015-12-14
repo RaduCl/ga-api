@@ -145,7 +145,9 @@ function initialize() {
                 myGarage(results, '_mygarage');
                 myGarage(results, '_mygaragesupersport');
                 myGarage(results, '_mygaragemt');
-                topAppStoreDownlodsByCountry(results);
+                topAppStoreDownlodsByCountry(results, 'mygarage');
+                topAppStoreDownlodsByCountry(results, 'mygaragesupersport');
+                topAppStoreDownlodsByCountry(results, 'mygaragemt');
             },
             fail: function() {
                 console.log('error');
@@ -890,7 +892,8 @@ function initialize() {
         table.draw(data, options);
     }
 
-    var topAppStoreDownlodsByCountry = function(result) {
+    var topAppStoreDownlodsByCountry = function(result, appID) {
+        var appID = appID
         var weekResults = result.weekResults.Data.appStoreDownloadsByCountry;
         var monthResults = result.monthResults.Data.appStoreDownloadsByCountry;
         var yearResults = result.yearResults.Data.appStoreDownloadsByCountry;
@@ -990,7 +993,7 @@ function initialize() {
             'height': '100%'
         }
 
-        var table= new google.visualization.Table(document.getElementById('appStore-coutries'));
+        var table= new google.visualization.Table(document.getElementById('appStore-coutries-'+appID));
         table.draw(data, options);
     }
 

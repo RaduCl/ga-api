@@ -14,8 +14,9 @@ var finalRes = {
 
 //helper method for getting deference between current and previous time interval in percents
 var getDeltaPercentage = function(currentResult, prevResult){
-    return Math.floor((currentResult-prevResult)/prevResult*100);
-};
+    if((prevResult)){
+        return Math.floor((currentResult-prevResult)/prevResult*100);
+    } else return('-')};
 //helper method to format by country respone object
 var formatByCountry = function(result, callback){
     var res = {}
@@ -101,13 +102,22 @@ var getAppStoreData = function(interval, callback){
         var finalRes = {}
         if(error) return error
         if (result){
-            finalRes.downloads = result[0].units;
+            result.map(function(app){
+                var rObj = {}
+                rObj['downloads'] = app.units
+                finalRes[app.title.replace(/ /gi, '')] = rObj
+                //console.log(finalRes);
+            })
+            //console.log(finalRes);
             itunes.request(Report.ranked().time(2, interval+'s'), function (error, result) {
                 if(error) return error
                 if(result){
-                    finalRes.previousDownloads = result[0].units - finalRes.downloads;
-                    finalRes.delta = finalRes.downloads - finalRes.previousDownloads;
-                    finalRes.deltaPercentage = getDeltaPercentage(finalRes.downloads, finalRes.previousDownloads);
+                    result.map(function(app){
+                        finalRes[app.title.replace(/ /gi, '')].previousDownloads = app.units - finalRes[app.title.replace(/ /gi, '')].downloads
+                        finalRes[app.title.replace(/ /gi, '')].delta = finalRes[app.title.replace(/ /gi, '')].downloads - finalRes[app.title.replace(/ /gi, '')].previousDownloads
+                        finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
+                    })
+                    console.log(finalRes);
                     if(callback) callback(finalRes)
                 }
             });
@@ -125,4 +135,5 @@ module.exports = {
 
 if(process.argv[2]){
     getAppStoreDataByCountry(process.argv[2]);
+    getAppStoreData(process.argv[2])
 }
