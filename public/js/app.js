@@ -142,12 +142,12 @@ function initialize() {
                 }
             },
             success: function(results){
-                myGarage(results, '_mygarage');
-                myGarage(results, '_mygaragesupersport');
-                myGarage(results, '_mygaragemt');
-                topAppStoreDownlodsByCountry(results, 'mygarage');
-                topAppStoreDownlodsByCountry(results, 'mygaragesupersport');
-                topAppStoreDownlodsByCountry(results, 'mygaragemt');
+                myGarage(results, 'MyGarageSportHeritage');
+                myGarage(results, 'MyGarageSupersport');
+                myGarage(results, 'MyGarageMT');
+                //topAppStoreDownlodsByCountry(results, 'mygaragesportheritage');
+                //topAppStoreDownlodsByCountry(results, 'mygaragesupersport');
+                //topAppStoreDownlodsByCountry(results, 'mygaragemt');
             },
             fail: function() {
                 console.log('error');
@@ -695,11 +695,26 @@ function initialize() {
 
     var myGarage = function(result, app){
         var app = app ? app : '';
-        //alert('app is:' + app)
-        var weekResults = result.weekResults;
-        var monthResults = result.monthResults;
-        var yearResults = result.yearResults;
+        var appIDga = '';
 
+        switch (app){
+            case 'MyGarageSupersport':
+                appIDga = 'mygaragesupersport'
+                break;
+            case 'MyGarageSportHeritage':
+                appIDga = 'mygarage'
+                break;
+            case 'MyGarageMT':
+                appIDga = 'mygaragemt'
+                break;
+            default :
+                appIDga = ''
+        }
+        console.log('hello: ' + appIDga);
+        console.log('hello: ' + app);
+        var weekResults = result.weekResults.Data;
+        var monthResults = result.monthResults.Data;
+        var yearResults = result.yearResults.Data;
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
         data.addColumn('number', 'YTD');
@@ -712,14 +727,15 @@ function initialize() {
         data.addRows([
             [
                 'Downloads iOS',
-                yearResults.Data.appStoreDownloads.downloads,
-                monthResults.Data.appStoreDownloads.downloads,
-                monthResults.Data.appStoreDownloads.previousDownloads,
-                {v: monthResults.Data.appStoreDownloads.deltaPercentage, f: monthResults.Data.appStoreDownloads.deltaPercentage + ' %'},
-                weekResults.Data.appStoreDownloads.downloads,
-                weekResults.Data.appStoreDownloads.previousDownloads,
-                {v: weekResults.Data.appStoreDownloads.deltaPercentage, f: weekResults.Data.appStoreDownloads.deltaPercentage + ' %'},
+                yearResults.appStoreDownloads[app].downloads,
+                monthResults.appStoreDownloads[app].downloads,
+                monthResults.appStoreDownloads[app].previousDownloads,
+                {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+                weekResults.appStoreDownloads[app].downloads,
+                weekResults.appStoreDownloads[app].previousDownloads,
+                {v: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
             ],
+
             //TODO implement when googlePlay API credentials are available
             [
                 'Downloads Android',
@@ -757,123 +773,123 @@ function initialize() {
 
             [
                 'Storaged Bikes',
-                parseInt(yearResults.Data.savedConfigsQuery),
-                parseInt(monthResults.Data.savedConfigsQuery),
-                parseInt(monthResults.Data.savedConfigsQueryPrev),
+                parseInt(yearResults['savedConfigsQuery_'+appIDga]),
+                parseInt(monthResults['savedConfigsQuery_'+appIDga]),
+                parseInt(monthResults['savedConfigsQueryPrev_'+appIDga]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults.Data.savedConfigsQuery, monthResults.Data.savedConfigsQueryPrev)),
-                    f: getDeltaPercentage(monthResults.Data.savedConfigsQuery, monthResults.Data.savedConfigsQueryPrev) + ' %'
+                    v: parseInt(getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga]) : null,
+                    f: parseInt(getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga]) + ' %' : '-'
                 },
-                parseInt(weekResults.Data.savedConfigsQuery),
-                parseInt(weekResults.Data.savedConfigsQueryPrev),
+                parseInt(weekResults['savedConfigsQuery_'+appIDga]),
+                parseInt(weekResults['savedConfigsQueryPrev_'+appIDga]),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults.Data.savedConfigsQuery, weekResults.Data.savedConfigsQueryPrev)),
-                    f: getDeltaPercentage(weekResults.Data.savedConfigsQuery, weekResults.Data.savedConfigsQueryPrev) + ' %'
+                    v: parseInt(getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga]) : null,
+                    f: parseInt(getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga]) + ' %' : '-'
                 },
             ],
 
             [
                 'Shared Pictures',
-                parseInt(yearResults.Data.sharesQuery),
-                parseInt(monthResults.Data.sharesQuery),
-                parseInt(monthResults.Data.sharesQueryPrev),
+                parseInt(yearResults['sharesQuery_' + appIDga]),
+                parseInt(monthResults['sharesQuery_' + appIDga]),
+                parseInt(monthResults['sharesQueryPrev_' + appIDga]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults.Data.sharesQuery, monthResults.Data.sharesQueryPrev)),
-                    f: getDeltaPercentage(monthResults.Data.sharesQuery, monthResults.Data.sharesQueryPrev) + ' %'
+                    v: parseInt(getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga]) : null,
+                    f: parseInt(getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga]) + ' %' : '-'
                 },
-                parseInt(weekResults.Data.sharesQuery),
-                parseInt(weekResults.Data.sharesQuery),
+                parseInt(weekResults['sharesQuery_' + appIDga]),
+                parseInt(weekResults['sharesQueryPrev_' + appIDga]),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults.Data.sharesQuery, weekResults.Data.sharesQueryPrev)),
-                    f: getDeltaPercentage(weekResults.Data.sharesQuery, weekResults.Data.sharesQueryPrev) + ' %'
+                    v: parseInt(getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga]) : null,
+                    f: parseInt(getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga]) + ' %' : '-'
                 },
             ],
 
             [
                 'Sent to a dealer',
-                parseInt(checkValue(yearResults.Data.dealerContactedQuery)),
-                parseInt(checkValue(monthResults.Data.dealerContactedQuery)),
-                parseInt(checkValue(monthResults.Data.dealerContactedQueryPrev)),
+                parseInt(checkValue(yearResults['dealerContactedQuery_' + appIDga])),
+                parseInt(checkValue(monthResults['dealerContactedQuery_' + appIDga])),
+                parseInt(checkValue(monthResults['dealerContactedQueryPrev_' + appIDga])),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev)),
-                    f: parseInt(getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev)) ?  getDeltaPercentage(monthResults.Data.dealerContactedQuery, monthResults.Data.dealerContactedQueryPrev) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga], monthResults['dealerContactedQueryPrev_' + appIDga])),
+                    f: parseInt(getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga], monthResults['dealerContactedQueryPrev_' + appIDga])) ?  getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga], monthResults['dealerContactedQueryPrev_' + appIDga]) + ' %' : '-'
                 },
-                parseInt(checkValue(weekResults.Data.dealerContactedQuery)),
-                parseInt(checkValue(weekResults.Data.dealerContactedQueryPrev)),
+                parseInt(checkValue(weekResults['dealerContactedQuery_' + appIDga])),
+                parseInt(checkValue(weekResults['dealerContactedQueryPrev_' + appIDga])),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev)),
-                    f: parseInt(getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev)) ? getDeltaPercentage(weekResults.Data.dealerContactedQuery, weekResults.Data.dealerContactedQueryPrev) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga], weekResults['dealerContactedQueryPrev_' + appIDga])),
+                    f: parseInt(getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga], weekResults['dealerContactedQueryPrev_' + appIDga])) ? getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga], weekResults['dealerContactedQueryPrev_' + appIDga]) + ' %' : '-'
                 },
             ],
 
             [
                 'New Users',
-                parseInt(yearResults.Data.visitorTypesQuery[0][1]),
-                parseInt(monthResults.Data.visitorTypesQuery[0][1]),
-                parseInt(monthResults.Data.visitorTypesQueryPrev[0][1]),
+                parseInt(yearResults['visitorTypesQuery_' + appIDga][0][1]),
+                parseInt(monthResults['visitorTypesQuery_' + appIDga][0][1]),
+                parseInt(monthResults['visitorTypesQueryPrev_' + appIDga][0][1]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults.Data.visitorTypesQuery[0][1], monthResults.Data.visitorTypesQueryPrev[0][1])),
-                    f: getDeltaPercentage(monthResults.Data.visitorTypesQuery[0][1], monthResults.Data.visitorTypesQueryPrev[0][1]) + ' %'
+                    v: parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga][0][1], monthResults['visitorTypesQueryPrev_' + appIDga][0][1])),
+                    f: getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga][0][1], monthResults['visitorTypesQueryPrev_' + appIDga][0][1]) + ' %'
                 },
-                parseInt(weekResults.Data.visitorTypesQuery[0][1]),
-                parseInt(weekResults.Data.visitorTypesQueryPrev[0][1]),
+                parseInt(weekResults['visitorTypesQuery_' + appIDga][0][1]),
+                parseInt(weekResults['visitorTypesQueryPrev_' + appIDga][0][1]),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults.Data.visitorTypesQuery[0][1], weekResults.Data.visitorTypesQueryPrev[0][1])),
-                    f: getDeltaPercentage(weekResults.Data.visitorTypesQuery[0][1], weekResults.Data.visitorTypesQueryPrev[0][1]) + ' %'
+                    v: parseInt(getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga][0][1], weekResults['visitorTypesQueryPrev_' + appIDga][0][1])),
+                    f: getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga][0][1], weekResults['visitorTypesQueryPrev_' + appIDga][0][1]) + ' %'
                 },
             ],
 
             [
                 'Average usage (min)',
                 {
-                    v: parseInt(yearResults.Data.averageUsageQuery),
-                    f: parseFloat(convertSecondsToMinutes(yearResults.Data.averageUsageQuery)).toFixed(1)
+                    v: parseInt(yearResults['averageUsageQuery_' + appIDga]),
+                    f: parseFloat(convertSecondsToMinutes(yearResults['averageUsageQuery_' + appIDga])).toFixed(1)
                 },
                 {
-                    v: parseInt(monthResults.Data.averageUsageQuery),
-                    f: parseFloat(convertSecondsToMinutes(monthResults.Data.averageUsageQuery)).toFixed(1)
+                    v: parseInt(monthResults['averageUsageQuery_' + appIDga]),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQuery_' + appIDga])).toFixed(1)
                 },
                 {
-                    v: parseInt(monthResults.Data.averageUsageQueryPrev),
-                    f: parseFloat(convertSecondsToMinutes(monthResults.Data.averageUsageQueryPrev)).toFixed(1)
+                    v: parseInt(monthResults['averageUsageQueryPrev_' + appIDga]),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQueryPrev_' + appIDga])).toFixed(1)
                 },
                 {
-                    v: parseInt(getDeltaPercentage(monthResults.Data.averageUsageQuery, monthResults.Data.averageUsageQueryPrev)),
-                    f: getDeltaPercentage(monthResults.Data.averageUsageQuery, monthResults.Data.averageUsageQueryPrev) + ' %'
+                    v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga], monthResults['averageUsageQueryPrev_' + appIDga])),
+                    f: getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga], monthResults['averageUsageQueryPrev_' + appIDga]) + ' %'
                 },
                 {
-                    v: parseInt(weekResults.Data.averageUsageQuery),
-                    f: parseFloat(convertSecondsToMinutes(weekResults.Data.averageUsageQuery)).toFixed(1)
+                    v: parseInt(weekResults['averageUsageQuery_' + appIDga]),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQuery_' + appIDga])).toFixed(1)
                 },
                 {
-                    v: parseInt(weekResults.Data.averageUsageQueryPrev),
-                    f: parseFloat(convertSecondsToMinutes(weekResults.Data.averageUsageQueryPrev)).toFixed(1)
+                    v: parseInt(weekResults['averageUsageQueryPrev_' + appIDga]),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQueryPrev_' + appIDga])).toFixed(1)
                 },
                 {
-                    v: parseInt(getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev)),
-                    f: getDeltaPercentage(weekResults.Data.averageUsageQuery, weekResults.Data.averageUsageQueryPrev) + ' %'
+                    v: parseInt(getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga], weekResults['averageUsageQueryPrev_' + appIDga])),
+                    f: getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga], weekResults['averageUsageQueryPrev_' + appIDga]) + ' %'
                 },
             ],
 
             [
                 'Popular bike',
-                {v: parseInt(yearResults.Data.popularBikesQuery[0][0]), f: String(yearResults.Data.popularBikesQuery[0][0])},
-                {v: parseInt(monthResults.Data.popularBikesQuery[0][0]), f: monthResults.Data.popularBikesQuery[0][0]},
-                {v: parseInt(monthResults.Data.popularBikesQueryPrev[0][0]), f: monthResults.Data.popularBikesQueryPrev[0][0]},
+                {v: parseInt(yearResults['popularBikesQuery_' + appIDga][0][0]), f: String(yearResults['popularBikesQuery_' + appIDga][0][0])},
+                {v: parseInt(monthResults['popularBikesQuery_' + appIDga][0][0]), f: monthResults['popularBikesQuery_' + appIDga][0][0]},
+                {v: parseInt(monthResults['popularBikesQueryPrev_' + appIDga][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga][0][0]},
                 null,
-                {v: parseInt(weekResults.Data.popularBikesQuery[0][0]), f: weekResults.Data.popularBikesQuery[0][0]},
-                {v: parseInt(weekResults.Data.popularBikesQueryPrev[0][0]), f: weekResults.Data.popularBikesQueryPrev[0][0]},
+                {v: parseInt(weekResults['popularBikesQuery_' + appIDga][0][0]), f: weekResults['popularBikesQuery_' + appIDga][0][0]},
+                {v: parseInt(weekResults['popularBikesQueryPrev_' + appIDga][0][0]), f: weekResults['popularBikesQueryPrev_' + appIDga][0][0]},
                 null
             ],
 
             [
                 'Popular Accessory',
-                {v: parseInt(yearResults.Data.popularPartsQuery[0][0]), f: String(yearResults.Data.popularPartsQuery[0][0])},
-                {v: parseInt(monthResults.Data.popularPartsQuery[0][0]), f: monthResults.Data.popularPartsQuery[0][0]},
-                {v: parseInt(monthResults.Data.popularPartsQueryPrev[0][0]), f: monthResults.Data.popularPartsQueryPrev[0][0]},
+                {v: parseInt(yearResults['popularPartsQuery_' + appIDga][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga][0][0])},
+                {v: parseInt(monthResults['popularPartsQuery_' + appIDga][0][0]), f: monthResults['popularPartsQuery_' + appIDga][0][0]},
+                {v: parseInt(monthResults['popularPartsQueryPrev_' + appIDga][0][0]), f: monthResults['popularPartsQuery_' + appIDga][0][0]},
                 null,
-                {v: parseInt(weekResults.Data.popularPartsQuery[0][0]), f: weekResults.Data.popularPartsQuery[0][0]},
-                {v: parseInt(weekResults.Data.popularPartsQueryPrev[0][0]), f: weekResults.Data.popularPartsQueryPrev[0][0]},
+                {v: parseInt(weekResults['popularPartsQuery_' + appIDga][0][0]), f: weekResults['popularPartsQuery_' + appIDga][0][0]},
+                {v: parseInt(weekResults['popularPartsQueryPrev_' + appIDga][0][0]), f: weekResults['popularPartsQueryPrev_' + appIDga][0][0]},
                 null
             ],
         ])
@@ -888,7 +904,7 @@ function initialize() {
             'height': '100%'
         }
 
-        var table= new google.visualization.Table(document.getElementById('garage' + app));
+        var table= new google.visualization.Table(document.getElementById('garage-' + app));
         table.draw(data, options);
     }
 
