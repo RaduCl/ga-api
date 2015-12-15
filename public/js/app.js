@@ -39,15 +39,15 @@ function initialize() {
 
     // This must be a hyperlink
     $("#export-mygarageMG").click(function (event) {
-        var csv = $('#garage_mygarage').table2CSV({delivery:'value'});
+        var csv = $('#garage-MyGarageSportHeritage').table2CSV({delivery:'value'});
         window.location.href = 'data:text/csv;charset=UTF-8,'+ encodeURIComponent(csv);
     });
     $("#export-mygarageMT").click(function (event) {
-        var csv = $('#garage_mygaragemt').table2CSV({delivery:'value'});
+        var csv = $('#garage-MyGarageMT').table2CSV({delivery:'value'});
         window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
     });
     $("#export-mygarageSS").click(function (event) {
-        var csv = $('#garage_mygaragesupersport').table2CSV({delivery:'_blank'});
+        var csv = $('#garage-MyGarageSupersport').table2CSV({delivery:'_blank'});
         window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
     });
 
