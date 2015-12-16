@@ -132,11 +132,11 @@ function initialize() {
     })
 
     $('#country-select').change(function(){
-        var interval = $('#country-select').val();
-        getAjaxData(interval);
+        var country = $('#country-select').val();
+        getMyGarageData(country);
     })
 
-    var getMyGarageData = function(){
+    var getMyGarageData = function(country){
         var url = '/mygarage-data/';
         $.ajax({
             url: url,
@@ -147,12 +147,19 @@ function initialize() {
                 }
             },
             success: function(results){
-                myGarage(results, 'MyGarageSportHeritage');
-                myGarage(results, 'MyGarageSupersport');
-                myGarage(results, 'MyGarageMT');
-                topAppStoreDownlodsByCountry(results, 'MyGarageSportHeritage');
-                topAppStoreDownlodsByCountry(results, 'MyGarageSupersport');
-                topAppStoreDownlodsByCountry(results, 'MyGarageMT');
+                if(country){
+                    alert('country selected: ' + country)
+                    myGarage(results, 'MyGarageSportHeritage', country);
+                    //myGarage(results, 'MyGarageSupersport', country);
+                    //myGarage(results, 'MyGarageMT', country);
+                } else{
+                    myGarage(results, 'MyGarageSportHeritage');
+                    myGarage(results, 'MyGarageSupersport');
+                    myGarage(results, 'MyGarageMT');
+                    topAppStoreDownlodsByCountry(results, 'MyGarageSportHeritage');
+                    topAppStoreDownlodsByCountry(results, 'MyGarageSupersport');
+                    topAppStoreDownlodsByCountry(results, 'MyGarageMT');
+                }
             },
             fail: function() {
                 console.log('error');
@@ -732,7 +739,7 @@ function initialize() {
         data.addRows([
             [
                 'Downloads iOS',
-                yearResults.appStoreDownloads[app].downloads,
+                country ? yearResults.appStoreDownloadsByCountry[app].country.downloads : yearResults.appStoreDownloads[app].downloads,
                 monthResults.appStoreDownloads[app].downloads,
                 monthResults.appStoreDownloads[app].previousDownloads,
                 {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
