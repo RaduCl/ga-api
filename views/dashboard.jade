@@ -14,6 +14,14 @@ block content
             li
                 a(data-toggle="tab" href='#bs_mygarageSS') My Garage: Super Sport
         div.tab-content
+            div.country-select
+                select#country-select
+                    option(value='' selected='select' disabled='disabled') Country Selection
+                    option(value='Spain') Spain
+                    option(value='Italy') Italy
+                    option(value='Germany') Germany
+                    option(value='France') France
+                    option(value='United Kingdom') United Kingdom
             div.tab-pane.fade.in.active#bs_mygarageMG
                 div.chart-element
                     h4 My Garage: Sports Heritage

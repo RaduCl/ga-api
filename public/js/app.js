@@ -131,6 +131,11 @@ function initialize() {
         getAjaxData(interval);
     })
 
+    $('#country-select').change(function(){
+        var interval = $('#country-select').val();
+        getAjaxData(interval);
+    })
+
     var getMyGarageData = function(){
         var url = '/mygarage-data/';
         $.ajax({
@@ -693,8 +698,9 @@ function initialize() {
         table.draw(data, options);
     }
 
-    var myGarage = function(result, app){
+    var myGarage = function(result, app, country){
         var app = app ? app : '';
+        var countryName = country ? country : '';
         var appIDga = '';
 
         switch (app){
