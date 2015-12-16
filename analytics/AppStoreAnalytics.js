@@ -114,6 +114,13 @@ var getAppStoreData = function(interval, callback){
                         finalRes[app.title.replace(/ /gi, '')].delta = finalRes[app.title.replace(/ /gi, '')].downloads - finalRes[app.title.replace(/ /gi, '')].previousDownloads
                         finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
                     })
+                    var allApps = {}
+                    allApps.downloads = finalRes['MyGarageSupersport'].downloads + finalRes['MyGarageMT'].downloads + finalRes['MyGarageSportHeritage'].downloads
+                    allApps.previousDownloads = finalRes['MyGarageSupersport'].previousDownloads + finalRes['MyGarageMT'].previousDownloads + finalRes['MyGarageSportHeritage'].previousDownloads
+                    allApps.delta = finalRes['MyGarageSupersport'].delta + finalRes['MyGarageMT'].delta + finalRes['MyGarageSportHeritage'].delta
+                    allApps.deltaPercentage = getDeltaPercentage(allApps.downloads, allApps.previousDownloads)
+                    finalRes['AllApps'] = allApps
+                    console.log(prettyjson.render(finalRes));
                     if(callback) callback(finalRes)
                 }
             });
@@ -130,6 +137,6 @@ module.exports = {
 //module.exports = getAppStoreDataByCountry
 
 if(process.argv[2]){
-    getAppStoreDataByCountry(process.argv[2]);
-    //getAppStoreData(process.argv[2])
+    //getAppStoreDataByCountry(process.argv[2]);
+    getAppStoreData(process.argv[2])
 }

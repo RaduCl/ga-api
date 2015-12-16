@@ -672,13 +672,13 @@ function initialize() {
     }
 
     var appStoreDownloads = function(result){
-        var appStoreData = result.appStoreDownloads;
+        var appStoreData = result.appStoreDownloads.AllApps;
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Units');
         data.addColumn('number', 'Previous');
         data.addColumn('number', 'Growth');
         data.addRows([
-            [ appStoreData.downloads, appStoreData.previousDownloads, {v: appStoreData.deltaPercentage, f: appStoreData.deltaPercentage+' %'}]
+            [ appStoreData.downloads, appStoreData.previousDownloads, {v: appStoreData.deltaPercentage, f: parseInt(appStoreData.deltaPercentage) ? appStoreData.deltaPercentage +' %' : '-'}]
         ]);
 
         var formatter = new google.visualization.ArrowFormat();
