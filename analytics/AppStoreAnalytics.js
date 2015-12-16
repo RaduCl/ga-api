@@ -29,19 +29,26 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
         if(result){
             result.map(function(app){
                 var rObj = {}
+                var cnt = {}
                 rObj['downloads'] = app.units
-                return finalRes[app.title.replace(/ /gi, '')] = rObj
+                cnt[country] = rObj
+                finalRes[app.title.replace(/ /gi, '')] = cnt.log
+                //console.log(finalRes);
+                return finalRes[app.title.replace(/ /gi, '')] = cnt
             })
 
             itunes.request(Report.ranked().time(2, interval+"s").location(countryKeys[country]), function (error, result) {
                 if(error) return callback(error)
                 if(result){
                     result.map(function(app){
-                        finalRes[app.title.replace(/ /gi, '')].previousDownloads = app.units - finalRes[app.title.replace(/ /gi, '')].downloads
-                        finalRes[app.title.replace(/ /gi, '')].delta = finalRes[app.title.replace(/ /gi, '')].downloads - finalRes[app.title.replace(/ /gi, '')].previousDownloads
-                        finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
-                        finalRes[app.title.replace(/ /gi, '')].country = country
+                        var rObj = {}
+                        rObj[country]
+                        finalRes[app.title.replace(/ /gi, '')][country].previousDownloads = app.units - finalRes[app.title.replace(/ /gi, '')][country].downloads
+                        finalRes[app.title.replace(/ /gi, '')][country].delta = finalRes[app.title.replace(/ /gi, '')][country].downloads - finalRes[app.title.replace(/ /gi, '')][country].previousDownloads
+                        finalRes[app.title.replace(/ /gi, '')][country].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')][country].downloads, finalRes[app.title.replace(/ /gi, '')][country].previousDownloads )
+                        //finalRes[app.title.replace(/ /gi, '')][country].country = country
                     })
+
                     if(callback) callback(finalRes)
                 }
             })
@@ -137,6 +144,6 @@ module.exports = {
 //module.exports = getAppStoreDataByCountry
 
 if(process.argv[2]){
-    //getAppStoreDataByCountry(process.argv[2]);
-    getAppStoreData(process.argv[2])
+    getAppStoreDataByCountry(process.argv[2]);
+    //getAppStoreData(process.argv[2])
 }

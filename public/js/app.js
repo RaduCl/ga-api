@@ -707,7 +707,7 @@ function initialize() {
 
     var myGarage = function(result, app, country){
         var app = app ? app : '';
-        var countryName = country ? country : '';
+        var countryName = country ? country.replace(/ /gi, '') : '';
         var appIDga = '';
 
         switch (app){
@@ -739,7 +739,7 @@ function initialize() {
         data.addRows([
             [
                 'Downloads iOS',
-                country ? yearResults.appStoreDownloadsByCountry[app].country.downloads : yearResults.appStoreDownloads[app].downloads,
+                country ? yearResults.appStoreDownloadsByCountry[app][countryName].downloads : yearResults.appStoreDownloads[app].downloads,
                 monthResults.appStoreDownloads[app].downloads,
                 monthResults.appStoreDownloads[app].previousDownloads,
                 {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},

@@ -302,7 +302,7 @@ module.exports = function(timeInterval){
             for(var country in countries){
                 var tempQueries = new bdqueries(apps[app], countries[country]);
                 for(var attrname in tempQueries){
-                    finalQueries[attrname+'_'+apps[app].replace('com.yamaha.', '')+'_'+countries[country]] = tempQueries[attrname]
+                    finalQueries[attrname+'_'+apps[app].replace('com.yamaha.', '')+'_'+ countries[country].replace(/ /gi, '')] = tempQueries[attrname]
                 }
             }
         }
