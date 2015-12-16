@@ -72,7 +72,10 @@ var getAnalyticsData = function(period, callback){
             var q = queryKeys[i];
             console.log('getting results for: ' + q + ' interval: ' + period);
             function callBack(err, result, queryKey) {
-                if (err)  console.log(err)
+                if (err)  {
+                    console.log(err)
+                    loop.next();
+                }
                 if (result) {
                     //rename object key with the query key
                     data[queryKey] = result.rows

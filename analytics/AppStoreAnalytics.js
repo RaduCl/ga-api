@@ -23,55 +23,71 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
     }
     var country = country
     itunes.request(Report.ranked().time(1, interval+"s").location(countryKeys[country]), function (error, result) {
+        console.log('starting ' + country);
+        console.log(countryKeys[country]);
         if(error) return error
         if(result){
-            //console.log(result);
-            var x = result.map(function(app){
+            result.map(function(app){
                 var rObj = {}
                 rObj['downloads'] = app.units
                 return finalRes[app.title.replace(/ /gi, '')] = rObj
             })
-            //console.log(finalRes);
-            //console.log(x);
+
             itunes.request(Report.ranked().time(2, interval+"s").location(countryKeys[country]), function (error, result) {
-                if(error) return error
+                if(error) return callback(error)
                 if(result){
-                    //console.log(result);
-                    var data = result.map(function(app){
-                        console.log(finalRes[app.title.replace(/ /gi, '')]);
+                    result.map(function(app){
                         finalRes[app.title.replace(/ /gi, '')].previousDownloads = app.units - finalRes[app.title.replace(/ /gi, '')].downloads
                         finalRes[app.title.replace(/ /gi, '')].delta = finalRes[app.title.replace(/ /gi, '')].downloads - finalRes[app.title.replace(/ /gi, '')].previousDownloads
                         finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
                         finalRes[app.title.replace(/ /gi, '')].country = country
-                        return finalRes
                     })
-                    //console.log(data);
-                    if(callback) callback(data)
+                    if(callback) callback(finalRes)
                 }
             })
         }
     })
 }
+
 var getAppStoreDataByCountry = function(interval, callback){
-    var rObj = {}
+    console.log('starting');
+    var rObj = {
+        MyGarageSportHeritage: [],
+        MyGarageMT: [],
+        MyGarageSupersport: []
+    }
     getAppStoreDataByCountryTemp(interval, 'Spain', function(data){
-        console.log('\n'+data);
-        rObj.Spain = data
+        var apps = Object.keys(data)
+        apps.map(function(app){
+            rObj[app].push(data[app])
+        })
+        //console.log('\n'+prettyjson.render(rObj));
         getAppStoreDataByCountryTemp(interval, 'Italy', function(data){
-            console.log('\n'+prettyjson.render(data));
-            rObj.Italy = data
+            var apps = Object.keys(data)
+            apps.map(function(app){
+                rObj[app].push(data[app])
+            })
+            //console.log('\n'+prettyjson.render(rObj));
             getAppStoreDataByCountryTemp(interval, 'France', function(data){
-                console.log('\n'+data);
-                rObj.France = data
+                var apps = Object.keys(data)
+                apps.map(function(app){
+                    rObj[app].push(data[app])
+                })
+                //console.log('\n'+prettyjson.render(rObj));
                 getAppStoreDataByCountryTemp(interval, 'Germany', function(data){
-                    console.log('\n'+data);
-                    rObj.Germany = data
-                    getAppStoreDataByCountryTemp(interval, 'UK'), function(data){
-                        console.log('\n'+prettyjson.render(data));
-                        rObj.UK = data
-                        //console.log(prettyjson.render(rObj));
+                    var apps = Object.keys(data)
+                    apps.map(function(app){
+                        rObj[app].push(data[app])
+                    })
+                    //console.log('\n'+prettyjson.render(rObj));
+                    getAppStoreDataByCountryTemp(interval, 'UK', function(data){
+                        var apps = Object.keys(data)
+                        apps.map(function(app){
+                            rObj[app].push(data[app])
+                        })
+                        console.log('\n'+prettyjson.render(rObj));
                         if(callback) callback(rObj)
-                    }
+                    })
                 })
             })
         })
@@ -115,5 +131,5 @@ module.exports = {
 
 if(process.argv[2]){
     getAppStoreDataByCountry(process.argv[2]);
-    getAppStoreData(process.argv[2])
+    //getAppStoreData(process.argv[2])
 }

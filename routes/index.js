@@ -156,6 +156,7 @@ module.exports = function(passport){
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/mongo-data/:timeInterval', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
+		console.log(today);
 		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results, next){
 			//if(e) return next(e)
 			if(e) res.status(500).send(e)
