@@ -149,6 +149,7 @@ function initialize() {
             success: function(results){
                 if(country){
                     alert('country selected: ' + country)
+
                     myGarage(results, 'MyGarageSportHeritage', country);
                     //myGarage(results, 'MyGarageSupersport', country);
                     //myGarage(results, 'MyGarageMT', country);
@@ -709,7 +710,6 @@ function initialize() {
         var app = app ? app : '';
         var countryName = country ? country.replace(/ /gi, '') : '';
         var appIDga = '';
-
         switch (app){
             case 'MyGarageSupersport':
                 appIDga = 'mygaragesupersport'
@@ -727,6 +727,7 @@ function initialize() {
         var weekResults = result.weekResults.Data;
         var monthResults = result.monthResults.Data;
         var yearResults = result.yearResults.Data;
+        console.log(monthResults.appStoreDownloadsByCountry[app][0]);
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
         data.addColumn('number', 'YTD');
@@ -740,7 +741,7 @@ function initialize() {
             [
                 'Downloads iOS',
                 country ? yearResults.appStoreDownloadsByCountry[app][countryName].downloads : yearResults.appStoreDownloads[app].downloads,
-                monthResults.appStoreDownloads[app].downloads,
+                country ? monthResults.appStoreDownloadsByCountry[app][countryName].downloads : monthResults.appStoreDownloads[app].downloads,
                 monthResults.appStoreDownloads[app].previousDownloads,
                 {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
                 weekResults.appStoreDownloads[app].downloads,
@@ -939,58 +940,58 @@ function initialize() {
         data.addColumn('number', 'Growth Week');
         data.addRows([
             [
-                monthResults[0].country,
-                yearResults[0].downloads,
-                monthResults[0].downloads,
-                monthResults[0].previousDownloads,
-                {v: parseInt(monthResults[0].deltaPercentage), f:parseInt(monthResults[0].deltaPercentage) ? monthResults[0].deltaPercentage + '%' : '-'},
-                weekResults[0].downloads,
-                weekResults[0].previousDownloads,
-                {v: parseInt(weekResults[0].deltaPercentage), f:parseInt(weekResults[0].deltaPercentage) ? weekResults[0].deltaPercentage + '%' : '-'},
+                'Spain',
+                yearResults['Spain'].downloads,
+                monthResults['Spain'].downloads,
+                monthResults['Spain'].previousDownloads,
+                {v: parseInt(monthResults['Spain'].deltaPercentage), f:parseInt(monthResults['Spain'].deltaPercentage) ? monthResults['Spain'].deltaPercentage + '%' : '-'},
+                weekResults['Spain'].downloads,
+                weekResults['Spain'].previousDownloads,
+                {v: parseInt(weekResults['Spain'].deltaPercentage), f:parseInt(weekResults['Spain'].deltaPercentage) ? weekResults['Spain'].deltaPercentage + '%' : '-'},
             ],
 
             [
-                monthResults[1].country,
-                yearResults[1].downloads,
-                monthResults[1].downloads,
-                monthResults[1].previousDownloads,
-                {v: parseInt(monthResults[1].deltaPercentage), f:parseInt(monthResults[1].deltaPercentage) ? monthResults[1].deltaPercentage + '%' : '-'},
-                weekResults[1].downloads,
-                weekResults[1].previousDownloads,
-                {v: parseInt(weekResults[1].deltaPercentage), f:parseInt(weekResults[1].deltaPercentage) ? weekResults[1].deltaPercentage + '%' : '-'},
+                'Italy',
+                yearResults['Italy'].downloads,
+                monthResults['Italy'].downloads,
+                monthResults['Italy'].previousDownloads,
+                {v: parseInt(monthResults['Italy'].deltaPercentage), f:parseInt(monthResults['Italy'].deltaPercentage) ? monthResults['Italy'].deltaPercentage + '%' : '-'},
+                weekResults['Italy'].downloads,
+                weekResults['Italy'].previousDownloads,
+                {v: parseInt(weekResults['Italy'].deltaPercentage), f:parseInt(weekResults['Italy'].deltaPercentage) ? weekResults['Italy'].deltaPercentage + '%' : '-'},
             ],
 
             [
-                monthResults[2].country,
-                yearResults[2].downloads,
-                monthResults[2].downloads,
-                monthResults[2].previousDownloads,
-                {v: parseInt(monthResults[2].deltaPercentage), f:parseInt(monthResults[2].deltaPercentage) ? monthResults[2].deltaPercentage + '%' : '-'},
-                weekResults[2].downloads,
-                weekResults[2].previousDownloads,
-                {v: parseInt(weekResults[2].deltaPercentage), f:parseInt(weekResults[2].deltaPercentage) ? weekResults[2].deltaPercentage + '%' : '-'},
+                'France',
+                yearResults['France'].downloads,
+                monthResults['France'].downloads,
+                monthResults['France'].previousDownloads,
+                {v: parseInt(monthResults['France'].deltaPercentage), f:parseInt(monthResults['France'].deltaPercentage) ? monthResults['France'].deltaPercentage + '%' : '-'},
+                weekResults['France'].downloads,
+                weekResults['France'].previousDownloads,
+                {v: parseInt(weekResults['France'].deltaPercentage), f:parseInt(weekResults['France'].deltaPercentage) ? weekResults['France'].deltaPercentage + '%' : '-'},
             ],
 
             [
-                monthResults[3].country,
-                yearResults[3].downloads,
-                monthResults[3].downloads,
-                monthResults[3].previousDownloads,
-                {v: parseInt(monthResults[3].deltaPercentage), f:parseInt(monthResults[3].deltaPercentage) ? monthResults[3].deltaPercentage + '%' : '-'},
-                weekResults[3].downloads,
-                weekResults[3].previousDownloads,
-                {v: parseInt(weekResults[3].deltaPercentage), f:parseInt(weekResults[3].deltaPercentage) ? weekResults[3].deltaPercentage + '%' : '-'},
+                'Germany',
+                yearResults['Germany'].downloads,
+                monthResults['Germany'].downloads,
+                monthResults['Germany'].previousDownloads,
+                {v: parseInt(monthResults['Germany'].deltaPercentage), f:parseInt(monthResults['Germany'].deltaPercentage) ? monthResults['Germany'].deltaPercentage + '%' : '-'},
+                weekResults['Germany'].downloads,
+                weekResults['Germany'].previousDownloads,
+                {v: parseInt(weekResults['Germany'].deltaPercentage), f:parseInt(weekResults['Germany'].deltaPercentage) ? weekResults['Germany'].deltaPercentage + '%' : '-'},
             ],
 
             [
-                monthResults[4].country,
-                yearResults[4].downloads,
-                monthResults[4].downloads,
-                monthResults[4].previousDownloads,
-                {v: parseInt(monthResults[4].deltaPercentage), f:parseInt(monthResults[4].deltaPercentage) ? monthResults[4].deltaPercentage + '%' : '-'},
-                weekResults[4].downloads,
-                weekResults[4].previousDownloads,
-                {v: parseInt(weekResults[4].deltaPercentage), f:parseInt(weekResults[4].deltaPercentage) ? weekResults[4].deltaPercentage + '%' : '-'},
+                'United Kingdom',
+                yearResults['UK'].downloads,
+                monthResults['UK'].downloads,
+                monthResults['UK'].previousDownloads,
+                {v: parseInt(monthResults['UK'].deltaPercentage), f:parseInt(monthResults['UK'].deltaPercentage) ? monthResults['UK'].deltaPercentage + '%' : '-'},
+                weekResults['UK'].downloads,
+                weekResults['UK'].previousDownloads,
+                {v: parseInt(weekResults['UK'].deltaPercentage), f:parseInt(weekResults['UK'].deltaPercentage) ? weekResults['UK'].deltaPercentage + '%' : '-'},
             ],
 
 

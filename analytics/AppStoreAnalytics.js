@@ -29,24 +29,19 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
         if(result){
             result.map(function(app){
                 var rObj = {}
-                var cnt = {}
                 rObj['downloads'] = app.units
-                cnt[country] = rObj
-                finalRes[app.title.replace(/ /gi, '')] = cnt.log
-                //console.log(finalRes);
-                return finalRes[app.title.replace(/ /gi, '')] = cnt
+                finalRes[app.title.replace(/ /gi, '')] = rObj
             })
 
             itunes.request(Report.ranked().time(2, interval+"s").location(countryKeys[country]), function (error, result) {
                 if(error) return callback(error)
                 if(result){
                     result.map(function(app){
-                        var rObj = {}
-                        rObj[country]
-                        finalRes[app.title.replace(/ /gi, '')][country].previousDownloads = app.units - finalRes[app.title.replace(/ /gi, '')][country].downloads
-                        finalRes[app.title.replace(/ /gi, '')][country].delta = finalRes[app.title.replace(/ /gi, '')][country].downloads - finalRes[app.title.replace(/ /gi, '')][country].previousDownloads
-                        finalRes[app.title.replace(/ /gi, '')][country].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')][country].downloads, finalRes[app.title.replace(/ /gi, '')][country].previousDownloads )
-                        //finalRes[app.title.replace(/ /gi, '')][country].country = country
+
+                        finalRes[app.title.replace(/ /gi, '')].previousDownloads = app.units - finalRes[app.title.replace(/ /gi, '')].downloads
+                        finalRes[app.title.replace(/ /gi, '')].delta = finalRes[app.title.replace(/ /gi, '')].downloads - finalRes[app.title.replace(/ /gi, '')].previousDownloads
+                        finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
+                        finalRes[app.title.replace(/ /gi, '')].country = country
                     })
 
                     if(callback) callback(finalRes)
@@ -59,38 +54,38 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
 var getAppStoreDataByCountry = function(interval, callback){
     console.log('starting');
     var rObj = {
-        MyGarageSportHeritage: [],
-        MyGarageMT: [],
-        MyGarageSupersport: []
+        MyGarageSportHeritage: {},
+        MyGarageMT: {},
+        MyGarageSupersport: {}
     }
     getAppStoreDataByCountryTemp(interval, 'Spain', function(data){
         var apps = Object.keys(data)
         apps.map(function(app){
-            rObj[app].push(data[app])
+            rObj[app]['Spain'] = (data[app])
         })
         //console.log('\n'+prettyjson.render(rObj));
         getAppStoreDataByCountryTemp(interval, 'Italy', function(data){
             var apps = Object.keys(data)
             apps.map(function(app){
-                rObj[app].push(data[app])
+                rObj[app]['Italy'] = (data[app])
             })
             //console.log('\n'+prettyjson.render(rObj));
             getAppStoreDataByCountryTemp(interval, 'France', function(data){
                 var apps = Object.keys(data)
                 apps.map(function(app){
-                    rObj[app].push(data[app])
+                    rObj[app]['France'] = (data[app])
                 })
                 //console.log('\n'+prettyjson.render(rObj));
                 getAppStoreDataByCountryTemp(interval, 'Germany', function(data){
                     var apps = Object.keys(data)
                     apps.map(function(app){
-                        rObj[app].push(data[app])
+                        rObj[app]['Germany'] = (data[app])
                     })
                     //console.log('\n'+prettyjson.render(rObj));
                     getAppStoreDataByCountryTemp(interval, 'UK', function(data){
                         var apps = Object.keys(data)
                         apps.map(function(app){
-                            rObj[app].push(data[app])
+                            rObj[app]['UK'] = (data[app])
                         })
                         console.log('\n'+prettyjson.render(rObj));
                         if(callback) callback(rObj)
