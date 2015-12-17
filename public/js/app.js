@@ -740,7 +740,13 @@ function initialize() {
         var weekResults = result.weekResults.Data;
         var monthResults = result.monthResults.Data;
         var yearResults = result.yearResults.Data;
-        console.log(monthResults.appStoreDownloadsByCountry[app][countryName]);
+
+        //console.log(monthResults.appStoreDownloadsByCountry[app][countryName]);
+        console.log(
+            'app :' + appIDga + '\n' +
+            'country: ' + countryName + '\n' +
+            monthResults['visitorTypesQueryPrev_' + appIDga + countryName]
+        );
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
         data.addColumn('number', 'YTD');
@@ -855,10 +861,10 @@ function initialize() {
                 'New Users',
                 parseInt(yearResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
                 parseInt(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
-                parseInt(monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
+                monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
-                    f: getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
+                    v: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
+                    f: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? '-' : getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
                 },
                 parseInt(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
                 parseInt(weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
@@ -884,7 +890,7 @@ function initialize() {
                 },
                 {
                     v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])),
-                    f: getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %'
+                    f: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %' : '-'
                 },
                 {
                     v: parseInt(weekResults['averageUsageQuery_' + appIDga + countryName]),
@@ -904,7 +910,7 @@ function initialize() {
                 'Popular bike',
                 {v: parseInt(yearResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularBikesQuery_' + appIDga + countryName][0][0])},
                 {v: parseInt(monthResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQuery_' + appIDga + countryName][0][0]},
-                {v: parseInt(monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
+                {v: monthResults['popularBikesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
                 null,
                 {v: parseInt(weekResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQuery_' + appIDga + countryName][0][0]},
                 {v: parseInt(weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
@@ -914,8 +920,8 @@ function initialize() {
             [
                 'Popular Accessory',
                 {v: parseInt(yearResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga + countryName][0][0])},
-                {v: parseInt(monthResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
-                {v: parseInt(monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
+                {v: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
+                {v: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName] == null ? '-' :  monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
                 null,
                 {v: parseInt(weekResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQuery_' + appIDga + countryName][0][0]},
                 {v: parseInt(weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]},
