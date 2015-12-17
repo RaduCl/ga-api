@@ -43,7 +43,6 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
                         finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
                         finalRes[app.title.replace(/ /gi, '')].country = country
                     })
-
                     if(callback) callback(finalRes)
                 }
             })

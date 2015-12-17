@@ -134,6 +134,7 @@ function initialize() {
     $('#country-select').change(function(){
         var country = $('#country-select').val();
         getMyGarageData(country);
+        $('#selected-country').html(country)
     })
 
     var getMyGarageData = function(country){
@@ -148,11 +149,9 @@ function initialize() {
             },
             success: function(results){
                 if(country){
-                    alert('country selected: ' + country)
-
                     myGarage(results, 'MyGarageSportHeritage', country);
-                    //myGarage(results, 'MyGarageSupersport', country);
-                    //myGarage(results, 'MyGarageMT', country);
+                    myGarage(results, 'MyGarageSupersport', country);
+                    myGarage(results, 'MyGarageMT', country);
                 } else{
                     myGarage(results, 'MyGarageSportHeritage');
                     myGarage(results, 'MyGarageSupersport');
@@ -708,8 +707,22 @@ function initialize() {
 
     var myGarage = function(result, app, country){
         var app = app ? app : '';
-        var countryName = country ? country.replace(/ /gi, '') : '';
+        //var countryName = country ? country.replace(/ /gi, '') : '';
+        var countryName = '';
+
+        //TODO implment refresh data combination of country and app when swtiching tabs
+        if(country){
+            switch (country){
+                case 'UK':
+                    countryName = '_UnitedKingdom'
+                    break;
+                default :
+                    countryName = '_' + country
+            }
+        }
+
         var appIDga = '';
+
         switch (app){
             case 'MyGarageSupersport':
                 appIDga = 'mygaragesupersport'
@@ -727,7 +740,7 @@ function initialize() {
         var weekResults = result.weekResults.Data;
         var monthResults = result.monthResults.Data;
         var yearResults = result.yearResults.Data;
-        console.log(monthResults.appStoreDownloadsByCountry[app][0]);
+        console.log(monthResults.appStoreDownloadsByCountry[app][countryName]);
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
         data.addColumn('number', 'YTD');
@@ -740,13 +753,16 @@ function initialize() {
         data.addRows([
             [
                 'Downloads iOS',
-                country ? yearResults.appStoreDownloadsByCountry[app][countryName].downloads : yearResults.appStoreDownloads[app].downloads,
-                country ? monthResults.appStoreDownloadsByCountry[app][countryName].downloads : monthResults.appStoreDownloads[app].downloads,
-                monthResults.appStoreDownloads[app].previousDownloads,
-                {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
-                weekResults.appStoreDownloads[app].downloads,
-                weekResults.appStoreDownloads[app].previousDownloads,
-                {v: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+                //country ? yearResults.appStoreDownloadsByCountry[app][countryName].downloads : yearResults.appStoreDownloads[app].downloads,
+                //country ? monthResults.appStoreDownloadsByCountry[app][countryName].downloads : monthResults.appStoreDownloads[app].downloads,
+                //country ? monthResults.appStoreDownloads[app][countryName].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
+                country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads,
+                country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads,
+                country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
+                country ? {v: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+                country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads,
+                country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads,
+                country ? {v: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
             ],
 
             //TODO implement when googlePlay API credentials are available
@@ -786,123 +802,123 @@ function initialize() {
 
             [
                 'Storaged Bikes',
-                parseInt(yearResults['savedConfigsQuery_'+appIDga]),
-                parseInt(monthResults['savedConfigsQuery_'+appIDga]),
-                parseInt(monthResults['savedConfigsQueryPrev_'+appIDga]),
+                parseInt(yearResults['savedConfigsQuery_'+appIDga + countryName]),
+                parseInt(monthResults['savedConfigsQuery_'+appIDga + countryName]),
+                parseInt(monthResults['savedConfigsQueryPrev_'+appIDga + countryName]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga]) : null,
-                    f: parseInt(getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga], monthResults['savedConfigsQueryPrev_'+appIDga]) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga + countryName], monthResults['savedConfigsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga + countryName], monthResults['savedConfigsQueryPrev_'+appIDga + countryName]) : null,
+                    f: parseInt(getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga + countryName], monthResults['savedConfigsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['savedConfigsQuery_'+appIDga + countryName], monthResults['savedConfigsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
                 },
-                parseInt(weekResults['savedConfigsQuery_'+appIDga]),
-                parseInt(weekResults['savedConfigsQueryPrev_'+appIDga]),
+                parseInt(weekResults['savedConfigsQuery_'+appIDga + countryName]),
+                parseInt(weekResults['savedConfigsQueryPrev_'+appIDga + countryName]),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga]) : null,
-                    f: parseInt(getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga])) ? getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga], weekResults['savedConfigsQueryPrev_'+appIDga]) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga + countryName], weekResults['savedConfigsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga + countryName], weekResults['savedConfigsQueryPrev_'+appIDga + countryName]) : null,
+                    f: parseInt(getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga + countryName], weekResults['savedConfigsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['savedConfigsQuery_'+appIDga + countryName], weekResults['savedConfigsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
                 },
             ],
 
             [
                 'Shared Pictures',
-                parseInt(yearResults['sharesQuery_' + appIDga]),
-                parseInt(monthResults['sharesQuery_' + appIDga]),
-                parseInt(monthResults['sharesQueryPrev_' + appIDga]),
+                parseInt(yearResults['sharesQuery_' + appIDga + countryName]),
+                parseInt(monthResults['sharesQuery_' + appIDga + countryName]),
+                parseInt(monthResults['sharesQueryPrev_' + appIDga + countryName]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga]) : null,
-                    f: parseInt(getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(monthResults['sharesQuery_' + appIDga], monthResults['sharesQueryPrev_' + appIDga]) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(monthResults['sharesQuery_' + appIDga + countryName], monthResults['sharesQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(monthResults['sharesQuery_' + appIDga + countryName], monthResults['sharesQueryPrev_' + appIDga + countryName]) : null,
+                    f: parseInt(getDeltaPercentage(monthResults['sharesQuery_' + appIDga + countryName], monthResults['sharesQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(monthResults['sharesQuery_' + appIDga + countryName], monthResults['sharesQueryPrev_' + appIDga + countryName]) + ' %' : '-'
                 },
-                parseInt(weekResults['sharesQuery_' + appIDga]),
-                parseInt(weekResults['sharesQueryPrev_' + appIDga]),
+                parseInt(weekResults['sharesQuery_' + appIDga + countryName]),
+                parseInt(weekResults['sharesQueryPrev_' + appIDga + countryName]),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga]) : null,
-                    f: parseInt(getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga])) ? getDeltaPercentage(weekResults['sharesQuery_' + appIDga], weekResults['sharesQueryPrev_' + appIDga]) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(weekResults['sharesQuery_' + appIDga + countryName], weekResults['sharesQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(weekResults['sharesQuery_' + appIDga + countryName], weekResults['sharesQueryPrev_' + appIDga + countryName]) : null,
+                    f: parseInt(getDeltaPercentage(weekResults['sharesQuery_' + appIDga + countryName], weekResults['sharesQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(weekResults['sharesQuery_' + appIDga + countryName], weekResults['sharesQueryPrev_' + appIDga + countryName]) + ' %' : '-'
                 },
             ],
 
             [
                 'Sent to a dealer',
-                parseInt(checkValue(yearResults['dealerContactedQuery_' + appIDga])),
-                parseInt(checkValue(monthResults['dealerContactedQuery_' + appIDga])),
-                parseInt(checkValue(monthResults['dealerContactedQueryPrev_' + appIDga])),
+                parseInt(checkValue(yearResults['dealerContactedQuery_' + appIDga + countryName])),
+                parseInt(checkValue(monthResults['dealerContactedQuery_' + appIDga + countryName])),
+                parseInt(checkValue(monthResults['dealerContactedQueryPrev_' + appIDga + countryName])),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga], monthResults['dealerContactedQueryPrev_' + appIDga])),
-                    f: parseInt(getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga], monthResults['dealerContactedQueryPrev_' + appIDga])) ?  getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga], monthResults['dealerContactedQueryPrev_' + appIDga]) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga + countryName], monthResults['dealerContactedQueryPrev_' + appIDga + countryName])),
+                    f: parseInt(getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga + countryName], monthResults['dealerContactedQueryPrev_' + appIDga + countryName])) ?  getDeltaPercentage(monthResults['dealerContactedQuery_' + appIDga + countryName], monthResults['dealerContactedQueryPrev_' + appIDga + countryName]) + ' %' : '-'
                 },
-                parseInt(checkValue(weekResults['dealerContactedQuery_' + appIDga])),
-                parseInt(checkValue(weekResults['dealerContactedQueryPrev_' + appIDga])),
+                parseInt(checkValue(weekResults['dealerContactedQuery_' + appIDga + countryName])),
+                parseInt(checkValue(weekResults['dealerContactedQueryPrev_' + appIDga + countryName])),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga], weekResults['dealerContactedQueryPrev_' + appIDga])),
-                    f: parseInt(getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga], weekResults['dealerContactedQueryPrev_' + appIDga])) ? getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga], weekResults['dealerContactedQueryPrev_' + appIDga]) + ' %' : '-'
+                    v: parseInt(getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga + countryName], weekResults['dealerContactedQueryPrev_' + appIDga + countryName])),
+                    f: parseInt(getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga + countryName], weekResults['dealerContactedQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(weekResults['dealerContactedQuery_' + appIDga + countryName], weekResults['dealerContactedQueryPrev_' + appIDga + countryName]) + ' %' : '-'
                 },
             ],
 
             [
                 'New Users',
-                parseInt(yearResults['visitorTypesQuery_' + appIDga][0][1]),
-                parseInt(monthResults['visitorTypesQuery_' + appIDga][0][1]),
-                parseInt(monthResults['visitorTypesQueryPrev_' + appIDga][0][1]),
+                parseInt(yearResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
+                parseInt(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
+                parseInt(monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
                 {
-                    v: parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga][0][1], monthResults['visitorTypesQueryPrev_' + appIDga][0][1])),
-                    f: getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga][0][1], monthResults['visitorTypesQueryPrev_' + appIDga][0][1]) + ' %'
+                    v: parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
+                    f: getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
                 },
-                parseInt(weekResults['visitorTypesQuery_' + appIDga][0][1]),
-                parseInt(weekResults['visitorTypesQueryPrev_' + appIDga][0][1]),
+                parseInt(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
+                parseInt(weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
                 {
-                    v: parseInt(getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga][0][1], weekResults['visitorTypesQueryPrev_' + appIDga][0][1])),
-                    f: getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga][0][1], weekResults['visitorTypesQueryPrev_' + appIDga][0][1]) + ' %'
+                    v: parseInt(getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1], weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
+                    f: getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1], weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
                 },
             ],
 
             [
                 'Average usage (min)',
                 {
-                    v: parseInt(yearResults['averageUsageQuery_' + appIDga]),
-                    f: parseFloat(convertSecondsToMinutes(yearResults['averageUsageQuery_' + appIDga])).toFixed(1)
+                    v: parseInt(yearResults['averageUsageQuery_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(yearResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
                 },
                 {
-                    v: parseInt(monthResults['averageUsageQuery_' + appIDga]),
-                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQuery_' + appIDga])).toFixed(1)
+                    v: parseInt(monthResults['averageUsageQuery_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
                 },
                 {
-                    v: parseInt(monthResults['averageUsageQueryPrev_' + appIDga]),
-                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQueryPrev_' + appIDga])).toFixed(1)
+                    v: parseInt(monthResults['averageUsageQueryPrev_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQueryPrev_' + appIDga + countryName])).toFixed(1)
                 },
                 {
-                    v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga], monthResults['averageUsageQueryPrev_' + appIDga])),
-                    f: getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga], monthResults['averageUsageQueryPrev_' + appIDga]) + ' %'
+                    v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])),
+                    f: getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %'
                 },
                 {
-                    v: parseInt(weekResults['averageUsageQuery_' + appIDga]),
-                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQuery_' + appIDga])).toFixed(1)
+                    v: parseInt(weekResults['averageUsageQuery_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
                 },
                 {
-                    v: parseInt(weekResults['averageUsageQueryPrev_' + appIDga]),
-                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQueryPrev_' + appIDga])).toFixed(1)
+                    v: parseInt(weekResults['averageUsageQueryPrev_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQueryPrev_' + appIDga + countryName])).toFixed(1)
                 },
                 {
-                    v: parseInt(getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga], weekResults['averageUsageQueryPrev_' + appIDga])),
-                    f: getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga], weekResults['averageUsageQueryPrev_' + appIDga]) + ' %'
+                    v: parseInt(getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga + countryName], weekResults['averageUsageQueryPrev_' + appIDga + countryName])),
+                    f: getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga + countryName], weekResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %'
                 },
             ],
 
             [
                 'Popular bike',
-                {v: parseInt(yearResults['popularBikesQuery_' + appIDga][0][0]), f: String(yearResults['popularBikesQuery_' + appIDga][0][0])},
-                {v: parseInt(monthResults['popularBikesQuery_' + appIDga][0][0]), f: monthResults['popularBikesQuery_' + appIDga][0][0]},
-                {v: parseInt(monthResults['popularBikesQueryPrev_' + appIDga][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga][0][0]},
+                {v: parseInt(yearResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularBikesQuery_' + appIDga + countryName][0][0])},
+                {v: parseInt(monthResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQuery_' + appIDga + countryName][0][0]},
+                {v: parseInt(monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
                 null,
-                {v: parseInt(weekResults['popularBikesQuery_' + appIDga][0][0]), f: weekResults['popularBikesQuery_' + appIDga][0][0]},
-                {v: parseInt(weekResults['popularBikesQueryPrev_' + appIDga][0][0]), f: weekResults['popularBikesQueryPrev_' + appIDga][0][0]},
+                {v: parseInt(weekResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQuery_' + appIDga + countryName][0][0]},
+                {v: parseInt(weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
                 null
             ],
 
             [
                 'Popular Accessory',
-                {v: parseInt(yearResults['popularPartsQuery_' + appIDga][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga][0][0])},
-                {v: parseInt(monthResults['popularPartsQuery_' + appIDga][0][0]), f: monthResults['popularPartsQuery_' + appIDga][0][0]},
-                {v: parseInt(monthResults['popularPartsQueryPrev_' + appIDga][0][0]), f: monthResults['popularPartsQuery_' + appIDga][0][0]},
+                {v: parseInt(yearResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga + countryName][0][0])},
+                {v: parseInt(monthResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
+                {v: parseInt(monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
                 null,
-                {v: parseInt(weekResults['popularPartsQuery_' + appIDga][0][0]), f: weekResults['popularPartsQuery_' + appIDga][0][0]},
-                {v: parseInt(weekResults['popularPartsQueryPrev_' + appIDga][0][0]), f: weekResults['popularPartsQueryPrev_' + appIDga][0][0]},
+                {v: parseInt(weekResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQuery_' + appIDga + countryName][0][0]},
+                {v: parseInt(weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]},
                 null
             ],
         ])
