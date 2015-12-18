@@ -12,16 +12,6 @@ google.setOnLoadCallback(initialize);
 
 function initialize() {
 
-    var ajaxData = {};
-
-    //api routes
-    const visitorTypesLink = '/ga-data/visitor-type-data';
-    const countryVisitsLink = '/ga-data/visits-by-country-data';
-    const osLink = '/ga-data/os-data';
-    const daylyUsersLink = '/ga-data/dayly-users-data';
-    const recencyLink = '/ga-data/user-frequency-data';
-    const loyaltyLink = '/ga-data/user-loyalty-data';
-
     //helper methods
     var getDeltaPercentage = function(currentResult, prevResult){
         if((prevResult)){
@@ -99,17 +89,14 @@ function initialize() {
         });
     }
 
-    var charts = function(results, period){
+    var charts = function(results){
         //alert('inside charts')
-
         newReturningUsersData(results);
-        //countryVisitsData(results);
         iOScountryVisitsData(results);
         AndroidcountryVisitsData(results);
         downloadsByOsData(results);
         daylyUsersData(results);
         recencyData(results);
-        //loyaltyData(results);
         iOSLoyaltyData(results);
         androidloyaltyData(results);
         popularBikesData(results);
@@ -120,7 +107,6 @@ function initialize() {
         savedConfigsData(results);
         contactDealerData(results);
         appStoreDownloads(results);
-        //myGarage(results, period)
     }
 
     //default load with week data
@@ -190,22 +176,6 @@ function initialize() {
         // var formatter = new google.visualization.ArrowFormat();
         // formatter.format(data, 1);
         table.draw(data, options);
-    }
-
-    var countryVisitsData = function(result){
-        var ajaxData = result.countryVisitsQuery
-        //adding column headers
-        ajaxData.unshift(['Country', 'Users'])
-        var data = google.visualization.arrayToDataTable(ajaxData)
-
-        var options = {
-            'title': 'Top 5 Countries by Total Users',
-            'showRowNumber': true,
-            'width': "100%",
-            'height': "100%"
-        }
-        var table_c = new google.visualization.Table(document.getElementById('top-countries'));
-        table_c.draw(data, options);
     }
 
     var iOScountryVisitsData = function(result){
@@ -309,12 +279,12 @@ function initialize() {
             // hAxis: {title: 'Month',  titleTextStyle: {color: '#333'}},
             hAxis: {titleTextStyle: {color: '#333'}},
             vAxis: {minValue: 0},
-            //chartArea: {
-            //    left: 100,
-            //    top: 100,
-            //    width: 600,
-            //    height: 350
-            //}
+            chartArea: {
+                //left: 100,
+                //top: 100,
+                width: 900
+                //height: 350
+            }
         };
 
         var chart = new google.visualization.AreaChart(document.getElementById('user-increase'));
@@ -424,63 +394,6 @@ function initialize() {
             return parseInt(prev) + parseInt(next)
         }, 0)
         return [min + '-' + max, sessionsSum]
-    }
-
-    var loyaltyData = function(result){
-        var ajaxData = result.loyaltyQuery;
-        var formatedData = ajaxData.map(function(element){
-            element[0] = parseInt(element[0]);
-            element[1] = parseInt(element[1]);
-            return element;
-        }).sort(function(a,b){
-            return a[0] - b[0]
-        })
-
-        var sessionInstances9to14 = filterAndSumSessions(formatedData, 9, 14)
-        var sessionInstances15to25 = filterAndSumSessions(formatedData, 15, 25)
-        var sessionInstances26to50 = filterAndSumSessions(formatedData, 26, 50)
-        var sessionInstances51to100 = filterAndSumSessions(formatedData, 51, 100)
-        var sessionInstances101to200 = filterAndSumSessions(formatedData, 101, 200)
-
-        for ( var i = 0; i < formatedData.length; i++){
-            if (formatedData[i][0] > 8){
-                formatedData.splice(i, formatedData.length-i)
-            }
-        }
-
-        formatedData.map(function(element){
-            element[0]=String(element[0])
-            element[1]=parseInt(element[1])
-            return element
-        })
-
-        formatedData.unshift(["Session Instances", "Sessions"]);
-
-        formatedData.push(sessionInstances9to14);
-        formatedData.push(sessionInstances15to25);
-        formatedData.push(sessionInstances26to50);
-        formatedData.push(sessionInstances51to100);
-        formatedData.push(sessionInstances101to200);
-
-        //console.log('formatedData is: '+formatedData)
-        var data = google.visualization.arrayToDataTable(formatedData)
-
-
-        var view = new google.visualization.DataView(data);
-        view.setColumns([0, 1,
-            { calc: "stringify",
-                sourceColumn: 1,
-                type: "string",
-                role: "annotation" }]);
-        var options = {
-            // title: "Loyalty",
-            width: 380,
-            height: 400,
-            bar: {groupWidth: "60%"},
-            legend: { position: "none" },
-        };
-        var chart = new google.visualization.BarChart(document.getElementById("loyalty"));
-        chart.draw(view, options);
     }
 
     var androidloyaltyData = function(result){
@@ -624,6 +537,7 @@ function initialize() {
     }
 
     var popularPartsData = function(result){
+        //console.log('popularPartsData: ' + JSON.stringify(result));
         var ajaxData = result.popularPartsQuery
         //adding column headers
         ajaxData.unshift(['eventLabel', 'totalEvents'])
@@ -690,7 +604,7 @@ function initialize() {
         data.addColumn('number', 'Previous');
         data.addColumn('number', 'Growth');
         data.addRows([
-            [ appStoreData.downloads, appStoreData.previousDownloads, {v: appStoreData.deltaPercentage, f: parseInt(appStoreData.deltaPercentage) ? appStoreData.deltaPercentage +' %' : '-'}]
+            [ appStoreData.downloads, appStoreData.previousDownloads, {v: parseInt(appStoreData.deltaPercentage) ? appStoreData.deltaPercentage : null , f: parseInt(appStoreData.deltaPercentage) ? appStoreData.deltaPercentage +' %' : '-'}]
         ]);
 
         var formatter = new google.visualization.ArrowFormat();
