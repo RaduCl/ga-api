@@ -1,17 +1,33 @@
 extends layout
+block vars
+    - var bodyClass = 'background-login'
 
 block content
-	div.container
-		div.vertical-spacer
-		div.row
-			div.col-sm-6.col-md-4.col-md-offset-4
-				div.account-wall
-					img(class='profile-img', src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120')
-					form(class='form-signin', action='/login', method='POST')
-						if (message.length > 0)
-							div.alert.alert-danger #{message}
-						input(type='text', name='username' class='form-control', placeholder='Email',required, autofocus)
-						input(type='password', name='password' class='form-control', placeholder='Password', required)
-						button(class='btn btn-lg btn-primary btn-block', type='submit') Sign in
-						span.clearfix
-				//a(href='/signup', class='text-center new-account') Create an account
+    div.container
+        div.account-wall-container
+            div.account-wall
+                div
+                    img(class='profile-img',src='../img/login-logo.png')
+                div
+                    img(class='profile-img',src='../img/login-yamaha.png')
+                p.clearfix
+                p.clearfix
+                form(class='form-login', action='/login', method='POST')
+                    if (message && message.length > 0)
+                        div.alert.alert-danger #{message}
+                    div.left-icon-input.left-icon-input-username
+                        input(type='text', name='username' class='form-input', placeholder='username',required, autofocus)
+                    div.left-icon-input.left-icon-input-password
+                        input(type='password', name='password' class='form-input', placeholder='password', required)
+                    p.clearfix
+                    button(class='btn btn-block btn-login', type='submit') Login
+                    p.clearfix
+                    p.clearfix
+                    p.clearfix
+                    p(class='text-center')
+                        | Don't have an account ?&nbsp;
+                        a(href="/signup") Sign up
+                    p(class='text-center')
+                        | Powered by&nbsp;
+                        a(href="http://indg.com/",target="_blank") INDG
+

@@ -1,164 +1,193 @@
 extend layout
 block content
-    div#logo
-        h3 Yamaha Dashboard
     div.modal.fade#loading
         div.modal-dialog
             img(src='../img/ajax-loader.gif')
-    div.mainwrapper#content
-        ul.nav.nav-tabs
-            li.active
-                a(data-toggle="tab" href='#bs_mygarageMG') My Garage: Sport Heritage
-            li
-                a(data-toggle="tab" href='#bs_mygarageMT') My Garage: MT
-            li
-                a(data-toggle="tab" href='#bs_mygarageSS') My Garage: Super Sport
-        div.tab-content
-            div.country-select
-                select#country-select
-                    option(value='' selected='select' disabled='disabled') Country Selection
-                    option(value='Spain') Spain
-                    option(value='Italy') Italy
-                    option(value='Germany') Germany
-                    option(value='France') France
-                    option(value='UK') United Kingdom
-            div.tab-pane.fade.in.active#bs_mygarageMG
-                span#selected-country Overall Data
-                div.chart-element
-                    h4 My Garage: Sports Heritage
-                    button#export-mygarageMG Export CSV
-                    #garage-MyGarageSportHeritage
-                div.chart-element
-                    h4 Big Five Country AppStore Downloads
-                    #appStore-coutries-MyGarageSportHeritage
-            div.tab-pane.fade#bs_mygarageMT
-                div.chart-element
-                    h4 My Garage: MT
-                    button#export-mygarageMT Export CSV
-                    #garage-MyGarageMT
-                div.chart-element
-                    h4 Big Five Country AppStore Downloads
-                    #appStore-coutries-MyGarageMT
-            div.tab-pane.fade#bs_mygarageSS
-                div.chart-element
-                    h4 My Garage: Super Sport
-                    button#export-mygarageSS Export CSV
-                    #garage-MyGarageSupersport
-                div.chart-element
-                    h4 Big Five Country AppStore Downloads
-                    #appStore-coutries-MyGarageSupersport
-        div.time-interval
-            select#time-interval
-                option(value='' selected='select' disabled='disabled') Time Interval
-                option(value='week') Week
-                option(value='month') Month
-                option(value='year') Year
-        //div.app-id
-        //    select#app-id
-        //        option(value='' selected='select' disabled='disabled') App ID
-        //        option(value='com.yamaha.mygarage') com.yamaha.mygarage
-        //        option(value='com.yamaha.mygaragesupersport') com.yamaha.mygaragesupersport
-        //        option(value='com.yamaha.mygaragemt') com.yamaha.mygaragemt
-        //div.country-select
-        //    select#country-select
-        //        option(value='' selected='select' disabled='disabled') Country Selection
-        //        option(value='Spain') Spain
-        //        option(value='Italy') Italy
-        //        option(value='Germany') Germany
-        //        option(value='France') France
-        //        option(value='United Kingdom') United Kingdom
-        //div.col-md-12.widget
-        //    div.panel.panel-primary
-        //        div.widget-header.panel-heading App Statistics
-        //        div.app-widget-body.panel-body
-                    //div.chart-element
-                    //    h4 My Garage: Sports Heritage
-                    //    button#export-mygarageMG Export CSV
-                    //    #garage_mygarage
-                    //div.chart-element
-                    //    h4 My Garage: MT
-                    //    button#export-mygarageMT Export CSV
-                    //    #garage_mygaragemt
-                    //div.chart-element
-                    //    h4 My Garage: Super Sport
-                    //    button#export-mygarageSS Export CSV
-                    //    #garage_mygaragesupersport
-                    //div.chart-element
-                    //    h4 Big Five Country Downloads
-                    //    #appStore-coutries
-        div.col-md-6.widget
-            div.panel.panel-primary
-                div.widget-header.panel-heading App Usage
-                div.app-widget-body.panel-body
-                    div.chart-element
-                        h4 New versus Returning Users
-                        div#new-vs-returning-users
-                    div.chart-element
-                        h4 Top 5 Parts by Total Users
-                        div#top-parts
-                    div.chart-element.col-sm-12.col-md-6
-                        h4 Top 5 countries by Android users
-                        div#top-countries-android
-                    div.chart-element.col-sm-12.col-md-6
-                        h4 Top 5 countries by iOS users
-                        div#top-countries-iOS
-                    div.chart-element
-                        h4 Total Downloads by OS
-                        div#total-downloads-byOS
-                    div.chart-element.col-md-6.col-lg-6
-                        h4 Total Downloads by Google Play Store
-                        div#google-play-store-downloads
-                    div.chart-element.col-md-6.col-lg-6
-                        h4 Total Downloads by App Store
-                        div#app-store-downloads
-        div.col-md-6.widget
-            div.panel.panel-primary
-                div.widget-header.panel-heading Retention
-                div.app-widget-body.panel-body
-                    div.chart-element
-                        h4 User Increase / Decrease
-                        div#user-increase
-                    div.chart-element.col-md-12
-                        h4 Recency
-                        div#recency
-                    //div.chart-element.col-md-12
-                    //    h4 Loyalty
-                    //    div#loyalty
-                    div.chart-element.col-md-6.col-sm-6
-                        h4 Loyalty Android
-                        div#loyalty-android
-                    div.chart-element.col-md-6.col-sm-6
-                        h4 Loyalty iOS
-                        div#loyalty-iOS
-        div.col-md-12.widget
-            div.panel.panel-primary
-                div.widget-header.panel-heading Insights
-                div.app-widget-body.panel-body
-                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                        h4 Most Popular Bikes
-                        div#popular-bikes
-                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                        h4 Most Popular Parts
-                        div#popular-parts
-                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                        h4 Android exit events
-                        div#android-exit-event
-                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                        h4 iOS exit events
-                        div#iOS-exit-event
+    div#wrapper
+        div#sidebar-wrapper
+            p#sidebar-title Dashboard
+            p#sidebar-subtitle Yamaha Motor Europe
+            ul.sidebar-nav
+                li.active
+                    div
+                        a(data-toggle="tab" href='#bs_mygarageMG')
+                            img(src="../img/logo-sport-heritage.png")
+                    div
+                        a(data-toggle="tab" href='#bs_mygarageMG')
+                            p Yamaha My Garage: Sport Heritage
+                            p YAMAHA MOTOR EUROPE
+                li
+                    div
+                        a(data-toggle="tab" href='#bs_mygarageSS')
+                            img(src="../img/logo-supersport.png")
+                    div
+                        a(data-toggle="tab" href='#bs_mygarageSS')
+                            p Yamaha My Garage: SuperSport
+                            p YAMAHA MOTOR EUROPE
+                li
+                    div
+                        a(data-toggle="tab" href='#bs_mygarageMT')
+                            img(src="../img/logo-mt.png")
+                    div
+                        a(data-toggle="tab" href='#bs_mygarageMT')
+                            p Yamaha My Garage: MT
+                            p YAMAHA MOTOR EUROPE
+
+        div#page-content-wrapper
+            div.container-fluid
+                div.row
                     div.col-lg-12
-                        div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                            h4
-                                | Total number of shares:
-                                span#share-number
-                        div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                            h4
-                                | Saved Configurations:
-                                span#saved-configs
-                        div.chart-element.col-xs-12.col-sm-6.col-lg-3
-                            h4
-                                | Contacted a dealer:
-                                span#dealer-contacted
+                        div.tab-content
+                            div.country-select
+                                select#country-select
+                                    option(value='' selected='select' disabled='disabled') Country Selection
+                                    option(value='Spain') Spain
+                                    option(value='Italy') Italy
+                                    option(value='Germany') Germany
+                                    option(value='France') France
+                                    option(value='United Kingdom') United Kingdom
+                            div.tab-pane.fade.in.active#bs_mygarageMG
+                                div.chart-element
+                                    div
+                                        h4 Sport Heritage Summary
+                                        button#export-mygarageMG Export CSV
+                                    #garage-MyGarageSportHeritage
+                                div.chart-element
+                                    div
+                                        h4 Big Five Country AppStore Downloads
+                                    #appStore-coutries-MyGarageSportHeritage
+                            div.tab-pane.fade#bs_mygarageMT
+                                div.chart-element
+                                    div
+                                        h4 MT Summary
+                                        button#export-mygarageMT Export CSV
+                                    #garage-MyGarageMT
+                                div.chart-element
+                                    div
+                                        h4 Big Five Country AppStore Downloads
+                                    #appStore-coutries-MyGarageMT
+                            div.tab-pane.fade#bs_mygarageSS
+                                div.chart-element
+                                    div
+                                        h4 Super Sport Summary
+                                        button#export-mygarageSS Export CSV
+                                    #garage-MyGarageSupersport
+                                div.chart-element
+                                    div
+                                        h4 Big Five Country AppStore Downloads
+                                    #appStore-coutries-MyGarageSupersport
+                        div.time-interval
+                            select#time-interval
+                                option(value='' selected='select' disabled='disabled') Time Interval
+                                option(value='week') Week
+                                option(value='month') Month
+                                option(value='year') Year
+                        //div.app-id
+                        //    select#app-id
+                        //        option(value='' selected='select' disabled='disabled') App ID
+                        //        option(value='com.yamaha.mygarage') com.yamaha.mygarage
+                        //        option(value='com.yamaha.mygaragesupersport') com.yamaha.mygaragesupersport
+                        //        option(value='com.yamaha.mygaragemt') com.yamaha.mygaragemt
+                        //div.country-select
+                        //    select#country-select
+                        //        option(value='' selected='select' disabled='disabled') Country Selection
+                        //        option(value='Spain') Spain
+                        //        option(value='Italy') Italy
+                        //        option(value='Germany') Germany
+                        //        option(value='France') France
+                        //        option(value='United Kingdom') United Kingdom
+                        //div.col-md-12.widget
+                        //    div.panel.panel-primary
+                        //        div.widget-header.panel-heading App Statistics
+                        //        div.app-widget-body.panel-body
+                                    //div.chart-element
+                                    //    h4 My Garage: Sport Heritage
+                                    //    button#export-mygarageMG Export CSV
+                                    //    #garage_mygarage
+                                    //div.chart-element
+                                    //    h4 My Garage: MT
+                                    //    button#export-mygarageMT Export CSV
+                                    //    #garage_mygaragemt
+                                    //div.chart-element
+                                    //    h4 My Garage: Super Sport
+                                    //    button#export-mygarageSS Export CSV
+                                    //    #garage_mygaragesupersport
+                                    //div.chart-element
+                                    //    h4 Big Five Country Downloads
+                                    //    #appStore-coutries
+                        div.col-md-12.widget
+                            div.panel.panel-primary
+                                div.widget-header.panel-heading App Usage
+                                div.app-widget-body.panel-body
+                                    div.chart-element
+                                        h4 New versus Returning Users
+                                        div#new-vs-returning-users
+                                    div.chart-element
+                                        h4 Top 5 Parts by Total Users
+                                        div#top-parts
+                                    div.chart-element.col-sm-12.col-md-6
+                                        h4 Top 5 countries by Android users
+                                        div#top-countries-android
+                                    div.chart-element.col-sm-12.col-md-6
+                                        h4 Top 5 countries by iOS users
+                                        div#top-countries-iOS
+                                    div.chart-element
+                                        h4 Total Downloads by OS
+                                        div#total-downloads-byOS
+                                    div.chart-element.col-md-6.col-lg-6
+                                        h4 Total Downloads by Google Play Store
+                                        div#google-play-store-downloads
+                                    div.chart-element.col-md-6.col-lg-6
+                                        h4 Total Downloads by App Store
+                                        div#app-store-downloads
+                        div.col-md-12.widget
+                            div.panel.panel-primary
+                                div.widget-header.panel-heading Retention
+                                div.app-widget-body.panel-body
+                                    div.chart-element
+                                        h4 User Increase / Decrease
+                                        div#user-increase
+                                    div.chart-element.col-md-12
+                                        h4 Recency
+                                        div#recency
+                                    //div.chart-element.col-md-12
+                                    //    h4 Loyalty
+                                    //    div#loyalty
+                                    div.chart-element.col-md-6.col-sm-6
+                                        h4 Loyalty Android
+                                        div#loyalty-android
+                                    div.chart-element.col-md-6.col-sm-6
+                                        h4 Loyalty iOS
+                                        div#loyalty-iOS
+                        div.col-md-12.widget
+                            div.panel.panel-primary
+                                div.widget-header.panel-heading Insights
+                                div.app-widget-body.panel-body
+                                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                        h4 Most Popular Bikes
+                                        div#popular-bikes
+                                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                        h4 Most Popular Parts
+                                        div#popular-parts
+                                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                        h4 Android exit events
+                                        div#android-exit-event
+                                    div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                        h4 iOS exit events
+                                        div#iOS-exit-event
+                                    div.col-lg-12
+                                        div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                            h4
+                                                | Total number of shares:
+                                                span#share-number
+                                        div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                            h4
+                                                | Saved Configurations:
+                                                span#saved-configs
+                                        div.chart-element.col-xs-12.col-sm-6.col-lg-3
+                                            h4
+                                                | Contacted a dealer:
+                                                span#dealer-contacted
 
 
     script(src="js/app.js")
