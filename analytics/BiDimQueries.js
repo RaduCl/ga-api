@@ -265,14 +265,14 @@ module.exports = function(timeInterval){
         this.dealerContactedQuery = {
             'start-date': startDate,
             'end-date': endDate,
-            'metrics': 'ga:eventValue',
-            'filters': selectedCountry ? 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventAction==contactdealer;ga:appID=='+selectedApp,
+            'metrics': 'ga:totalEvents',
+            'filters': selectedCountry ? 'ga:eventLabel==success;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventLabel==success;ga:appID=='+selectedApp,
         }
         this.dealerContactedQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
-            'metrics': 'ga:eventValue',
-            'filters': selectedCountry ? 'ga:eventAction==contactdealer;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventAction==contactdealer;ga:appID=='+selectedApp,
+            'metrics': 'ga:totalEvents',
+            'filters': selectedCountry ? 'ga:eventLabel==success;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventLabel==success;ga:appID=='+selectedApp,
         }
 
         this.averageUsageQuery = {
