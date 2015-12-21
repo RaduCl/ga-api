@@ -7,7 +7,7 @@
 }
 .chart-element {
   margin-bottom: 40px;
-  clear: both;
+  /*clear: both;*/
 }
 .chart-element div h4 {
   float: left;
@@ -27,11 +27,8 @@
   margin-left: 5px;
 }
 #user-increase {
-  width: 400px;
+  width: 900px;
 }
 .chart-element td {
   text-align: left;
-}
-#user-increase{
-  width: 900px;
 }
