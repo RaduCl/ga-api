@@ -169,6 +169,7 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
             'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:appID=='+selectedApp,
+            'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
         }
