@@ -12,20 +12,14 @@ var getDeltaPercentage = function(currentResult, prevResult){
         return Math.floor((currentResult-prevResult)/prevResult*100);
     } else return('-')};
 
-var getAppStoreDataByCountryTemp = function(interval, country, callback){
+var getAppStoreDataByCountryTemp = function(interval, country){
+    var deferred = Q.defer();
     var finalRes = {}
-    var countryKeys = {
-        'Italy' : 143450,
-        'Spain' : 143454,
-        'France' : 143442,
-        'Germany' : 143443,
-        'UK' : 143444
-    }
     var country = country
-    itunes.request(Report.ranked().time(1, interval+"s").location(countryKeys[country]), function (error, result) {
+    itunes.request(Report.ranked().time(1, interval+"s").location(country), function (error, result) {
         console.log('starting ' + country);
-        console.log(countryKeys[country]);
-        if(error) return error
+        console.log(country);
+        if(error) deferred.reject(error)
         if(result){
             result.map(function(app){
                 var rObj = {}
@@ -33,7 +27,7 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
                 finalRes[app.title.replace(/ /gi, '')] = rObj
             })
 
-            itunes.request(Report.ranked().time(2, interval+"s").location(countryKeys[country]), function (error, result) {
+            itunes.request(Report.ranked().time(2, interval+"s").location(country), function (error, result) {
                 if(error) return callback(error)
                 if(result){
                     result.map(function(app){
@@ -43,57 +37,130 @@ var getAppStoreDataByCountryTemp = function(interval, country, callback){
                         finalRes[app.title.replace(/ /gi, '')].deltaPercentage = getDeltaPercentage(finalRes[app.title.replace(/ /gi, '')].downloads, finalRes[app.title.replace(/ /gi, '')].previousDownloads )
                         finalRes[app.title.replace(/ /gi, '')].country = country
                     })
-                    if(callback) callback(finalRes)
+                    deferred.resolve(finalRes)
+                    console.log(finalRes);
+                    //if(callback) callback(finalRes)
                 }
             })
         }
     })
+    return deferred.promise
 }
 
-var getAppStoreDataByCountry = function(interval, callback){
+var getAppStoreDataByCountry = function(interval){
+    var countryKeys = {
+        'Italy' : 143450,
+        'Spain' : 143454,
+        'France' : 143442,
+        'Germany' : 143443,
+        'UK' : 143444
+    }
     console.log('starting');
     var rObj = {
         MyGarageSportHeritage: {},
         MyGarageMT: {},
         MyGarageSupersport: {}
     }
-    getAppStoreDataByCountryTemp(interval, 'Spain', function(data){
-        var apps = Object.keys(data)
-        apps.map(function(app){
-            rObj[app]['Spain'] = (data[app])
-        })
-        //console.log('\n'+prettyjson.render(rObj));
-        getAppStoreDataByCountryTemp(interval, 'Italy', function(data){
-            var apps = Object.keys(data)
-            apps.map(function(app){
-                rObj[app]['Italy'] = (data[app])
-            })
-            //console.log('\n'+prettyjson.render(rObj));
-            getAppStoreDataByCountryTemp(interval, 'France', function(data){
-                var apps = Object.keys(data)
-                apps.map(function(app){
-                    rObj[app]['France'] = (data[app])
+
+
+    var t = Object.keys(countryKeys).map(function(country){
+        getAppStoreDataByCountryTemp(interval, countryKeys[country])
+            .then(function(data){
+                Object.keys(data).map(function(app){
+                    rObj[app][country] = data[app]
                 })
-                //console.log('\n'+prettyjson.render(rObj));
-                getAppStoreDataByCountryTemp(interval, 'Germany', function(data){
-                    var apps = Object.keys(data)
-                    apps.map(function(app){
-                        rObj[app]['Germany'] = (data[app])
-                    })
-                    //console.log('\n'+prettyjson.render(rObj));
-                    getAppStoreDataByCountryTemp(interval, 'UK', function(data){
-                        var apps = Object.keys(data)
-                        apps.map(function(app){
-                            rObj[app]['UK'] = (data[app])
-                        })
-                        console.log('\n'+prettyjson.render(rObj));
-                        if(callback) callback(rObj)
-                    })
-                })
+                console.log('\n'+prettyjson.render(rObj));
             })
-        })
     })
+    //for(var country in countryKeys){
+    //    getAppStoreDataByCountryTemp(interval, )
+    //    .then(function(data){
+    //        Object.keys(data).map(function(app){
+    //            rObj[app][arguments[1]] = data[app]
+    //        })
+    //        console.log('\n'+prettyjson.render(rObj));
+    //    })
+    //}
+
+    //getAppStoreDataByCountryTemp(interval, 'Spain')
+    //.then(function(data){
+    //    Object.keys(data).map(function(app){
+    //        rObj[app][arguments[1]] = data[app]
+    //    })
+    //    console.log('\n'+prettyjson.render(rObj));
+    //})
+    //getAppStoreDataByCountryTemp(interval, 'Italy')
+    //.then(function(data){
+    //    Object.keys(data).map(function(app){
+    //        rObj[app]['Italy'] = data[app]
+    //    })
+    //    console.log('\n'+prettyjson.render(rObj));
+    //
+    //})
+    //getAppStoreDataByCountryTemp(interval, 'Germany')
+    //.then(function(data){
+    //    Object.keys(data).map(function(app){
+    //        rObj[app]['Germany'] = data[app]
+    //    })
+    //    console.log('\n'+prettyjson.render(rObj));
+    //
+    //})
+    //getAppStoreDataByCountryTemp(interval, 'France')
+    //.then(function(data){
+    //    Object.keys(data).map(function(app){
+    //        rObj[app]['France'] = data[app]
+    //    })
+    //    console.log('\n'+prettyjson.render(rObj));
+    //
+    //})
 }
+
+
+//var getAppStoreDataByCountry = function(interval, callback){
+//    console.log('starting');
+//    var rObj = {
+//        MyGarageSportHeritage: {},
+//        MyGarageMT: {},
+//        MyGarageSupersport: {}
+//    }
+//    getAppStoreDataByCountryTemp(interval, 'Spain', function(data){
+//        var apps = Object.keys(data)
+//        apps.map(function(app){
+//            rObj[app]['Spain'] = (data[app])
+//        })
+//        //console.log('\n'+prettyjson.render(rObj));
+//        getAppStoreDataByCountryTemp(interval, 'Italy', function(data){
+//            var apps = Object.keys(data)
+//            apps.map(function(app){
+//                rObj[app]['Italy'] = (data[app])
+//            })
+//            //console.log('\n'+prettyjson.render(rObj));
+//            getAppStoreDataByCountryTemp(interval, 'France', function(data){
+//                var apps = Object.keys(data)
+//                apps.map(function(app){
+//                    rObj[app]['France'] = (data[app])
+//                })
+//                //console.log('\n'+prettyjson.render(rObj));
+//                getAppStoreDataByCountryTemp(interval, 'Germany', function(data){
+//                    var apps = Object.keys(data)
+//                    apps.map(function(app){
+//                        rObj[app]['Germany'] = (data[app])
+//                    })
+//                    //console.log('\n'+prettyjson.render(rObj));
+//                    getAppStoreDataByCountryTemp(interval, 'UK', function(data){
+//                        var apps = Object.keys(data)
+//                        apps.map(function(app){
+//                            rObj[app]['UK'] = (data[app])
+//                        })
+//                        console.log('\n'+prettyjson.render(rObj));
+//                        if(callback) callback(rObj)
+//                    })
+//                })
+//            })
+//        })
+//    })
+//}
+
 //getAppStoreDataByCountry('week', 'Spain')
 
 var getAppStoreData = function(interval, callback){
