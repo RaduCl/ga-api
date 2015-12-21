@@ -266,7 +266,7 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
-            'filters': selectedCountry ? 'ga:eventLabel==success;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:ga:eventLabel==success;ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:eventLabel==success;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:eventLabel==success;ga:appID=='+selectedApp,
         }
         this.dealerContactedQueryPrev = {
             'start-date': startDatePrev,
