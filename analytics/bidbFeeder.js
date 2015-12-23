@@ -92,22 +92,35 @@ var getAnalyticsData = function(period, callback){
             if(result){
                 console.log('getting results for: appStoreDownloads' +' interval: '+ period)
                 data['appStoreDownloads'] = result;
-                AppStoreData.getAppStoreDataByCountry(period, function(result){
-                    if(result){
-                        console.log('getting results for: appStoreDownloadsByCountry'+ ' interval: ' + period)
-                        data['appStoreDownloadsByCountry'] = result;
-                        JSONobj.Data = data;
-                        db.collection(collection).insert(JSONobj, function(err, result) {
-                            //db.collection('analytics').drop();
-                            db.close();
-                            if(err) return err
-                            if(callback){
-                                console.log('intru in callback: ');
-                                callback()
-                            }
-                        });
-                    }
+                AppStoreData.getAppStoreDataByCountry(period)
+                .then(function(data){
+                    JSONobj.Data = data;
+                    db.collection(collection).insert(JSONobj, function(err, data) {
+                        db.collection('analytics').drop();
+                        db.close();
+                        if (err) return err
+                        if (callback) {
+                            console.log('intru in callback: ');
+                            callback()
+                        }
+                    })
                 })
+                //AppStoreData.getAppStoreDataByCountry(period, function(result){
+                //    if(result){
+                //        console.log('getting results for: appStoreDownloadsByCountry'+ ' interval: ' + period)
+                //        data['appStoreDownloadsByCountry'] = result;
+                //        JSONobj.Data = data;
+                //        db.collection(collection).insert(JSONobj, function(err, result) {
+                //            //db.collection('analytics').drop();
+                //            db.close();
+                //            if(err) return err
+                //            if(callback){
+                //                console.log('intru in callback: ');
+                //                callback()
+                //            }
+                //        });
+                //    }
+                //})
             }
         })
     });

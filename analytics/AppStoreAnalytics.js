@@ -48,6 +48,7 @@ var getAppStoreDataByCountryTemp = function(interval, country){
 }
 
 var getAppStoreDataByCountry = function(interval){
+    var deferred = Q.defer()
     var countryKeys = {
         'Italy' : 143450,
         'Spain' : 143454,
@@ -66,12 +67,14 @@ var getAppStoreDataByCountry = function(interval){
     var t = Object.keys(countryKeys).map(function(country){
         getAppStoreDataByCountryTemp(interval, countryKeys[country])
             .then(function(data){
-                Object.keys(data).map(function(app){
+                Object.keys(data).forEach(function(app){
                     rObj[app][country] = data[app]
                 })
                 console.log('\n'+prettyjson.render(rObj));
             })
     })
+    deferred.resolve(t)
+    return deferred.promise
     //for(var country in countryKeys){
     //    getAppStoreDataByCountryTemp(interval, )
     //    .then(function(data){
