@@ -8,7 +8,16 @@ google.load("visualization", "1.1", {packages: ["sankey"]});
 
 google.setOnLoadCallback(initialize);
 
-
+//$(document).ready(function(){
+//    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+//        var currentTab = $(e.target).text(); // get current tab
+//        var LastTab = $(e.relatedTarget).text(); // get last tab
+//        console.log('LastTab: %s', LastTab);
+//        console.log('currentTab: %s', currentTab);
+//        $(".current-tab").html(currentTab);
+//        $(".last-tab").html(LastTab);
+//    });
+//});
 
 function initialize() {
 
@@ -59,8 +68,10 @@ function initialize() {
     //    });
     //}
 
-    var getAjaxData = function(period){
+    var getAjaxData = function(period, app){
+        console.log(period);
         var period = typeof period !== 'undefined' ? period : '';
+        var app = typeof app !== 'undefined' ? app : '';
         var url = '/mongo-data/'+ period;
         $.ajax({
             url: url,
@@ -79,7 +90,7 @@ function initialize() {
             //    $('#content').show();
             //},
             success: function(results){
-                charts(results, period);
+                charts(results, app);
                 $('#loading').hide();
                 $('#content').show();
             },
@@ -89,9 +100,9 @@ function initialize() {
         });
     }
 
-    var charts = function(results){
+    var charts = function(results, app){
         //alert('inside charts')
-        newReturningUsersData(results);
+        newReturningUsersData(results, app);
         iOScountryVisitsData(results);
         AndroidcountryVisitsData(results);
         downloadsByOsData(results);
@@ -110,18 +121,48 @@ function initialize() {
     }
 
     //default load with week data
-    getAjaxData('week');
+    getAjaxData('week', 'mygarage');
 
+    //period filter function
     $('#time-interval').change(function(){
         var interval = $('#time-interval').val();
-        getAjaxData(interval);
+        var app = $
+        getAjaxData(app, interval);
     })
 
+    //country filter function
     $('#country-select').change(function(){
         var country = $('#country-select').val();
         getMyGarageData(country);
         $('#selected-country').html(country)
     })
+
+
+    var activeAppTab = function(){
+        var href = $('li.active').find('a').attr('href')
+        console.log('href: %s', href)
+    }
+    activeAppTab()
+
+    //app filter function
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        console.log('currentTab: %s', currentTab);
+        var currentTab = $(e.target).attr('href').replace('#bs_', ''); // get current tab
+        var interval = $('#time-interval').val();
+        var app = '';
+        switch (currentTab){
+            case 'mygarageMG':
+                app = 'mygarage'
+                break;
+            case 'mygarageSS':
+                app = 'mygaragesupersport'
+                break;
+            case 'mygarageMT':
+                app = 'mygaragemt'
+                break;
+        }
+        getAjaxData(interval, app)
+    });
 
     var getMyGarageData = function(country){
         var url = '/mygarage-data/';
@@ -154,8 +195,9 @@ function initialize() {
     }
     getMyGarageData()
 
-    var newReturningUsersData = function(result){
-        var ajaxData = result.visitorTypesQuery;
+    var newReturningUsersData = function(result, app){
+        console.log('App inside AjaxData is: %s', app);
+        var ajaxData = app != "undefined" ? result['visitorTypesQuery' + '_' + app] : result.visitorTypesQuery; //check if app is undefined
         var data = new google.visualization.DataTable();
 
         var newVisitors = parseInt(ajaxData[0][1]);

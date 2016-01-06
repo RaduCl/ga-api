@@ -143,14 +143,14 @@ module.exports = function(passport){
 
 	/* GET  google all analytics data from DB */
 	////TODO in production secure this route by using isAuthenticated param
-	//router.get('/mongo-data', isAuthenticated, function(req, res){
-	//	var today = Date().slice(0, 15)
-	//	db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
-	//		if(e) return next(e)
-	//		res.send(results.Data)
-	//	})
-	//	//res.send('data from mongo')
-	//});
+	router.get('/mongo-data', isAuthenticated, function(req, res){
+		var today = Date().slice(0, 15)
+		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
+			if(e) return next(e)
+			res.send(results.Data)
+		})
+		//res.send('data from mongo')
+	});
 
 	/* GET  filtered by time interval all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
