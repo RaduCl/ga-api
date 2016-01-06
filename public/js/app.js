@@ -36,6 +36,27 @@ function initialize() {
         return value ? value : 0
     }
 
+    //find the active app tab
+    var activeAppTab = function(){
+        var app = $('li.active').find('a').attr('href').replace('#bs_', '')
+        console.log('href: %s', app)
+        switch (app){
+            case 'mygarageMG':
+                app = 'mygarage'
+                break;
+            case 'mygarageSS':
+                app = 'mygaragesupersport'
+                break;
+            case 'mygarageMT':
+                app = 'mygaragemt'
+                break;
+        }
+        return app
+    }
+
+
+
+
     // This must be a hyperlink
     $("#export-mygarageMG").click(function (event) {
         var csv = $('#garage-MyGarageSportHeritage').table2CSV({delivery:'value'});
@@ -120,14 +141,14 @@ function initialize() {
         appStoreDownloads(results);
     }
 
-    //default load with week data
+    //default load with week data and SportHeritage app data
     getAjaxData('week', 'mygarage');
 
     //period filter function
     $('#time-interval').change(function(){
         var interval = $('#time-interval').val();
-        var app = $
-        getAjaxData(app, interval);
+        var app = activeAppTab()
+        getAjaxData(interval, app);
     })
 
     //country filter function
@@ -138,17 +159,11 @@ function initialize() {
     })
 
 
-    var activeAppTab = function(){
-        var href = $('li.active').find('a').attr('href')
-        console.log('href: %s', href)
-    }
-    activeAppTab()
-
     //app filter function
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        console.log('currentTab: %s', currentTab);
         var currentTab = $(e.target).attr('href').replace('#bs_', ''); // get current tab
         var interval = $('#time-interval').val();
+        console.log('currentTab: %s', currentTab);
         var app = '';
         switch (currentTab){
             case 'mygarageMG':
@@ -718,7 +733,7 @@ function initialize() {
                 //country ? yearResults.appStoreDownloadsByCountry[app][countryName].downloads : yearResults.appStoreDownloads[app].downloads,
                 //country ? monthResults.appStoreDownloadsByCountry[app][countryName].downloads : monthResults.appStoreDownloads[app].downloads,
                 //country ? monthResults.appStoreDownloads[app][countryName].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
-                country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads,
+                country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].dow7nloads,
                 country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads,
                 country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
                 country ? {v: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
