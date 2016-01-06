@@ -54,7 +54,10 @@ function initialize() {
         return app
     }
 
-
+    //select ajax data filtered by app param
+    var filteredAjaxData = function(result, query, app){
+        return app != "undefined" ? result[ query + '_' + app] : result.visitorTypesQuery; //check if app is undefined
+    }
 
 
     // This must be a hyperlink
@@ -124,8 +127,8 @@ function initialize() {
     var charts = function(results, app){
         //alert('inside charts')
         newReturningUsersData(results, app);
+        AndroidcountryVisitsData(results, app);
         iOScountryVisitsData(results);
-        AndroidcountryVisitsData(results);
         downloadsByOsData(results);
         daylyUsersData(results);
         recencyData(results);
@@ -211,8 +214,7 @@ function initialize() {
     getMyGarageData()
 
     var newReturningUsersData = function(result, app){
-        console.log('App inside AjaxData is: %s', app);
-        var ajaxData = app != "undefined" ? result['visitorTypesQuery' + '_' + app] : result.visitorTypesQuery; //check if app is undefined
+        var ajaxData = filteredAjaxData(result, 'visitorTypesQuery', app);
         var data = new google.visualization.DataTable();
 
         var newVisitors = parseInt(ajaxData[0][1]);
@@ -230,11 +232,28 @@ function initialize() {
             'height': '100%'
         }
         var table = new google.visualization.Table(document.getElementById('new-vs-returning-users'));
-        // var formatter = new google.visualization.ArrowFormat();
-        // formatter.format(data, 1);
         table.draw(data, options);
     }
 
+    //TODO curently this chart's db data is not supporting app filtering; check if this is acording to specs
+    var AndroidcountryVisitsData = function(result, app){
+        var ajaxData = result.AndroidcountryVisitsQuery;
+
+        //adding column headers
+        ajaxData.unshift(['Country', 'Users'])
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Top 5 Countries Android users',
+            'showRowNumber': true,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_c = new google.visualization.Table(document.getElementById('top-countries-android'));
+        table_c.draw(data, options);
+    }
+
+    //TODO curently this chart's db data is not supporting app filtering; check if this is acording to specs
     var iOScountryVisitsData = function(result){
         var ajaxData = result.iOScountryVisitsQuery
         //adding column headers
@@ -251,37 +270,8 @@ function initialize() {
         table_c.draw(data, options);
     }
 
-    var AndroidcountryVisitsData = function(result){
-        var ajaxData = result.AndroidcountryVisitsQuery
-        //adding column headers
-        ajaxData.unshift(['Country', 'Users'])
-        var data = google.visualization.arrayToDataTable(ajaxData)
-
-        var options = {
-            'title': 'Top 5 Countries Android users',
-            'showRowNumber': true,
-            'width': "100%",
-            'height': "100%"
-        }
-        var table_c = new google.visualization.Table(document.getElementById('top-countries-android'));
-        table_c.draw(data, options);
-    }
-
     var downloadsByOsData =  function(result) {
         var ajaxData = result.osQuery
-        // merge OSname and OSversion
-        //TODO filter OS with less than 5% and add them otherOS
-        //var downloadsTotalNumber = ajaxData.map(function(element){
-        //    return parseInt(element[2])
-        //})
-        //    .reduce(function(preVal, nextVal){
-        //        return  preVal+nextVal
-        //    }, 0)
-        //console.log(downloadsTotalNumber)
-        ////procentage filter for displaying distinct OS
-        //var percentageFilter = Math.floor(downloadsTotalNumber/100*3);
-        //console.log(percentageFilter)
-        //var otherOS = 0;
 
         var formatedData = ajaxData.map(function(arr){
             var formatedArr = [];
