@@ -56,7 +56,7 @@ function initialize() {
 
     //select ajax data filtered by app param
     var filteredAjaxData = function(result, query, app){
-        return app != "undefined" ? result[ query + '_' + app] : result.visitorTypesQuery; //check if app is undefined
+        return app != "undefined" ? result[ query + '_' + app] : result[query]; //check if app is undefined
     }
 
 
@@ -127,20 +127,20 @@ function initialize() {
     var charts = function(results, app){
         //alert('inside charts')
         newReturningUsersData(results, app);
-        AndroidcountryVisitsData(results, app);
+        AndroidcountryVisitsData(results);
         iOScountryVisitsData(results);
-        downloadsByOsData(results);
-        daylyUsersData(results);
-        recencyData(results);
-        iOSLoyaltyData(results);
-        androidloyaltyData(results);
-        popularBikesData(results);
-        popularPartsData(results);
-        AndroidExitData(results);
-        iOSExitData(results);
-        totalShareData(results);
-        savedConfigsData(results);
-        contactDealerData(results);
+        downloadsByOsData(results, app);
+        dailyUsersData(results);
+        recencyData(results, app);
+        androidloyaltyData(results, app);
+        iOSLoyaltyData(results, app);
+        popularBikesData(results, app);
+        popularPartsData(results, app);
+        AndroidExitData(results, app);
+        iOSExitData(results, app);
+        totalShareData(results, app);
+        savedConfigsData(results, app);
+        contactDealerData(results, app);
         appStoreDownloads(results);
     }
 
@@ -270,8 +270,9 @@ function initialize() {
         table_c.draw(data, options);
     }
 
-    var downloadsByOsData =  function(result) {
-        var ajaxData = result.osQuery
+    var downloadsByOsData =  function(result, app) {
+        //var ajaxData = result.osQuery
+        var ajaxData = filteredAjaxData(result, 'osQuery', app)
 
         var formatedData = ajaxData.map(function(arr){
             var formatedArr = [];
@@ -308,7 +309,8 @@ function initialize() {
         chart.draw(data, options);
     }
 
-    var daylyUsersData = function(result){
+    //TODO curently this chart's db data is not supporting app filtering; check if this is acording to specs
+    var dailyUsersData = function(result){
         var ajaxData = result.dailyUsersQuery
         var formatedData = ajaxData.map(function(element){
             var chartDate = new Date( element[0].slice(0,4) + '-' + element[0].slice(4,6) + '-' + element[0].slice(6,8) );
@@ -339,8 +341,8 @@ function initialize() {
 
     }
 
-    var recencyData = function(result){
-        var ajaxData = result.frequencyQuery
+    var recencyData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'frequencyQuery', app)
         var freqBetween8and14 = []
         var freqBetween15and30 = []
         var freqBetween31and60 = []
@@ -443,8 +445,8 @@ function initialize() {
         return [min + '-' + max, sessionsSum]
     }
 
-    var androidloyaltyData = function(result){
-        var ajaxData = result.AndroidLoyaltyQuery;
+    var androidloyaltyData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'AndroidLoyaltyQuery', app);
         var formatedData = ajaxData.map(function(element){
             element[0] = parseInt(element[0]);
             element[1] = parseInt(element[1]);
@@ -500,8 +502,8 @@ function initialize() {
         chart.draw(view, options);
     }
 
-    var iOSLoyaltyData = function(result){
-        var ajaxData = result.iOSLoyaltyQuery;
+    var iOSLoyaltyData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'iOSLoyaltyQuery', app);
         var formatedData = ajaxData.map(function(element){
             element[0] = parseInt(element[0]);
             element[1] = parseInt(element[1]);
@@ -568,8 +570,8 @@ function initialize() {
         chart.draw(view, options);
     }
 
-    var popularBikesData = function(result){
-        var ajaxData = result.popularBikesQuery
+    var popularBikesData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'popularBikesQuery', app)
         ajaxData.unshift(['Bike', 'totalEvents'])
         var data = google.visualization.arrayToDataTable(ajaxData)
 
@@ -583,9 +585,8 @@ function initialize() {
         table_c.draw(data, options);
     }
 
-    var popularPartsData = function(result){
-        //console.log('popularPartsData: ' + JSON.stringify(result));
-        var ajaxData = result.popularPartsQuery
+    var popularPartsData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'popularPartsQuery', app)
         //adding column headers
         ajaxData.unshift(['eventLabel', 'totalEvents'])
         var data = google.visualization.arrayToDataTable(ajaxData)
@@ -600,8 +601,8 @@ function initialize() {
         table_part.draw(data, options);
     }
 
-    var AndroidExitData = function(result){
-        var ajaxData = result.AndroidExitQuery
+    var AndroidExitData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'AndroidExitQuery', app)
         //adding column headers
         ajaxData.unshift(['Exit Event Name', 'Events'])
         var data = google.visualization.arrayToDataTable(ajaxData)
@@ -616,8 +617,8 @@ function initialize() {
         table_part.draw(data, options);
     }
 
-    var iOSExitData = function(result){
-        var ajaxData = result.iOSExitQuery
+    var iOSExitData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'iOSExitQuery', app)
         //adding column headers
         ajaxData.unshift(['Exit Event Name', 'Events'])
         var data = google.visualization.arrayToDataTable(ajaxData)
@@ -632,16 +633,19 @@ function initialize() {
         table_part.draw(data, options);
     }
 
-    var totalShareData = function(result){
-        $('#share-number').html('      ' + result.sharesQuery)
+    var totalShareData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'sharesQuery', app)
+        $('#share-number').html('      ' + ajaxData)
     }
 
-    var savedConfigsData = function(result){
-        $('#saved-configs').html('      ' + result.savedConfigsQuery)
+    var savedConfigsData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'savedConfigsQuery', app)
+        $('#saved-configs').html('      ' + ajaxData)
     }
 
-    var contactDealerData = function(result){
-        $('#dealer-contacted').html('      ' + result.dealerContactedQuery)
+    var contactDealerData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'dealerContactedQuery', app)
+        $('#dealer-contacted').html('      ' + ajaxData)
     }
 
     var appStoreDownloads = function(result){

@@ -208,7 +208,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:operatingSystem==Android;ga:appID=='+selectedApp,
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10
         }
         this.AndroidExitQueryPrev = {
             'start-date': startDatePrev,
@@ -216,7 +217,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp :  'ga:operatingSystem==Android;ga:appID=='+selectedApp,
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10
         }
 
         this.iOSExitQuery = {
@@ -225,7 +227,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': selectedCountry ? 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==iOS;ga:appID=='+selectedApp,
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10,
         }
         this.iOSExitQueryPrev = {
             'start-date': startDatePrev,
@@ -233,7 +236,8 @@ module.exports = function(timeInterval){
             'metrics': 'ga:visits',
             'dimensions': 'ga:exitScreenName',
             'filters': selectedCountry ? 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==iOS;ga:appID=='+selectedApp,
-            'sort': '-ga:visits'
+            'sort': '-ga:visits',
+            'max-results': 10,
         }
 
         this.sharesQuery = {
