@@ -35,3 +35,16 @@
   width: 600px;
   height: 300px;
 }
+.styled-select {
+  width: 90%;
+  padding: 5px;
+  font-size: 16px;
+  line-height: 1;
+  border: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  height: 34px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-appearance: none;
+}

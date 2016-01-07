@@ -33,6 +33,12 @@ block content
                             p Yamaha My Garage: MT
                             p YAMAHA MOTOR EUROPE
 
+            div.time-interval
+                select#time-interval.styled-select
+                    //option(value='' selected='select' disabled='disabled') Time Interval
+                    option(value='week' selected='select') Week
+                    option(value='month') Month
+                    option(value='year') Year
         div#page-content-wrapper
             div.container-fluid
                 div.row
@@ -76,12 +82,7 @@ block content
                                     div
                                         h4 Big Five Country AppStore Downloads
                                     #appStore-coutries-MyGarageSupersport
-                        div.time-interval
-                            select#time-interval
-                                //option(value='' selected='select' disabled='disabled') Time Interval
-                                option(value='week' selected='select') Week
-                                option(value='month') Month
-                                option(value='year') Year
+
                         //div.app-id
                         //    select#app-id
                         //        option(value='' selected='select' disabled='disabled') App ID
