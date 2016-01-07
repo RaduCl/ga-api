@@ -148,6 +148,19 @@ module.exports = function(timeInterval){
             'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
 
+         this.AndroidDownloadsQuery = {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:newUsers',
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
+        }
+        this.AndroidDownloadsQueryPrev = {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:newUsers',
+            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
+        }
+
         this.iOSLoyaltyQuery = {
             'start-date': startDate,
             'end-date': endDate,
