@@ -318,7 +318,7 @@ module.exports = function(timeInterval){
             'metrics': 'ga:users',
             'filters': 'ga:operatingSystem==Android;ga:appID=='+selectedApp,
             'dimensions': 'ga:country',
-            'sort': '-ga:visits',//sort descending
+            'sort': '-ga:users',//sort descending
             'max-results': 5,
         }
         this.iOScountryVisitsQuery = {
@@ -327,7 +327,7 @@ module.exports = function(timeInterval){
             'metrics': 'ga:users',
             'filters': 'ga:operatingSystem==iOS;ga:appID=='+selectedApp,
             'dimensions': 'ga:country',
-            'sort': '-ga:visits',//sort descending
+            'sort': '-ga:users',//sort descending
             'max-results': 5,
         }
     }
