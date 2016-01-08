@@ -317,11 +317,11 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:users',
             'filters': 'ga:operatingSystem==Android;ga:appID=='+selectedApp,
-            'dimensions': 'ga:country'
+            'dimensions': 'ga:country',
             'sort': '-ga:visits',//sort descending
             'max-results': 5,
         }
-        iOScountryVisitsQuery: {
+        this.iOScountryVisitsQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:users',
