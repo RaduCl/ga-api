@@ -40,17 +40,17 @@ module.exports = function(passport){
 		failureFlash : true  
 	}));
 
-	/* GET Registration Page */
-	router.get('/signup', function(req, res){
-		res.render('register',{message: req.flash('message')});
-	});
+	// /* GET Registration Page */
+	// router.get('/signup', function(req, res){
+	// 	res.render('register',{message: req.flash('message')});
+	// });
 
-	/* Handle Registration POST */
-	router.post('/signup', passport.authenticate('signup', {
-		successRedirect: '/dashboard',
-		failureRedirect: '/signup',
-		failureFlash : true  
-	}));
+	//  Handle Registration POST 
+	// router.post('/signup', passport.authenticate('signup', {
+	// 	successRedirect: '/dashboard',
+	// 	failureRedirect: '/signup',
+	// 	failureFlash : true  
+	// }));
 
 	/* GET Home Page */
 	router.get('/home', isAuthenticated, function(req, res){
