@@ -76,7 +76,10 @@ function initialize() {
     // XLSX export
     var exportExcel = function(filename){
         var currentDate = formatDate();
-        var fileName = filename+"_"+currentDate
+        var country = $('#country-select option:selected').val();
+        console.log('selected country is: %s', country);
+        console.log('inside exportExel')
+        var fileName = filename+"_"+country+"_"+currentDate
         var query = 'SELECT * INTO XLSX("'+fileName+'.xlsx",{headers:true}) FROM HTML("#garage-'+filename+'",{headers:true})';
         console.log("alaSql query: %s", query);
         alasql(query);
