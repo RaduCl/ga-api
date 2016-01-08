@@ -59,38 +59,43 @@ function initialize() {
         return app != "undefined" ? result[ query + '_' + app] : result[query]; //check if app is undefined
     }
 
+    //return date format 08Jan2016
+    function formatDate(){
+        var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth(); //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd
+        }
+        return dd+months[parseInt(mm)]+yyyy;
+    }
 
-    // This must be a hyperlink
-    $("#export-mygarageMG").click(function (event) {
-        var csv = $('#garage-MyGarageSportHeritage').table2CSV({delivery:'value'});
-        window.location.href = 'data:text/csv;charset=UTF-8,'+ encodeURIComponent(csv);
-    });
-    $("#export-mygarageMT").click(function (event) {
-        var csv = $('#garage-MyGarageMT').table2CSV({delivery:'value'});
-        window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
-    });
-    $("#export-mygarageSS").click(function (event) {
-        var csv = $('#garage-MyGarageSupersport').table2CSV({delivery:'_blank'});
-        window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent(csv);
+
+    // XLSX export
+    var exportExcel = function(filename){
+        var currentDate = formatDate();
+        var fileName = filename+"_"+currentDate
+        var query = 'SELECT * INTO XLSX("'+fileName+'.xlsx",{headers:true}) FROM HTML("#garage-'+filename+'",{headers:true})';
+        console.log("alaSql query: %s", query);
+        alasql(query);
+    }
+
+    $("#export-mygarageMG-xlsx").click(function (event) {
+        exportExcel('MyGarageSportHeritage')
     });
 
-    //implmentation for single query
-    //var getAjaxData = function(apiLink, responseCallback){
-    //    //TODO implmenent month or week time interval for the queries - this can be a value from dropdown select
-    //    //var date = '2015-11-05'; // can be a value from a txtbox
-    //    var url = '/ga-data';
-    //    $.ajax({
-    //        url: url,
-    //        type: 'GET',
-    //        success: function (result) {
-    //            //console.log('result inside ajax is: '+ result)
-    //            //ajaxData['queryResults'] = result
-    //            //alert(ajaxData)
-    //            //console.log(ajaxData);
-    //            responseCallback(result)
-    //        }
-    //    });
-    //}
+    $("#export-mygarageSS-xlsx").click(function (event) {
+        exportExcel('MyGarageSuperSport')
+    });
+
+    $("#export-mygarageMT-xlsx").click(function (event) {
+        exportExcel('MyGarageMT')
+    });
+
+
+
 
     var getAjaxData = function(period, app){
         console.log(period);
@@ -195,14 +200,14 @@ function initialize() {
             success: function(results){
                 if(country){
                     myGarage(results, 'MyGarageSportHeritage', country);
-                    myGarage(results, 'MyGarageSupersport', country);
+                    myGarage(results, 'MyGarageSuperSport', country);
                     myGarage(results, 'MyGarageMT', country);
                 } else{
                     myGarage(results, 'MyGarageSportHeritage');
-                    myGarage(results, 'MyGarageSupersport');
+                    myGarage(results, 'MyGarageSuperSport');
                     myGarage(results, 'MyGarageMT');
                     topAppStoreDownlodsByCountry(results, 'MyGarageSportHeritage');
-                    topAppStoreDownlodsByCountry(results, 'MyGarageSupersport');
+                    topAppStoreDownlodsByCountry(results, 'MyGarageSuperSport');
                     topAppStoreDownlodsByCountry(results, 'MyGarageMT');
                 }
             },
@@ -909,13 +914,10 @@ function initialize() {
     }
 
     var topAppStoreDownlodsByCountry = function(result, appID) {
-        //var appID = appID
         var weekResults = result.weekResults.Data.appStoreDownloadsByCountry[appID];
         var monthResults = result.monthResults.Data.appStoreDownloadsByCountry[appID];
         var yearResults = result.yearResults.Data.appStoreDownloadsByCountry[appID];
-        //var weekResultsTotal = result.weekResults.Data.appStoreDownloadsByCountry;
-        //var monthResultsTotal = result.monthResults.Data.appStoreDownloadsByCountry;
-        //var yearResultsTotal = result.yearResults.Data.appStoreDownloadsByCountry;
+
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Country');
         data.addColumn('number', 'YTD');

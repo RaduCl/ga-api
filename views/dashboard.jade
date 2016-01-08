@@ -56,66 +56,33 @@ block content
                                 div.chart-element
                                     div
                                         h4 Sport Heritage Summary
-                                        button#export-mygarageMG Export CSV
+                                        button#export-mygarageMG-xlsx Export XLSX
                                     #garage-MyGarageSportHeritage
                                 div.chart-element
                                     div
                                         h4 Big Five Country AppStore Downloads
                                     #appStore-coutries-MyGarageSportHeritage
+                            div.tab-pane.fade#bs_mygarageSS
+                                div.chart-element
+                                    div
+                                        h4 Super Sport Summary
+                                        button#export-mygarageSS-xlsx Export XLSX
+                                    #garage-garage-MyGarageSuperSport
+                                div.chart-element
+                                    div
+                                        h4 Big Five Country AppStore Downloads
+                                    #appStore-coutries-MyGarageSupersport
                             div.tab-pane.fade#bs_mygarageMT
                                 div.chart-element
                                     div
                                         h4 MT Summary
-                                        button#export-mygarageMT Export CSV
+                                        button#export-mygarageMT-xlsx Export XLSX
                                     #garage-MyGarageMT
                                 div.chart-element
                                     div
                                         h4 Big Five Country AppStore Downloads
                                     #appStore-coutries-MyGarageMT
-                            div.tab-pane.fade#bs_mygarageSS
-                                div.chart-element
-                                    div
-                                        h4 Super Sport Summary
-                                        button#export-mygarageSS Export CSV
-                                    #garage-MyGarageSupersport
-                                div.chart-element
-                                    div
-                                        h4 Big Five Country AppStore Downloads
-                                    #appStore-coutries-MyGarageSupersport
 
-                        //div.app-id
-                        //    select#app-id
-                        //        option(value='' selected='select' disabled='disabled') App ID
-                        //        option(value='com.yamaha.mygarage') com.yamaha.mygarage
-                        //        option(value='com.yamaha.mygaragesupersport') com.yamaha.mygaragesupersport
-                        //        option(value='com.yamaha.mygaragemt') com.yamaha.mygaragemt
-                        //div.country-select
-                        //    select#country-select
-                        //        option(value='' selected='select' disabled='disabled') Country Selection
-                        //        option(value='Spain') Spain
-                        //        option(value='Italy') Italy
-                        //        option(value='Germany') Germany
-                        //        option(value='France') France
-                        //        option(value='United Kingdom') United Kingdom
-                        //div.col-md-12.widget
-                        //    div.panel.panel-primary
-                        //        div.widget-header.panel-heading App Statistics
-                        //        div.app-widget-body.panel-body
-                                    //div.chart-element
-                                    //    h4 My Garage: Sport Heritage
-                                    //    button#export-mygarageMG Export CSV
-                                    //    #garage_mygarage
-                                    //div.chart-element
-                                    //    h4 My Garage: MT
-                                    //    button#export-mygarageMT Export CSV
-                                    //    #garage_mygaragemt
-                                    //div.chart-element
-                                    //    h4 My Garage: Super Sport
-                                    //    button#export-mygarageSS Export CSV
-                                    //    #garage_mygaragesupersport
-                                    //div.chart-element
-                                    //    h4 Big Five Country Downloads
-                                    //    #appStore-coutries
                         div.col-md-12.widget
                             div.panel.panel-primary
                                 div.widget-header.panel-heading App Usage
@@ -187,3 +154,5 @@ block content
 
     script(src="js/app.js")
     script(src="http://www.kunalbabre.com/projects/table2CSV.js")
+    script(src="http://alasql.org/console/alasql.min.js")
+    script(src="http://alasql.org/console/xlsx.core.min.js")
