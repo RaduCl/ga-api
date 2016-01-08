@@ -50,9 +50,17 @@ module.exports = function(timeInterval){
 
     //TODO not sure if this returns correct date
     function setYearToDate(){
-        var monthAgo = new Date();
-        var yyyy = monthAgo.getFullYear();
-        return monthAgo = yyyy+'-'+'01'+'-'+'01';
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear()-1;
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+        return today = yyyy+'-'+mm+'-'+dd;
     }
 
 
