@@ -87,7 +87,7 @@ function initialize() {
     });
 
     $("#export-mygarageSS-xlsx").click(function (event) {
-        exportExcel('MyGarageSuperSport')
+        exportExcel('MyGarageSupersport')
     });
 
     $("#export-mygarageMT-xlsx").click(function (event) {
@@ -200,14 +200,14 @@ function initialize() {
             success: function(results){
                 if(country){
                     myGarage(results, 'MyGarageSportHeritage', country);
-                    myGarage(results, 'MyGarageSuperSport', country);
+                    myGarage(results, 'MyGarageSupersport', country);
                     myGarage(results, 'MyGarageMT', country);
                 } else{
                     myGarage(results, 'MyGarageSportHeritage');
-                    myGarage(results, 'MyGarageSuperSport');
+                    myGarage(results, 'MyGarageSupersport');
                     myGarage(results, 'MyGarageMT');
                     topAppStoreDownlodsByCountry(results, 'MyGarageSportHeritage');
-                    topAppStoreDownlodsByCountry(results, 'MyGarageSuperSport');
+                    topAppStoreDownlodsByCountry(results, 'MyGarageSupersport');
                     topAppStoreDownlodsByCountry(results, 'MyGarageMT');
                 }
             },
@@ -711,12 +711,15 @@ function initialize() {
         var monthResults = result.monthResults.Data;
         var yearResults = result.yearResults.Data;
 
-        //console.log(monthResults.appStoreDownloadsByCountry[app][countryName]);
-        console.log(
-            'app :' + appIDga + '\n' +
-            'country: ' + countryName + '\n' +
-            monthResults['visitorTypesQueryPrev_' + appIDga + countryName]
-        );
+        //TODO extract formater functions and refactor addRows functions for all chart functions
+        var formatMissingValues = function(data){
+            return parseInt(data) ? data : null
+        }
+
+        var formatInvalidFormatter = function(data){
+            return parseInt(data) ? data + ' %' : '-'
+        }
+
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
         data.addColumn('number', 'YTD');
@@ -729,13 +732,11 @@ function initialize() {
         data.addRows([
             [
                 'Downloads iOS',
-                //country ? yearResults.appStoreDownloadsByCountry[app][countryName].downloads : yearResults.appStoreDownloads[app].downloads,
-                //country ? monthResults.appStoreDownloadsByCountry[app][countryName].downloads : monthResults.appStoreDownloads[app].downloads,
-                //country ? monthResults.appStoreDownloads[app][countryName].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
                 country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads,
                 country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads,
                 country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
-                country ? {v: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+                //country ? {v: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+                country ? {v: formatMissingValues(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage), f: formatInvalidFormatter(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage)} : {v: formatMissingValues(monthResults.appStoreDownloads[app].deltaPercentage), f: formatInvalidFormatter(monthResults.appStoreDownloads[app].deltaPercentage)},
                 country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads,
                 country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads,
                 country ? {v: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
