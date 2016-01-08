@@ -746,50 +746,50 @@ function initialize() {
             //TODO implement when googlePlay API credentials are available
             [
                 'Downloads Android',
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                //parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName]),
-                //parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName]),
-                //parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]),
-                //{
-                //    v: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName]) : null,
-                //    f: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
-                //},
-                //parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName]),
-                //parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]),
-                //{
-                //    v: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) : null,
-                //    f: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
-                //},
+                // null,
+                // null,
+                // null,
+                // null,
+                // null,
+                // null,
+                // null,
+                parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName]),
+                parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName]),
+                parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]),
+                {
+                   v: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName]) : null,
+                   f: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
+                },
+                parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName]),
+                parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]),
+                {
+                   v: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) : null,
+                   f: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
+                },
             ],
             //TODO implement when googlePlay API credentials are available
             [
                 'Downloads Total',
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                //parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads),
-                //parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads),
-                //parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads),
-                //{
-                //    v: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName]) : null,
-                //    f: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
-                //},
-                //parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads),
-                //parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads),
-                //{
-                //    v: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) : null,
-                //    f: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
-                //},
+                // null,
+                // null,
+                // null,
+                // null,
+                // null,
+                // null,
+                // null,
+                parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads),
+                parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads),
+                parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads),
+                {
+                   v: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName]) : null,
+                   f: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
+                },
+                parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads),
+                parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads),
+                {
+                   v: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) : null,
+                   f: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
+                },
             ],
 
             //TODO implement when googlePlay API credentials are available
