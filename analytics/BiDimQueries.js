@@ -312,6 +312,24 @@ module.exports = function(timeInterval){
             'metrics': 'ga:avgSessionDuration',
             'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:appID=='+selectedApp
         }
+        this.AndroidcountryVisitsQuery = {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:users',
+            'filters': 'ga:operatingSystem==Android;ga:appID=='+selectedApp,
+            'dimensions': 'ga:country'
+            'sort': '-ga:visits',//sort descending
+            'max-results': 5,
+        }
+        iOScountryVisitsQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:users',
+            'filters': 'ga:operatingSystem==iOS;ga:appID=='+selectedApp,
+            'dimensions': 'ga:country',
+            'sort': '-ga:visits',//sort descending
+            'max-results': 5,
+        }
     }
 
     var countries = ['France','Italy', 'Spain', 'Germany', 'United Kingdom']
