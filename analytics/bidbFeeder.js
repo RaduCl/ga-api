@@ -79,7 +79,8 @@ var getAnalyticsData = function(period, callback){
                 if (result) {
                     //rename object key with the query key
                     data[queryKey] = result.rows
-                    console.log('return result is: \n'+prettyjson.render(result));
+                    //console.log('return result is: \n'+prettyjson.render(result));
+                    console.log('result: ok');
                     loop.next();
                 }
             }
