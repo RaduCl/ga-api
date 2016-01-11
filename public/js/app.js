@@ -54,6 +54,54 @@ function initialize() {
         return app
     }
 
+    //returns int necessary for chart functions
+    var formatMissingValues = function(data){
+        return parseInt(data) ? data : null
+    }
+
+    //returns string necessary for chart functions
+    var formatInvalidFormatter = function(data){
+        return parseInt(data) ? data + ' %' : '-'
+    }
+
+    //sets correct country param for gaQueries
+    var gaCountryName = function(country){
+        var countryName = '';
+        if(country){
+            switch (country){
+                case 'UK':
+                    countryName = '_UnitedKingdom'
+                    break;
+                default :
+                    countryName = '_' + country
+            }
+            return countryName;
+        }
+    }
+
+    //sets correct appID param for gaQueries
+    var gaAppID = function(app){
+        var appIDga = '';
+
+        switch (app){
+            case 'MyGarageSupersport':
+                appIDga = 'mygaragesupersport'
+                break;
+            case 'MyGarageSportHeritage':
+                appIDga = 'mygarage'
+                break;
+            case 'MyGarageMT':
+                appIDga = 'mygaragemt'
+                break;
+            default :
+                appIDga = ''
+        }
+
+        return appIDga;
+    }
+
+
+
     //select ajax data filtered by app param
     var filteredAjaxData = function(result, query, app){
         return app != "undefined" ? result[ query + '_' + app] : result[query]; //check if app is undefined
@@ -679,47 +727,13 @@ function initialize() {
     var myGarage = function(result, app, country){
         var app = app ? app : '';
         //var countryName = country ? country.replace(/ /gi, '') : '';
-        var countryName = '';
 
-        //TODO implment refresh data combination of country and app when swtiching tabs
-        if(country){
-            switch (country){
-                case 'UK':
-                    countryName = '_UnitedKingdom'
-                    break;
-                default :
-                    countryName = '_' + country
-            }
-        }
-
-        var appIDga = '';
-
-        switch (app){
-            case 'MyGarageSupersport':
-                appIDga = 'mygaragesupersport'
-                break;
-            case 'MyGarageSportHeritage':
-                appIDga = 'mygarage'
-                break;
-            case 'MyGarageMT':
-                appIDga = 'mygaragemt'
-                break;
-            default :
-                appIDga = ''
-        }
+        var appIDga = gaAppID(app);
+        var countryName = gaCountryName(country) ? gaCountryName(country) : '';
 
         var weekResults = result.weekResults.Data;
         var monthResults = result.monthResults.Data;
         var yearResults = result.yearResults.Data;
-
-        //TODO extract formater functions and refactor addRows functions for all chart functions
-        var formatMissingValues = function(data){
-            return parseInt(data) ? data : null
-        }
-
-        var formatInvalidFormatter = function(data){
-            return parseInt(data) ? data + ' %' : '-'
-        }
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
@@ -770,13 +784,6 @@ function initialize() {
             //TODO implement when googlePlay API credentials are available
             [
                 'Downloads Total',
-                // null,
-                // null,
-                // null,
-                // null,
-                // null,
-                // null,
-                // null,
                 parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads),
                 parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads),
                 parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads),
@@ -942,9 +949,30 @@ function initialize() {
     }
 
     var topAppStoreDownlodsByCountry = function(result, appID) {
-        var weekResults = result.weekResults.Data.appStoreDownloadsByCountry[appID];
-        var monthResults = result.monthResults.Data.appStoreDownloadsByCountry[appID];
-        var yearResults = result.yearResults.Data.appStoreDownloadsByCountry[appID];
+        var appWeekResults = result.weekResults.Data.appStoreDownloadsByCountry[appID];
+        var appMonthResults = result.monthResults.Data.appStoreDownloadsByCountry[appID];
+        var appYearResults = result.yearResults.Data.appStoreDownloadsByCountry[appID];
+        var weekResults = result.weekResults.Data;
+        var monthResults = result.monthResults.Data;
+        var yearResults = result.yearResults.Data;
+
+        var appIDga = gaAppID(appID)
+        var countries = ['Spain', 'Italy', 'France', 'Germany', 'UK']
+
+        var tableRows = countries.map(function(country){
+            var countryName = gaCountryName(country)
+
+            var YTD = parseInt(appYearResults[country].downloads) + parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName])
+            var Month = parseInt(appMonthResults[country].downloads) + parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName])
+            var prevMonth = parseInt(appMonthResults[country].previousDownloads) + parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])
+            var growthMonth = getDeltaPercentage(Month, prevMonth)
+            var Week = parseInt(appWeekResults[country].downloads) + parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName])
+            var prevWeek = parseInt(appWeekResults[country].previousDownloads) + parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])
+            var growthWeek = getDeltaPercentage(Week, prevWeek)
+
+            return[country, YTD, Month, prevMonth, growthMonth, Week, prevWeek, growthWeek]
+        })
+        console.log('tableRows: %s', tableRows);
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Country');
@@ -955,85 +983,101 @@ function initialize() {
         data.addColumn('number', 'Week');
         data.addColumn('number', 'Previous Week');
         data.addColumn('number', 'Growth Week');
-        data.addRows([
-            [
-                'Spain',
-                yearResults['Spain'].downloads,
-                monthResults['Spain'].downloads,
-                monthResults['Spain'].previousDownloads,
-                {v: parseInt(monthResults['Spain'].deltaPercentage), f:parseInt(monthResults['Spain'].deltaPercentage) ? monthResults['Spain'].deltaPercentage + '%' : '-'},
-                weekResults['Spain'].downloads,
-                weekResults['Spain'].previousDownloads,
-                {v: parseInt(weekResults['Spain'].deltaPercentage), f:parseInt(weekResults['Spain'].deltaPercentage) ? weekResults['Spain'].deltaPercentage + '%' : '-'},
-            ],
-
-            [
-                'Italy',
-                yearResults['Italy'].downloads,
-                monthResults['Italy'].downloads,
-                monthResults['Italy'].previousDownloads,
-                {v: parseInt(monthResults['Italy'].deltaPercentage), f:parseInt(monthResults['Italy'].deltaPercentage) ? monthResults['Italy'].deltaPercentage + '%' : '-'},
-                weekResults['Italy'].downloads,
-                weekResults['Italy'].previousDownloads,
-                {v: parseInt(weekResults['Italy'].deltaPercentage), f:parseInt(weekResults['Italy'].deltaPercentage) ? weekResults['Italy'].deltaPercentage + '%' : '-'},
-            ],
-
-            [
-                'France',
-                yearResults['France'].downloads,
-                monthResults['France'].downloads,
-                monthResults['France'].previousDownloads,
-                {v: parseInt(monthResults['France'].deltaPercentage), f:parseInt(monthResults['France'].deltaPercentage) ? monthResults['France'].deltaPercentage + '%' : '-'},
-                weekResults['France'].downloads,
-                weekResults['France'].previousDownloads,
-                {v: parseInt(weekResults['France'].deltaPercentage), f:parseInt(weekResults['France'].deltaPercentage) ? weekResults['France'].deltaPercentage + '%' : '-'},
-            ],
-
-            [
-                'Germany',
-                yearResults['Germany'].downloads,
-                monthResults['Germany'].downloads,
-                monthResults['Germany'].previousDownloads,
-                {v: parseInt(monthResults['Germany'].deltaPercentage), f:parseInt(monthResults['Germany'].deltaPercentage) ? monthResults['Germany'].deltaPercentage + '%' : '-'},
-                weekResults['Germany'].downloads,
-                weekResults['Germany'].previousDownloads,
-                {v: parseInt(weekResults['Germany'].deltaPercentage), f:parseInt(weekResults['Germany'].deltaPercentage) ? weekResults['Germany'].deltaPercentage + '%' : '-'},
-            ],
-
-            [
-                'United Kingdom',
-                yearResults['UK'].downloads,
-                monthResults['UK'].downloads,
-                monthResults['UK'].previousDownloads,
-                {v: parseInt(monthResults['UK'].deltaPercentage), f:parseInt(monthResults['UK'].deltaPercentage) ? monthResults['UK'].deltaPercentage + '%' : '-'},
-                weekResults['UK'].downloads,
-                weekResults['UK'].previousDownloads,
-                {v: parseInt(weekResults['UK'].deltaPercentage), f:parseInt(weekResults['UK'].deltaPercentage) ? weekResults['UK'].deltaPercentage + '%' : '-'},
-            ],
-
-
-            //[
-            //    'Others',
-            //    yearResults[5].downloads,
-            //    monthResults[5].downloads,
-            //    monthResults[5].previousDownloads,
-            //    {v: monthResults[5].deltaPercentage, f:monthResults[5].deltaPercentage+'%'},
-            //    weekResults[5].downloads,
-            //    weekResults[5].previousDownloads,
-            //    {v: weekResults[5].deltaPercentage, f: weekResults[5].deltaPercentage + '%'},
-            //],
-            //[
-            //    'Total',
-            //    yearResults[6].downloads,
-            //    monthResults[6].downloads,
-            //    monthResults[6].previousDownloads,
-            //    {v: monthResults[6].deltaPercentage, f:monthResults[6].deltaPercentage+'%'},
-            //    weekResults[6].downloads,
-            //    weekResults[6].previousDownloads,
-            //    {v: weekResults[6].deltaPercentage, f: weekResults[6].deltaPercentage + '%'},
-            //],
-        ])
-
+        //data.addRows([
+        //    [
+        //        'Spain',
+        //        yearResults.appStoreDownloadsByCountry[appID].country.downloads,
+        //        monthResults['Spain'].downloads,
+        //        monthResults['Spain'].previousDownloads,
+        //        {v: parseInt(monthResults['Spain'].deltaPercentage), f:parseInt(monthResults['Spain'].deltaPercentage) ? monthResults['Spain'].deltaPercentage + '%' : '-'},
+        //        weekResults['Spain'].downloads,
+        //        weekResults['Spain'].previousDownloads,
+        //        {v: parseInt(weekResults['Spain'].deltaPercentage), f:parseInt(weekResults['Spain'].deltaPercentage) ? weekResults['Spain'].deltaPercentage + '%' : '-'},
+        //    ],
+        //    [
+        //        'Downloads Total',
+        //        parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads),
+        //        parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads),
+        //        parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads),
+        //        {
+        //            v: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName]) : null,
+        //            f: parseInt(getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQuery_'+appIDga + countryName])) ? getDeltaPercentage(monthResults['AndroidDownloadsQuery_'+appIDga + countryName], monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
+        //        },
+        //        parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName])+(country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads),
+        //        parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])+(country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads),
+        //        {
+        //            v: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) : null,
+        //            f: parseInt(getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])) ? getDeltaPercentage(weekResults['AndroidDownloadsQuery_'+appIDga + countryName], weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName]) + ' %' : '-'
+        //        },
+        //    ],
+        //
+        //    //[
+        //    //    'Italy',
+        //    //    yearResults['Italy'].downloads,
+        //    //    monthResults['Italy'].downloads,
+        //    //    monthResults['Italy'].previousDownloads,
+        //    //    {v: parseInt(monthResults['Italy'].deltaPercentage), f:parseInt(monthResults['Italy'].deltaPercentage) ? monthResults['Italy'].deltaPercentage + '%' : '-'},
+        //    //    weekResults['Italy'].downloads,
+        //    //    weekResults['Italy'].previousDownloads,
+        //    //    {v: parseInt(weekResults['Italy'].deltaPercentage), f:parseInt(weekResults['Italy'].deltaPercentage) ? weekResults['Italy'].deltaPercentage + '%' : '-'},
+        //    //],
+        //    //
+        //    //[
+        //    //    'France',
+        //    //    yearResults['France'].downloads,
+        //    //    monthResults['France'].downloads,
+        //    //    monthResults['France'].previousDownloads,
+        //    //    {v: parseInt(monthResults['France'].deltaPercentage), f:parseInt(monthResults['France'].deltaPercentage) ? monthResults['France'].deltaPercentage + '%' : '-'},
+        //    //    weekResults['France'].downloads,
+        //    //    weekResults['France'].previousDownloads,
+        //    //    {v: parseInt(weekResults['France'].deltaPercentage), f:parseInt(weekResults['France'].deltaPercentage) ? weekResults['France'].deltaPercentage + '%' : '-'},
+        //    //],
+        //    //
+        //    //[
+        //    //    'Germany',
+        //    //    yearResults['Germany'].downloads,
+        //    //    monthResults['Germany'].downloads,
+        //    //    monthResults['Germany'].previousDownloads,
+        //    //    {v: parseInt(monthResults['Germany'].deltaPercentage), f:parseInt(monthResults['Germany'].deltaPercentage) ? monthResults['Germany'].deltaPercentage + '%' : '-'},
+        //    //    weekResults['Germany'].downloads,
+        //    //    weekResults['Germany'].previousDownloads,
+        //    //    {v: parseInt(weekResults['Germany'].deltaPercentage), f:parseInt(weekResults['Germany'].deltaPercentage) ? weekResults['Germany'].deltaPercentage + '%' : '-'},
+        //    //],
+        //    //
+        //    //[
+        //    //    'United Kingdom',
+        //    //    yearResults['UK'].downloads,
+        //    //    monthResults['UK'].downloads,
+        //    //    monthResults['UK'].previousDownloads,
+        //    //    {v: parseInt(monthResults['UK'].deltaPercentage), f:parseInt(monthResults['UK'].deltaPercentage) ? monthResults['UK'].deltaPercentage + '%' : '-'},
+        //    //    weekResults['UK'].downloads,
+        //    //    weekResults['UK'].previousDownloads,
+        //    //    {v: parseInt(weekResults['UK'].deltaPercentage), f:parseInt(weekResults['UK'].deltaPercentage) ? weekResults['UK'].deltaPercentage + '%' : '-'},
+        //    //],
+        //
+        //
+        //    //[
+        //    //    'Others',
+        //    //    yearResults[5].downloads,
+        //    //    monthResults[5].downloads,
+        //    //    monthResults[5].previousDownloads,
+        //    //    {v: monthResults[5].deltaPercentage, f:monthResults[5].deltaPercentage+'%'},
+        //    //    weekResults[5].downloads,
+        //    //    weekResults[5].previousDownloads,
+        //    //    {v: weekResults[5].deltaPercentage, f: weekResults[5].deltaPercentage + '%'},
+        //    //],
+        //    //[
+        //    //    'Total',
+        //    //    yearResults[6].downloads,
+        //    //    monthResults[6].downloads,
+        //    //    monthResults[6].previousDownloads,
+        //    //    {v: monthResults[6].deltaPercentage, f:monthResults[6].deltaPercentage+'%'},
+        //    //    weekResults[6].downloads,
+        //    //    weekResults[6].previousDownloads,
+        //    //    {v: weekResults[6].deltaPercentage, f: weekResults[6].deltaPercentage + '%'},
+        //    //],
+        //])
+        data.addRows(tableRows)
         var formatter = new google.visualization.ArrowFormat();
         formatter.format(data, 4);
         formatter.format(data, 7);
