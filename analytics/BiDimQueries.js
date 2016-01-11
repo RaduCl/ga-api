@@ -174,14 +174,14 @@ module.exports = function(timeInterval){
             'end-date': endDate,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
-            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
         this.iOSLoyaltyQueryPrev = {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:sessions',
             'dimensions': 'ga:sessionCount',
-            'filters': selectedCountry ? 'ga:operatingSystem==Android;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
+            'filters': selectedCountry ? 'ga:operatingSystem==iOS;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:operatingSystem==Android;ga:appID=='+selectedApp
         }
 
         //new tabels queries
