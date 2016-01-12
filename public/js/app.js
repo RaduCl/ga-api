@@ -112,25 +112,41 @@ function initialize() {
 
 
     // XLSX export
-    var exportExcel = function(filename){
-        var currentDate = formatDate();
-        var country = $('#country-select option:selected').val();
-        var fileName = filename+"_"+country+"_"+currentDate
-        var query = 'SELECT * INTO XLSX("'+fileName+'.xlsx",{headers:true}) FROM HTML("#garage-'+filename+'",{headers:true})';
-        console.log("alaSql query: %s", query);
+    var exportExcel = function(app, chartName){
+        var currentDate = '_' + formatDate();
+        var country = ''
+        if($('#country-select option:selected').val() == 'select'){
+            country = '_' + $('#country-select option:selected').val();
+        }
+        var fileName = chartName + '_' + app + country + currentDate
+        var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx",{headers:true}) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
         alasql(query);
     }
 
+    //export xlsx button events for Sport Heritage Summary
     $("#export-mygarageMG-xlsx").click(function (event) {
-        exportExcel('MyGarageSportHeritage')
+        exportExcel('MyGarageSportHeritage', 'summary')
     });
 
     $("#export-mygarageSS-xlsx").click(function (event) {
-        exportExcel('MyGarageSupersport')
+        exportExcel('MyGarageSupersport', 'summary')
     });
 
     $("#export-mygarageMT-xlsx").click(function (event) {
-        exportExcel('MyGarageMT')
+        exportExcel('MyGarageMT', 'summary')
+    });
+
+    //export xlsx button events for Big Five Country Downloads
+    $("#export-mygarageMG-countriesDL-xlsx").click(function (event) {
+        exportExcel('MyGarageSportHeritage', 'coutriesDL')
+    });
+
+    $("#export-mygarageSS-countriesDL-xlsx").click(function (event) {
+        exportExcel('MyGarageSupersport', 'coutriesDL')
+    });
+
+    $("#export-mygarageMT-countriesDL-xlsx").click(function (event) {
+        exportExcel('MyGarageMT', 'coutriesDL')
     });
 
 
@@ -925,7 +941,7 @@ function initialize() {
             'height': '100%'
         }
 
-        var table= new google.visualization.Table(document.getElementById('garage-' + app));
+        var table= new google.visualization.Table(document.getElementById('summary-' + app));
         table.draw(data, options);
     }
 
@@ -974,7 +990,7 @@ function initialize() {
             'height': '100%'
         }
 
-        var table= new google.visualization.Table(document.getElementById('appStore-coutries-'+appID));
+        var table= new google.visualization.Table(document.getElementById('coutriesDL-'+appID));
         table.draw(data, options);
     }
 
