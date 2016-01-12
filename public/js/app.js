@@ -90,6 +90,26 @@ function initialize() {
         return appIDga;
     }
 
+    var appleAppID = function(app){
+        var appID = '';
+
+        switch (app){
+            case 'mygaragesupersport':
+                appID = 'MyGarageSupersport'
+                break;
+            case 'mygarage':
+                appID = 'MyGarageSportHeritage'
+                break;
+            case 'mygaragemt':
+                appID = 'MyGarageMT'
+                break;
+            default :
+                appID = ''
+        }
+
+        return appID;
+    }
+
 
 
     //select ajax data filtered by app param
@@ -201,7 +221,8 @@ function initialize() {
         totalShareData(results, app);
         savedConfigsData(results, app);
         contactDealerData(results, app);
-        appStoreDownloads(results);
+        appStoreDownloads(results, app);
+        playStoreDownloads(results, app);
     }
 
     //default load with week data and SportHeritage app data
@@ -708,14 +729,17 @@ function initialize() {
         $('#dealer-contacted').html('      ' + ajaxData)
     }
 
-    var appStoreDownloads = function(result){
-        var appStoreData = result.appStoreDownloads.AllApps;
+    var appStoreDownloads = function(result, app){
+        var appID = appleAppID(app);
+        var units = parseInt(result.appStoreDownloads[appID].downloads);
+        var prevUnits = parseInt(result.appStoreDownloads[appID].previousDownloads);
+        var growth = getDeltaPercentage(units, prevUnits);
         var data = new google.visualization.DataTable();
         data.addColumn('number', 'Units');
         data.addColumn('number', 'Previous');
         data.addColumn('number', 'Growth');
         data.addRows([
-            [ appStoreData.downloads, appStoreData.previousDownloads, {v: parseInt(appStoreData.deltaPercentage) ? appStoreData.deltaPercentage : null , f: parseInt(appStoreData.deltaPercentage) ? appStoreData.deltaPercentage +' %' : '-'}]
+            [units, prevUnits, {v: parseInt(growth) ? growth : null, f: parseInt(growth) ? growth.toString() : '-'} ]
         ]);
 
         var formatter = new google.visualization.ArrowFormat();
@@ -727,6 +751,31 @@ function initialize() {
             'height': '100%'
         }
         var table= new google.visualization.Table(document.getElementById('app-store-downloads'));
+        table.draw(data, options);
+    }
+
+    var playStoreDownloads = function(result, app){
+        var units = parseInt(result['AndroidDownloadsQuery_'+app][0]);
+        var prevUnits = result['AndroidDownloadsQueryPrev_'+ app] ? parseInt(result['AndroidDownloadsQueryPrev_'+app][0]) : 0;
+        var growth = getDeltaPercentage(units, prevUnits)
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Units');
+        data.addColumn('number', 'Previous');
+        data.addColumn('number', 'Growth');
+        data.addRows([
+            [units, prevUnits, {v: parseInt(growth) ? growth : null, f: parseInt(growth) ? growth.toString() : '-'}]
+        ]);
+
+        var formatter = new google.visualization.ArrowFormat();
+        formatter.format(data, 2);
+
+        var options = {
+            'title': 'Total Downloads by Play Store',
+            'width': '100%',
+            'height': '100%'
+        }
+        var table= new google.visualization.Table(document.getElementById('google-play-store-downloads'));
         table.draw(data, options);
     }
 
