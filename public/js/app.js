@@ -135,12 +135,22 @@ function initialize() {
     var exportExcel = function(app, chartName){
         var currentDate = '_' + formatDate();
         var country = ''
+
+        var opts = {
+            headers:true,
+            column: {style:{Font:{Bold:"1"}}},
+            rows: {1:{style:{Font:{Color:"#FF0000"}}}},
+            cells: {1:{1:{
+                style: {Font:{Color:"#00FFFF"}}
+            }}}
+        };
+
         if($('#country-select option:selected').val() == 'select'){
             country = '_' + $('#country-select option:selected').val();
         }
         var fileName = chartName + '_' + app + country + currentDate
-        var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx",{headers:true}) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
-        alasql(query);
+        var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
+        alasql(query, [opts]);
     }
 
     //export xlsx button events for Sport Heritage Summary
