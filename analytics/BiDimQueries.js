@@ -336,7 +336,13 @@ module.exports = function(timeInterval){
             'metrics': 'ga:users',
             'dimensions': 'ga:date',
             'filters': selectedCountry ? 'ga:country=='+country+';ga:appID=='+appID : 'ga:appID=='+selectedApp
-        }  
+        } 
+        this.attdealerContactedQuery: {
+             'start-date': startDate,
+             'end-date': endDate,
+             'metrics': 'ga:totalEvents',
+             'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+        }
     }
 
     var countries = ['France','Italy', 'Spain', 'Germany', 'United Kingdom']
