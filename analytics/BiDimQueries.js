@@ -330,18 +330,18 @@ module.exports = function(timeInterval){
             'sort': '-ga:users',//sort descending
             'max-results': 5,
         }
-      this.dailyUsersQuery = {
+        this.dailyUsersQuery = {
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:users',
             'dimensions': 'ga:date',
-            'filters': selectedCountry ? 'ga:country=='+country+';ga:appID=='+appID : 'ga:appID=='+selectedApp
-        } 
-        this.attdealerContactedQuery: {
+            'filters': selectedCountry ? 'ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:appID=='+selectedApp
+        },
+        this.attdealerContactedQuery = {
              'start-date': startDate,
              'end-date': endDate,
              'metrics': 'ga:totalEvents',
-             'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+             'filters': 'ga:eventLabel==success,ga:eventLabel==error'
         }
     }
 
