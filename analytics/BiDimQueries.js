@@ -330,6 +330,13 @@ module.exports = function(timeInterval){
             'sort': '-ga:users',//sort descending
             'max-results': 5,
         }
+      this.dailyUsersQuery = {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:users',
+            'dimensions': 'ga:date',
+            'filters': selectedCountry ? 'ga:country=='+country+';ga:appID=='+appID : 'ga:appID=='+selectedApp
+        }  
     }
 
     var countries = ['France','Italy', 'Spain', 'Germany', 'United Kingdom']
