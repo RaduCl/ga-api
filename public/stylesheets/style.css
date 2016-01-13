@@ -190,9 +190,8 @@ ul.user-details{
 .sidebar-nav li {
     text-indent: 5px;
     border-bottom: 1px solid #454545;
-
     clear: both;
-    padding: 10px 0px;
+    /*padding: 10px 0px;*/
 }
 
 
@@ -208,6 +207,7 @@ ul.user-details{
     display: block;
     text-decoration: none;
     color: #999999;
+    padding: 10px 0;
 }
 
 .sidebar-nav li div:first-child {
