@@ -207,7 +207,7 @@ function initialize() {
     var charts = function(results, app){
         //alert('inside charts')
         newReturningUsersData(results, app);
-        AndroidcountryVisitsData(results);
+        AndroidcountryVisitsData(results, app);
         iOScountryVisitsData(results);
         downloadsByOsData(results, app);
         dailyUsersData(results);
@@ -316,9 +316,9 @@ function initialize() {
         table.draw(data, options);
     }
 
-    //TODO curently this chart's db data is not supporting app filtering; check if this is acording to specs
     var AndroidcountryVisitsData = function(result, app){
-        var ajaxData = result.AndroidcountryVisitsQuery;
+        //var appID = gaAppID(app)
+        var ajaxData = result['AndroidcountryVisitsQuery_' + app];
 
         //adding column headers
         ajaxData.unshift(['Country', 'Users'])
