@@ -231,6 +231,7 @@ function initialize() {
         totalShareData(results, app);
         savedConfigsData(results, app);
         contactDealerData(results, app);
+        contactDealerAttemptsData(results, app);
         appStoreDownloads(results, app);
         playStoreDownloads(results, app);
     }
@@ -735,6 +736,12 @@ function initialize() {
     var contactDealerData = function(result, app){
         var ajaxData = filteredAjaxData(result, 'dealerContactedQuery', app)
         $('#dealer-contacted').html('      ' + ajaxData)
+    }
+
+    //TODO does not have app param implmented in biDimQueries
+    var contactDealerAttemptsData = function(result, app){
+        var ajaxData = filteredAjaxData(result, 'attdealerContactedQuery', app)
+        $('#dealer-contacted-attempts').html('      ' + ajaxData)
     }
 
     var appStoreDownloads = function(result, app){
