@@ -220,7 +220,7 @@ function initialize() {
         AndroidcountryVisitsData(results, app);
         iOScountryVisitsData(results, app);
         downloadsByOsData(results, app);
-        dailyUsersData(results);
+        dailyUsersData(results, app);
         recencyData(results, app);
         androidloyaltyData(results, app);
         iOSLoyaltyData(results, app);
@@ -399,8 +399,8 @@ function initialize() {
     }
 
     //TODO curently this chart's db data is not supporting app filtering; check if this is acording to specs
-    var dailyUsersData = function(result){
-        var ajaxData = result.dailyUsersQuery
+    var dailyUsersData = function(result, app){
+        var ajaxData = result['dailyUsersQuery_' + app]
         var formatedData = ajaxData.map(function(element){
             var chartDate = new Date( element[0].slice(0,4) + '-' + element[0].slice(4,6) + '-' + element[0].slice(6,8) );
             element[0] = chartDate.toDateString().slice(4,10)
