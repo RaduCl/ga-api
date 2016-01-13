@@ -330,6 +330,19 @@ module.exports = function(timeInterval){
             'sort': '-ga:users',//sort descending
             'max-results': 5,
         }
+      this.dailyUsersQuery = {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:users',
+            'dimensions': 'ga:date',
+            'filters': selectedCountry ? 'ga:country=='+country+';ga:appID=='+appID : 'ga:appID=='+selectedApp
+        } 
+        this.attdealerContactedQuery: {
+             'start-date': startDate,
+             'end-date': endDate,
+             'metrics': 'ga:totalEvents',
+             'filters': 'ga:eventLabel==success,ga:eventLabel==error',
+        }
     }
 
     var countries = ['France','Italy', 'Spain', 'Germany', 'United Kingdom']
