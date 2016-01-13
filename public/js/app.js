@@ -208,7 +208,7 @@ function initialize() {
         //alert('inside charts')
         newReturningUsersData(results, app);
         AndroidcountryVisitsData(results, app);
-        iOScountryVisitsData(results);
+        iOScountryVisitsData(results, app);
         downloadsByOsData(results, app);
         dailyUsersData(results);
         recencyData(results, app);
@@ -317,7 +317,6 @@ function initialize() {
     }
 
     var AndroidcountryVisitsData = function(result, app){
-        //var appID = gaAppID(app)
         var ajaxData = result['AndroidcountryVisitsQuery_' + app];
 
         //adding column headers
@@ -334,9 +333,8 @@ function initialize() {
         table_c.draw(data, options);
     }
 
-    //TODO curently this chart's db data is not supporting app filtering; check if this is acording to specs
-    var iOScountryVisitsData = function(result){
-        var ajaxData = result.iOScountryVisitsQuery
+    var iOScountryVisitsData = function(result, app){
+        var ajaxData = result['iOScountryVisitsQuery_' + app]
         //adding column headers
         ajaxData.unshift(['Country', 'Users'])
         var data = google.visualization.arrayToDataTable(ajaxData)
