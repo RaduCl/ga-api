@@ -304,8 +304,8 @@ function initialize() {
         data.addColumn('string', 'User Type');
         data.addColumn('number', 'Sessions');
         data.addRows([
-            ['Returning Visitors', {v: newVisitors}],
-            ['New Visitors', {v: returningVisitors}]
+            ['Returning Visitors', {v: returningVisitors}],
+            ['New Visitors', {v: newVisitors}]
         ]);
         var options = {
             'title': 'New versus Returning Users',
