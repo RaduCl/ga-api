@@ -152,30 +152,39 @@ module.exports = function(passport){
 		//res.send('data from mongo')
 	});
 
-	/* GET  filtered by time interval all analytics data from DB */
+	var ingest = false
+
+		/* GET  filtered by time interval all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
-	router.get('/mongo-data/:timeInterval', isAuthenticated, function(req, res){
+	router.get('/mongo-data/:timeInterval', function(req, res){
 		var today = Date().slice(0, 15)
 		console.log(today);
 		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results, next){
-			//if(e) return next(e)
 			if(e) res.status(500).send(e)
-			if(results) res.send(results.Data)
-				else {
-				var startDate = new Date()
-				console.log('Empty db. Starting ingest cycle at: ' + startDate)
-				dbSeedData('week',function(){
-					dbSeedData('month', function(){
-						dbSeedData('year', function(){
-							console.log(
-								'ingest cycle is done.'
-								+ '\nStarted: '+ startDate
-								+ '\nEnded: ' + Date()
-							);
+			if(results){
+				res.send(results.Data)
+			} else {
+				//check if ingest is currently running
+				if (ingest){
+					res.status(500).send('Ingest curently running. Please return when done.')
+				} else {
+					ingest = true
+					var startDate = new Date()
+					console.log('Empty db. Starting ingest cycle at: ' + startDate)
+					dbSeedData('week',function(){
+						dbSeedData('month', function(){
+							dbSeedData('year', function(){
+								console.log(
+									'ingest cycle is done.'
+									+ '\nStarted: '+ startDate
+									+ '\nEnded: ' + Date()
+								);
+								ingest = false
+							})
 						})
 					})
-				})
-				res.status(500).send('Empty db. Return in 5 minutes after ingest cycle is done')
+					res.status(500).send('Empty db. Return after ingest cycle is done.')
+				}
 			}
 		})
 	});

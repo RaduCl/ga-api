@@ -190,11 +190,14 @@ function initialize() {
         $.ajax({
             url: url,
             type: 'GET',
-            statusCode:{
-              500: function(){
-                  alert('No data available, ingest cycle will start return when done')
-              }
+            error: function (http){
+                alert(http.responseText)
             },
+            //statusCode:{
+            //  500: function(){
+            //      alert('No data available, ingest cycle will start return when done')
+            //  }
+            //},
             //beforeSend: function(){
             //    $('#loading').show();
             //    $('#content').hide();
