@@ -189,7 +189,7 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:totalEvents',
-            'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:eventAction==change;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:eventAction==change;ga:appID=='+selectedApp,
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -198,7 +198,7 @@ module.exports = function(timeInterval){
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:totalEvents',
-            'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:appID=='+selectedApp,
+            'filters': selectedCountry ? 'ga:eventCategory==Bike;ga:eventAction==change;ga:country=='+selectedCountry+';ga:appID=='+selectedApp : 'ga:eventCategory==Bike;ga:eventAction==change;ga:appID=='+selectedApp,
             'dimensions': 'ga:eventLabel',
             'sort': '-ga:totalEvents',
             'max-results': 5,
@@ -341,7 +341,7 @@ module.exports = function(timeInterval){
              'start-date': startDate,
              'end-date': endDate,
              'metrics': 'ga:totalEvents',
-             'filters': 'ga:eventLabel==success,ga:eventLabel==error'
+             'filters': selectedCountry ? 'ga:eventLabel==success,ga:eventLabel==error;ga:appID=='+selectedApp+';ga:country=='+selectedCountry : 'ga:eventLabel==success,ga:eventLabel==error;ga:appID=='+selectedApp
         }
     }
 
