@@ -341,7 +341,7 @@ module.exports = function(timeInterval){
              'start-date': startDate,
              'end-date': endDate,
              'metrics': 'ga:totalEvents',
-             'filters': 'ga:eventLabel==success,ga:eventLabel==error'
+             'filters': selectedCountry ? 'ga:eventLabel==success,ga:eventLabel==error;ga:appID=='+selectedApp+';ga:country=='+selectedCountry : 'ga:eventLabel==success,ga:eventLabel==error;ga:appID=='+selectedApp
         }
     }
 
