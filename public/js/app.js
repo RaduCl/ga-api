@@ -145,12 +145,21 @@ function initialize() {
             }}}
         };
 
-        if($('#country-select option:selected').val() == 'select'){
+        //remove country from filename if no country is selected when exporting xlsx
+        if($('#country-select option:selected').val() != 'select'){
             country = '_' + $('#country-select option:selected').val();
         }
         var fileName = chartName + '_' + app + country + currentDate
-        var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
-        alasql(query, [opts]);
+        var summaryTable = alasql('SELECT * FROM HTML("#'+chartName+'-'+app+'")')
+        var big5Table = alasql('SELECT * FROM HTML("#coutriesDL-'+app+'")')
+        var data = [{0: 'APP KPI',	1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month', 5:'Week', 6:'Previous Week', 7:'Growth Week'}]
+        data = data.concat(summaryTable)
+        data.push({0: '', 1:'', 2:'', 3:'', 4:'', 5:'', 6:'', 7:''})
+        data.push({0: 'Country',	1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month', 5:'Week', 6:'Previous Week', 7:'Growth Week'})
+        data = data.concat(big5Table)
+        var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM ?';
+        //var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
+        alasql(query, [opts, data]);
     }
 
     //export xlsx button events for Sport Heritage Summary
