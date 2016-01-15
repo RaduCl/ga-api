@@ -151,8 +151,8 @@ function initialize() {
                 var cellkeys = Object.keys(row)
                 var formatedObj = cellkeys.map(function(cell){
                     var isIndexOf = row[cell].indexOf('%')
-                    if( isIndexOf !== -1 ) { return row[cell] = parseInt(row[cell].slice(0, isIndexOf)) }
-                    return parseInt(row[cell]) ? parseInt(row[cell]) : row[cell]
+                    if( isIndexOf !== -1 ) { return row[cell] = parseFloat(row[cell].slice(0, isIndexOf)) }
+                    return parseFloat(row[cell]) ? parseFloat(row[cell]) : row[cell]
                 })
                 return formatedObj
             })
