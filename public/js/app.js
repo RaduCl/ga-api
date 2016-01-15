@@ -829,21 +829,107 @@ function initialize() {
         var yearResults = result.yearResults.Data;
 
         var getRow = function(baseQuery, appIDga, countryName, resultName){
-            var ytd =  parseInt(yearResults[baseQuery+'_'+appIDga + countryName])
-            var month = parseInt(checkValue(monthResults[baseQuery+'_'+appIDga + countryName]))
-            var prevMonth = parseInt(checkValue(monthResults[baseQuery+'Prev'+'_'+appIDga + countryName]))
+            var ytd         = parseInt(yearResults[baseQuery+'_'+appIDga + countryName])
+            var month       = parseInt(checkValue(monthResults[baseQuery+'_'+appIDga + countryName]))
+            var prevMonth   = parseInt(checkValue(monthResults[baseQuery+'Prev'+'_'+appIDga + countryName]))
             var monthGrowth = {
                 v : parseInt(getDeltaPercentage(month, prevMonth)) ? getDeltaPercentage(month, prevMonth) : null,
                 f: parseInt(getDeltaPercentage(month, prevMonth)) ? getDeltaPercentage(month, prevMonth) + ' %' : '-'
             }
-            var week = parseInt(checkValue(weekResults[baseQuery+'_'+appIDga + countryName]))
-            var prevWeek = parseInt(checkValue(weekResults[baseQuery+'Prev'+'_'+appIDga + countryName]))
-            var weekGrowth = {
+            var week        = parseInt(checkValue(weekResults[baseQuery+'_'+appIDga + countryName]))
+            var prevWeek    = parseInt(checkValue(weekResults[baseQuery+'Prev'+'_'+appIDga + countryName]))
+            var weekGrowth  = {
                 v: parseInt(getDeltaPercentage(week, prevWeek)) ? getDeltaPercentage(week, prevWeek) : null,
                 f: parseInt(getDeltaPercentage(week, prevWeek)) ? getDeltaPercentage(week, prevWeek) + ' %' : '-'
             }
 
-            var row =  [resultName, ytd, month, prevMonth, monthGrowth, week, prevWeek, weekGrowth]
+            //var row =  [resultName, ytd, month, prevMonth, monthGrowth, week, prevWeek, weekGrowth]
+            var row =  [
+                resultName,
+                {v: ytd, f:ytd.toLocaleString('es')},
+                {v: month, f: month.toLocaleString('es')},
+                {v: prevMonth, f: prevMonth.toLocaleString('es')},
+                weekGrowth,
+                {v: week, f: week.toLocaleString('es')},
+                {v: prevWeek, f: prevWeek.toLocaleString('es')},
+                monthGrowth
+            ]
+            return row
+        }
+
+        var getIosRow = function(app, country){
+            var ytd, month, prevMonth, monthGrowth, week, prevWeek, weekGrowth;
+
+            if(country){
+                ytd         = yearResults.appStoreDownloadsByCountry[app][country].downloads
+                month       = monthResults.appStoreDownloadsByCountry[app][country].downloads
+                prevMonth   = monthResults.appStoreDownloadsByCountry[app][country].previousDownloads
+                week        = weekResults.appStoreDownloadsByCountry[app][country].downloads
+                prevWeek    = weekResults.appStoreDownloadsByCountry[app][country].previousDownloads
+                monthGrowth = {
+                    v: formatMissingValues(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage),
+                    f: formatInvalidFormatter(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage)
+                }
+                weekGrowth = {
+                    v: formatMissingValues(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage),
+                    f: formatInvalidFormatter(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage)
+                }
+            } else {
+                ytd         = yearResults.appStoreDownloads[app].downloads
+                month       = monthResults.appStoreDownloads[app].downloads
+                prevMonth   = monthResults.appStoreDownloads[app].previousDownloads
+                week        = weekResults.appStoreDownloads[app].downloads
+                prevWeek    = weekResults.appStoreDownloads[app].previousDownloads
+                monthGrowth = {
+                    v: formatMissingValues(monthResults.appStoreDownloads[app].deltaPercentage),
+                    f: formatInvalidFormatter(monthResults.appStoreDownloads[app].deltaPercentage)
+                }
+                weekGrowth = {
+                    v: formatMissingValues(weekResults.appStoreDownloads[app].deltaPercentage),
+                    f: formatInvalidFormatter(weekResults.appStoreDownloads[app].deltaPercentage)
+                }
+            }
+
+
+            var row =  [
+                'Downloads iOS',
+                {v: ytd, f:ytd.toLocaleString('es')},
+                {v: month, f: month.toLocaleString('es')},
+                {v: prevMonth, f: prevMonth.toLocaleString('es')},
+                monthGrowth,
+                {v: week, f: week.toLocaleString('es')},
+                {v: prevWeek, f: prevWeek.toLocaleString('es')},
+                weekGrowth
+            ]
+            return row
+        }
+
+        var getNewUsers = function(appIDga, countryName){
+            var ytd, month, prevMonth, monthGrowth, week, prevWeek, weekGrowth;
+
+            ytd         = parseInt(yearResults['visitorTypesQuery_' + appIDga + countryName][0][1])
+            month       = parseInt(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1])
+            prevMonth   = monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])
+            monthGrowth = {
+                v: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(getDeltaPercentage(month, prevMonth)),
+                f: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? '-' : getDeltaPercentage(month, prevMonth) + ' %'
+            }
+            week        = parseInt(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1])
+            prevWeek    = parseInt(weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])
+            weekGrowth  = {
+                v: weekResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(getDeltaPercentage(week, prevWeek)),
+                f: weekResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? '-' : getDeltaPercentage(week, prevWeek) + ' %'
+            }
+            var row =  [
+                'New Users',
+                {v: ytd, f:ytd.toLocaleString('es')},
+                {v: month, f: month.toLocaleString('es')},
+                {v: prevMonth, f: prevMonth.toLocaleString('es')},
+                monthGrowth,
+                {v: week, f: week.toLocaleString('es')},
+                {v: prevWeek, f: prevWeek.toLocaleString('es')},
+                weekGrowth
+            ]
             return row
         }
 
@@ -872,13 +958,26 @@ function initialize() {
                 f: getDeltaPercentage(Week, prevWeek) + ' %'
             }
 
-            return['Downloads Total', YTD, Month, prevMonth, growthMonth, Week, prevWeek, growthWeek]
+            return[
+                'Downloads Total',
+                {v: YTD , f: YTD.toLocaleString('es')},
+                {v: Month, f: Month.toLocaleString('es')},
+                {v: prevMonth, f: prevMonth.toLocaleString('es')},
+                growthMonth,
+                {v: Week, f: Week.toLocaleString('es')},
+                {v: prevWeek, f: prevWeek.toLocaleString('es')},
+                growthWeek
+            ]
         }
+
+
+        var iOsDownloads = getIosRow(app, country)
         var androidDl = getRow('AndroidDownloadsQuery', appIDga, countryName, 'Downloads Android')
+        var tdl = totalDl(app, country, appIDga, countryName)
         var savedConfigs = getRow('savedConfigsQuery', appIDga, countryName, 'Storaged Bikes')
         var shares= getRow('sharesQuery', appIDga, countryName, 'Shared Pictures')
         var dealerContacted = getRow('dealerContactedQuery', appIDga, countryName, 'Sent to a dealer')
-        var tdl = totalDl(app, country, appIDga, countryName)
+        var newUsers = getNewUsers(appIDga, countryName)
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
@@ -890,17 +989,18 @@ function initialize() {
         data.addColumn('number', 'Previous Week');
         data.addColumn('number', 'Growth Week');
         data.addRows([
-            [
-                'Downloads iOS',
-                country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads,
-                country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads,
-                country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
-                //country ? {v: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
-                country ? {v: formatMissingValues(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage), f: formatInvalidFormatter(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage)} : {v: formatMissingValues(monthResults.appStoreDownloads[app].deltaPercentage), f: formatInvalidFormatter(monthResults.appStoreDownloads[app].deltaPercentage)},
-                country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads,
-                country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads,
-                country ? {v: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
-            ],
+            iOsDownloads,
+            //[
+            //    'Downloads iOS',
+            //    country ? yearResults.appStoreDownloadsByCountry[app][country].downloads : yearResults.appStoreDownloads[app].downloads,
+            //    country ? monthResults.appStoreDownloadsByCountry[app][country].downloads : monthResults.appStoreDownloads[app].downloads,
+            //    country ? monthResults.appStoreDownloadsByCountry[app][country].previousDownloads : monthResults.appStoreDownloads[app].previousDownloads,
+            //    //country ? {v: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(monthResults.appStoreDownloads[app].deltaPercentage) ? monthResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+            //    country ? {v: formatMissingValues(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage), f: formatInvalidFormatter(monthResults.appStoreDownloadsByCountry[app][country].deltaPercentage)} : {v: formatMissingValues(monthResults.appStoreDownloads[app].deltaPercentage), f: formatInvalidFormatter(monthResults.appStoreDownloads[app].deltaPercentage)},
+            //    country ? weekResults.appStoreDownloadsByCountry[app][country].downloads : weekResults.appStoreDownloads[app].downloads,
+            //    country ? weekResults.appStoreDownloadsByCountry[app][country].previousDownloads : weekResults.appStoreDownloads[app].previousDownloads,
+            //    country ? {v: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage) ? weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage + ' %' : '-'} : {v: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage : null, f: parseInt(weekResults.appStoreDownloads[app].deltaPercentage) ? weekResults.appStoreDownloads[app].deltaPercentage + ' %' : '-'},
+            //],
 
             //TODO implement when googlePlay API credentials are available
             androidDl,
@@ -926,22 +1026,23 @@ function initialize() {
 
             dealerContacted,
 
-            [
-                'New Users',
-                parseInt(yearResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
-                parseInt(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
-                monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
-                {
-                    v: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
-                    f: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? '-' : getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
-                },
-                parseInt(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
-                parseInt(weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
-                {
-                    v: parseInt(getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1], weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
-                    f: getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1], weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
-                },
-            ],
+            newUsers,
+            //[
+            //    'New Users',
+            //    parseInt(yearResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
+            //    parseInt(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
+            //    monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
+            //    {
+            //        v: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
+            //        f: monthResults['visitorTypesQueryPrev_' + appIDga + countryName] == null ? '-' : getDeltaPercentage(monthResults['visitorTypesQuery_' + appIDga + countryName][0][1], monthResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
+            //    },
+            //    parseInt(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1]),
+            //    parseInt(weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]),
+            //    {
+            //        v: parseInt(getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1], weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1])),
+            //        f: getDeltaPercentage(weekResults['visitorTypesQuery_' + appIDga + countryName][0][1], weekResults['visitorTypesQueryPrev_' + appIDga + countryName][0][1]) + ' %'
+            //    },
+            //],
 
             [
                 'Average usage (min)',
