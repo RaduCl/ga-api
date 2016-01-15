@@ -145,6 +145,18 @@ function initialize() {
             }}}
         };
 
+        //helper function strips '%' and parses ints from cells
+        var objFormater = function(data){
+            return data.map(function(row){
+                var cellkeys = Object.keys(row)
+                var formatedObj = cellkeys.map(function(cell){
+                    var isIndexOf = row[cell].indexOf('%')
+                    if( isIndexOf !== -1 ) { return row[cell] = parseInt(row[cell].slice(0, isIndexOf)) }
+                    return parseInt(row[cell]) ? parseInt(row[cell]) : row[cell]
+                })
+                return formatedObj
+            })
+        }
         //remove country from filename if no country is selected when exporting xlsx
         if($('#country-select option:selected').val() != 'select'){
             country = '_' + $('#country-select option:selected').val();
@@ -152,11 +164,12 @@ function initialize() {
         var fileName = chartName + '_' + app + country + currentDate
         var summaryTable = alasql('SELECT * FROM HTML("#'+chartName+'-'+app+'")')
         var big5Table = alasql('SELECT * FROM HTML("#coutriesDL-'+app+'")')
-        var data = [{0: 'APP KPI',	1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month', 5:'Week', 6:'Previous Week', 7:'Growth Week'}]
-        data = data.concat(summaryTable)
+        var data = [{0: 'APP KPI',	1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month (%)', 5:'Week', 6:'Previous Week', 7:'Growth Week (%)'}]
+        data = data.concat(objFormater(summaryTable))
         data.push({0: '', 1:'', 2:'', 3:'', 4:'', 5:'', 6:'', 7:''})
-        data.push({0: 'Country',	1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month', 5:'Week', 6:'Previous Week', 7:'Growth Week'})
-        data = data.concat(big5Table)
+        data.push({0: 'Country', 1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month (%)', 5:'Week', 6:'Previous Week', 7:'Growth Week (%)'})
+        data = data.concat(objFormater(big5Table))
+
         var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM ?';
         //var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
         alasql(query, [opts, data]);
