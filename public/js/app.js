@@ -26,6 +26,14 @@ function initialize() {
         return value ? value : 0
     }
 
+    //parse int and add thousant separator for each element in the array
+    var arrayThousantSeparator = function(arr){
+        arr.map(function(row){
+            row[1] = parseInt(row[1]).toLocaleString('es')
+            return row
+        })
+    }
+
     //find the active app tab
     var activeAppTab = function(){
         var app = $('li.active').find('a').attr('href').replace('#bs_', '')
@@ -354,6 +362,7 @@ function initialize() {
 
     var AndroidcountryVisitsData = function(result, app){
         var ajaxData = result['AndroidcountryVisitsQuery_' + app];
+        arrayThousantSeparator(ajaxData)
 
         //adding column headers
         ajaxData.unshift(['Country', 'Users'])
@@ -372,6 +381,7 @@ function initialize() {
     var iOScountryVisitsData = function(result, app){
         var ajaxData = result['iOScountryVisitsQuery_' + app]
         //adding column headers
+        arrayThousantSeparator(ajaxData)
         ajaxData.unshift(['Country', 'Users'])
         var data = google.visualization.arrayToDataTable(ajaxData)
 
@@ -687,6 +697,7 @@ function initialize() {
 
     var popularBikesData = function(result, app){
         var ajaxData = filteredAjaxData(result, 'popularBikesQuery', app)
+        arrayThousantSeparator(ajaxData)
         ajaxData.unshift(['Bike', 'totalEvents'])
         var data = google.visualization.arrayToDataTable(ajaxData)
 
@@ -700,8 +711,10 @@ function initialize() {
         table_c.draw(data, options);
     }
 
+
     var popularPartsData = function(result, app){
         var ajaxData = filteredAjaxData(result, 'popularPartsQuery', app)
+        arrayThousantSeparator(ajaxData)
         //adding column headers
         ajaxData.unshift(['eventLabel', 'totalEvents'])
         var data = google.visualization.arrayToDataTable(ajaxData)
@@ -718,6 +731,8 @@ function initialize() {
 
     var AndroidExitData = function(result, app){
         var ajaxData = filteredAjaxData(result, 'AndroidExitQuery', app)
+        arrayThousantSeparator(ajaxData)
+
         //adding column headers
         ajaxData.unshift(['Exit Event Name', 'Events'])
         var data = google.visualization.arrayToDataTable(ajaxData)
@@ -734,6 +749,8 @@ function initialize() {
 
     var iOSExitData = function(result, app){
         var ajaxData = filteredAjaxData(result, 'iOSExitQuery', app)
+        arrayThousantSeparator(ajaxData)
+
         //adding column headers
         ajaxData.unshift(['Exit Event Name', 'Events'])
         var data = google.visualization.arrayToDataTable(ajaxData)
@@ -749,13 +766,14 @@ function initialize() {
     }
 
     var totalShareData = function(result, app){
-        var ajaxData = filteredAjaxData(result, 'sharesQuery', app)
-        $('#share-number').html('      ' + ajaxData)
+        var ajaxData = parseInt(filteredAjaxData(result, 'sharesQuery', app)[0][0])
+        console.log('test: ',ajaxData.toLocaleString('es'));
+        $('#share-number').html('      ' + ajaxData.toLocaleString('es'))
     }
 
     var savedConfigsData = function(result, app){
-        var ajaxData = filteredAjaxData(result, 'savedConfigsQuery', app)
-        $('#saved-configs').html('      ' + ajaxData)
+        var ajaxData = parseInt(filteredAjaxData(result, 'savedConfigsQuery', app)[0][0])
+        $('#saved-configs').html('      ' + ajaxData.toLocaleString('es'))
     }
 
     var contactDealerData = function(result, app){
@@ -779,7 +797,11 @@ function initialize() {
         data.addColumn('number', 'Previous');
         data.addColumn('number', 'Growth');
         data.addRows([
-            [units, prevUnits, {v: parseInt(growth) ? growth : null, f: parseInt(growth) ? growth+' %' : '-'} ]
+            [
+                {v: units, f: units.toLocaleString('es')},
+                {v: prevUnits, f: prevUnits.toLocaleString('es')},
+                {v: parseInt(growth) ? growth : null, f: parseInt(growth) ? growth+' %' : '-'}
+            ]
         ]);
 
         var formatter = new google.visualization.ArrowFormat();
@@ -804,7 +826,11 @@ function initialize() {
         data.addColumn('number', 'Previous');
         data.addColumn('number', 'Growth');
         data.addRows([
-            [units, prevUnits, {v: parseInt(growth) ? growth : null, f: parseInt(growth) ? growth + ' %' : '-'}]
+            [
+                {v: units, f: units.toLocaleString('es')},
+                {v: prevUnits, f: prevUnits.toLocaleString('es')},
+                {v: parseInt(growth) ? growth : null, f: parseInt(growth) ? growth+' %' : '-'}
+            ]
         ]);
 
         var formatter = new google.visualization.ArrowFormat();
@@ -1141,7 +1167,16 @@ function initialize() {
                 f: getDeltaPercentage(Week, prevWeek) + ' %'
             }
 
-            return[country, YTD, Month, prevMonth, growthMonth, Week, prevWeek, growthWeek]
+            return[
+                country,
+                {v: YTD, f: YTD.toLocaleString('es')},
+                {v: Month, f: Month.toLocaleString('es')},
+                {v: prevMonth, f: prevMonth.toLocaleString('es')},
+                growthMonth,
+                {v: Week, f: Week.toLocaleString('es')},
+                {v: prevWeek, f: prevWeek.toLocaleString('es')},
+                growthWeek
+            ]
         })
 
         var data = new google.visualization.DataTable();
