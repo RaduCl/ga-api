@@ -137,7 +137,7 @@ function initialize() {
         var country = ''
 
         var opts = {
-            headers:true,
+            headers:false,
             sheetid:"Sheet1",
             column: {style:{Font:{Bold:"1"}}},
             rows: {1:{style:{Font:{Color:"#FF0000"}}}},
