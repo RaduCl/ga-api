@@ -146,6 +146,7 @@ function initialize() {
 
         var opts = {
             headers:true,
+            sheetid:"Sheet1",
             column: {style:{Font:{Bold:"1"}}},
             rows: {1:{style:{Font:{Color:"#FF0000"}}}},
             cells: {1:{1:{
