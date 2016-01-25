@@ -265,7 +265,7 @@ function initialize() {
         totalShareData(results, app);
         savedConfigsData(results, app);
         contactDealerData(results, app);
-        contactDealerAttemptsData(results, app);
+        //contactDealerAttemptsData(results, app);
         appStoreDownloads(results, app);
         playStoreDownloads(results, app);
     }
@@ -767,26 +767,69 @@ function initialize() {
     }
 
     var totalShareData = function(result, app){
-        var ajaxData = parseInt(filteredAjaxData(result, 'sharesQuery', app)[0][0])
-        console.log('test: ',ajaxData.toLocaleString('es'));
-        $('#share-number').html('      ' + ajaxData.toLocaleString('es'))
+        var ajaxData = [
+            ['Shares'],
+            [parseInt(filteredAjaxData(result, 'sharesQuery', app)[0][0])]
+        ]
+
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Total number of shares',
+            'showRowNumber': false,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_part = new google.visualization.Table(document.getElementById('share-number'));
+        table_part.draw(data, options);
     }
 
     var savedConfigsData = function(result, app){
-        var ajaxData = parseInt(filteredAjaxData(result, 'savedConfigsQuery', app)[0][0])
-        $('#saved-configs').html('      ' + ajaxData.toLocaleString('es'))
+        var ajaxData = [
+            ['Configurations'],
+            [parseInt(filteredAjaxData(result, 'savedConfigsQuery', app)[0][0])]
+        ]
+
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Saved Configurations',
+            'showRowNumber': false,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_part = new google.visualization.Table(document.getElementById('saved-configs'));
+        table_part.draw(data, options);
     }
 
     var contactDealerData = function(result, app){
-        var ajaxData = filteredAjaxData(result, 'dealerContactedQuery', app)
-        $('#dealer-contacted').html('      ' + ajaxData)
+        //var ajaxData = filteredAjaxData(result, 'dealerContactedQuery', app)
+
+        var ajaxData = [
+            ['Attempts', 'Success'],
+            [
+                parseInt(filteredAjaxData(result, 'attdealerContactedQuery', app)),
+                parseInt(filteredAjaxData(result, 'dealerContactedQuery', app))
+            ]
+        ]
+
+        var data = google.visualization.arrayToDataTable(ajaxData)
+
+        var options = {
+            'title': 'Saved Configurations',
+            'showRowNumber': false,
+            'width': "100%",
+            'height': "100%"
+        }
+        var table_part = new google.visualization.Table(document.getElementById('dealer-contacted'));
+        table_part.draw(data, options);
     }
 
     //TODO does not have app param implmented in biDimQueries
-    var contactDealerAttemptsData = function(result, app){
-        var ajaxData = filteredAjaxData(result, 'attdealerContactedQuery', app)
-        $('#dealer-contacted-attempts').html('      ' + ajaxData)
-    }
+    //var contactDealerAttemptsData = function(result, app){
+    //    var ajaxData = filteredAjaxData(result, 'attdealerContactedQuery', app)
+    //    $('#dealer-contacted-attempts').html('      ' + ajaxData)
+    //}
 
     var appStoreDownloads = function(result, app){
         var appID = appleAppID(app);
