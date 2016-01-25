@@ -1001,7 +1001,7 @@ function initialize() {
         var iOsDownloads = getIosRow(app, country)
         var androidDl = getRow('AndroidDownloadsQuery', appIDga, countryName, 'Downloads Android')
         var tdl = totalDl(app, country, appIDga, countryName)
-        var savedConfigs = getRow('savedConfigsQuery', appIDga, countryName, 'Storaged Bikes')
+        var savedConfigs = getRow('savedConfigsQuery', appIDga, countryName, 'Stored Bikes')
         var shares= getRow('sharesQuery', appIDga, countryName, 'Shared Pictures')
         var dealerContacted = getRow('dealerContactedQuery', appIDga, countryName, 'Sent to a dealer')
         var newUsers = getNewUsers(appIDga, countryName)
