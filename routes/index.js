@@ -7,7 +7,16 @@ var dbSeedData = require('../analytics/bidbFeeder')
 
 
 
-//var gaData = require('../models/AnalyticsData')
+//////helper function//////
+var getYesterday = function(){
+	var today = new Date();
+	var currDate = today.getDate()
+	today.setDate(currDate-1)
+	var yesterday = today.toString()
+	return yesterday.slice(0, 15)
+}
+///////////////////////////
+
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
 	// Passport adds this method to request object. A middleware is allowed to add properties to
@@ -121,22 +130,31 @@ module.exports = function(passport){
 	/* GET  all analytics data from DB for MyGarage stats table */
 	router.get('/mygarage-data', isAuthenticated, function(req, res){
 		var today = Date().slice(0, 15)
+		var yesterday = getYesterday();
+		var date = '';
 		var allResults = {}
-		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results){
-			if(e) return next(e)
-			if(results) {
-				allResults.weekResults = results
-				db.collection(dbConfig.collection).findOne({timeInterval: 'month', createDate: today}, function (e, results) {
-					if (e) return next(e)
-					if (results) {
-						allResults.monthResults = results
-						db.collection(dbConfig.collection).findOne({timeInterval: 'year', createDate: today}, function(e, results){
-							allResults.yearResults = results
-							res.send(allResults)
-						})
-					}
-				})
-			}
+
+		//check if current date Data is available
+		db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: today}, function(e, results) {
+			if (e) return next(e)
+			results ? date = today : date = yesterday
+			console.log('Getting data from: ',date);
+			db.collection(dbConfig.collection).findOne({timeInterval: 'week', createDate: date}, function(e, results){
+				if(e) return next(e)
+				if(results) {
+					allResults.weekResults = results
+					db.collection(dbConfig.collection).findOne({timeInterval: 'month', createDate: date}, function (e, results) {
+						if (e) return next(e)
+						if (results) {
+							allResults.monthResults = results
+							db.collection(dbConfig.collection).findOne({timeInterval: 'year', createDate: date}, function(e, results){
+								allResults.yearResults = results
+								res.send(allResults)
+							})
+						}
+					})
+				}
+			})
 		})
 	})
 
@@ -152,12 +170,13 @@ module.exports = function(passport){
 		//res.send('data from mongo')
 	});
 
-	var ingest = false
+	var ingest = false;
 
 		/* GET  filtered by time interval all analytics data from DB */
 	//TODO in production secure this route by using isAuthenticated param
 	router.get('/mongo-data/:timeInterval', function(req, res){
 		var today = Date().slice(0, 15)
+		var yesterday = getYesterday()
 		console.log(today);
 		db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: today}, function(e, results, next){
 			if(e) res.status(500).send(e)
@@ -166,24 +185,38 @@ module.exports = function(passport){
 			} else {
 				//check if ingest is currently running
 				if (ingest){
-					res.status(500).send('Ingest curently running. Please return when done.')
-				} else {
-					ingest = true
-					var startDate = new Date()
-					console.log('Empty db. Starting ingest cycle at: ' + startDate)
-					dbSeedData('week',function(){
-						dbSeedData('month', function(){
-							dbSeedData('year', function(){
-								console.log(
-									'ingest cycle is done.'
-									+ '\nStarted: '+ startDate
-									+ '\nEnded: ' + Date()
-								);
-								ingest = false
+						//res.status(500).send('Ingest curently running. Please return when done.')
+						//retrieve previous available data to present
+						db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: yesterday}, function(e, results, next){
+							if(e) res.status(500).send(e)
+							if(results){
+								res.send(results.Data)
+							}
+						})
+					} else {
+						ingest = true
+						var startDate = new Date()
+						console.log('Empty db. Starting ingest cycle at: ' + startDate)
+						dbSeedData('week',function(){
+							dbSeedData('month', function(){
+								dbSeedData('year', function(){
+									console.log(
+										'ingest cycle is done.'
+										+ '\nStarted: '+ startDate
+										+ '\nEnded: ' + Date()
+									);
+									ingest = false
+								})
 							})
 						})
-					})
-					res.status(500).send('Empty db. Return after ingest cycle is done.')
+						//res.status(500).send('Empty db. Return after ingest cycle is done.')
+						//retrieve previous available data to present
+						db.collection(dbConfig.collection).findOne({timeInterval: req.params.timeInterval, createDate: yesterday}, function(e, results, next){
+							if(e) res.status(500).send(e)
+							if(results){
+								res.send(results.Data)
+							}
+						})
 				}
 			}
 		})
