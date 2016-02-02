@@ -41,7 +41,15 @@
 #top-countries-android th:nth-child(2),
 #top-countries-android td:nth-child(2),
 #top-countries-iOS th:nth-child(2),
-#top-countries-iOS td:nth-child(2) {
+#top-countries-iOS td:nth-child(2),
+#popular-bikes th:nth-child(2),
+#popular-bikes td:nth-child(2),
+#popular-parts th:nth-child(2),
+#popular-parts td:nth-child(2),
+#android-exit-event th:nth-child(2),
+#android-exit-event td:nth-child(2),
+#iOS-exit-event th:nth-child(2),
+#iOS-exit-event td:nth-child(2) {
   text-align: left;
 }
 .google-visualization-formatters-arrow-dr {
