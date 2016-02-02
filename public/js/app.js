@@ -14,7 +14,7 @@ function initialize() {
     //helper methods
     var getDeltaPercentage = function(currentResult, prevResult){
         if((prevResult && currentResult)){
-            return Math.floor((currentResult-prevResult)/prevResult*100);
+            return Math.round((currentResult-prevResult)/prevResult*100);
         } else return('-')
     };
 
@@ -919,10 +919,10 @@ function initialize() {
                 {v: ytd, f:ytd.toLocaleString('es')},
                 {v: month, f: month.toLocaleString('es')},
                 {v: prevMonth, f: prevMonth.toLocaleString('es')},
-                weekGrowth,
+                monthGrowth,
                 {v: week, f: week.toLocaleString('es')},
                 {v: prevWeek, f: prevWeek.toLocaleString('es')},
-                monthGrowth
+                weekGrowth
             ]
             return row
         }
