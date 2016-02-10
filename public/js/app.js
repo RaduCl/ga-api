@@ -344,24 +344,18 @@ function initialize() {
 
     var newReturningUsersData = function(result, app){
         var ajaxData = filteredAjaxData(result, 'visitorTypesQuery', app);
-        var data = new google.visualization.DataTable();
+        arrayThousantSeparator(ajaxData)
+        ajaxData.unshift(['User type', 'Users'])
+        var data = google.visualization.arrayToDataTable(ajaxData)
 
-        var newVisitors = parseInt(ajaxData[0][1]);
-        var returningVisitors = parseInt(ajaxData[1][1]);
-
-        data.addColumn('string', 'User Type');
-        data.addColumn('number', 'Sessions');
-        data.addRows([
-            ['Returning Visitors', {v: returningVisitors}],
-            ['New Visitors', {v: newVisitors}]
-        ]);
         var options = {
-            'title': 'New versus Returning Users',
-            'width': '100%',
-            'height': '100%'
+            'title': 'New oe returning users',
+            'showRowNumber': false,
+            'width': "100%",
+            'height': "100%"
         }
-        var table = new google.visualization.Table(document.getElementById('new-vs-returning-users'));
-        table.draw(data, options);
+        var table_c = new google.visualization.Table(document.getElementById('new-vs-returning-users'));
+        table_c.draw(data, options);
     }
 
     var AndroidcountryVisitsData = function(result, app){
