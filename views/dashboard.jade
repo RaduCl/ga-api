@@ -31,7 +31,16 @@ block content
                     div
                         a(data-toggle="tab" href='#bs_mygarageMT')
                             p Yamaha My Garage: MT
-                            p YAMAHA MOTOR EUROPE
+                            p YAMAHA MOTOR EUROPE            
+                li
+                    div
+                        a(data-toggle="tab" href='#bs_allApps')
+                            img(src="../img/logo_all_apps.png")
+                    div
+                        a(data-toggle="tab" href='#bs_allApps')
+                            p Yamaha My Garage: All Apps
+                            p YAMAHA MOTOR 
+                
 
             div.time-interval
                 select#time-interval.styled-select
@@ -86,6 +95,12 @@ block content
                                         h4 Big Five Country Downloads
                                         //button#export-mygarageMT-countriesDL-xlsx Export XLSX
                                     #coutriesDL-MyGarageMT
+                             div.tab-pane.fade#bs_allApps
+                                div.chart-element
+                                    div
+                                        h4 All Yamaha My Garage Apps
+                                        button#export-mygarageSS-xlsx Export XLSX
+                                    #summary-allApps
 
                         div.col-md-12.widget
                             div.panel.panel-primary

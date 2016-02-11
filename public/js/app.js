@@ -48,6 +48,9 @@ function initialize() {
             case 'mygarageMT':
                 app = 'mygaragemt'
                 break;
+            case 'allApps':
+                app = 'allApps'
+                break;
         }
         return app
     }
