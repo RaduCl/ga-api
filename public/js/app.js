@@ -1090,6 +1090,30 @@ function initialize() {
             ]
         }
 
+        var popularBikes = function(app, country, appIDga, countryName){
+            if(appIDga != '' )
+                return[
+                'Popular bike',
+                {v: parseInt(yearResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularBikesQuery_' + appIDga + countryName][0][0])},
+                {v: parseInt(monthResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQuery_' + appIDga + countryName][0][0]},
+                {v: monthResults['popularBikesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
+                null,
+                {v: parseInt(weekResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQuery_' + appIDga + countryName][0][0]},
+                {v: parseInt(weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
+                null
+            ]
+            else  return[
+                'Popular bike',
+                {v: parseInt(yearResults['popularBikesQuery'][0][0]), f: String(yearResults['popularBikesQuery'][0][0])},
+                {v: parseInt(monthResults['popularBikesQuery'][0][0]), f: monthResults['popularBikesQuery'][0][0]},
+                {v: monthResults['popularBikesQueryPrev'] == null ? 0 : parseInt(monthResults['popularBikesQueryPrev'][0][0]), f: monthResults['popularBikesQueryPrev'] == null ? '-' : monthResults['popularBikesQueryPrev'][0][0]},
+                null,
+                {v: parseInt(weekResults['popularBikesQuery'][0][0]), f: weekResults['popularBikesQuery'][0][0]},
+                {v: parseInt(weekResults['popularBikesQueryPrev'][0][0]), f: weekResults['popularBikesQueryPrev'][0][0]},
+                null
+            ]  
+        }
+
 
         if(app) var iOsDownloads = getIosRow(app, country)
         var androidDl = getRow('AndroidDownloadsQuery', appIDga, countryName, 'Downloads Android')
@@ -1196,30 +1220,7 @@ function initialize() {
                 },
             ],
 
-                if(appIDga != ''){
-                    [
-                    'Popular bike',
-                    {v: parseInt(yearResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularBikesQuery_' + appIDga + countryName][0][0])},
-                    {v: parseInt(monthResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQuery_' + appIDga + countryName][0][0]},
-                    {v: monthResults['popularBikesQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularBikesQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
-                    null,
-                    {v: parseInt(weekResults['popularBikesQuery_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQuery_' + appIDga + countryName][0][0]},
-                    {v: parseInt(weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularBikesQueryPrev_' + appIDga + countryName][0][0]},
-                    null
-                    ],
-                    }
-                else{
-                    [
-                    'Popular bike',
-                    {v: parseInt(yearResults['popularBikesQuery'][0][0]), f: String(yearResults['popularBikesQuery'][0][0])},
-                    {v: parseInt(monthResults['popularBikesQuery'][0][0]), f: monthResults['popularBikesQuery'][0][0]},
-                    {v: monthResults['popularBikesQueryPrev'] == null ? 0 : parseInt(monthResults['popularBikesQueryPrev'][0][0]), f: monthResults['popularBikesQueryPrev'] == null ? '-' : monthResults['popularBikesQueryPrev'][0][0]},
-                    null,
-                    {v: parseInt(weekResults['popularBikesQuery'][0][0]), f: weekResults['popularBikesQuery'][0][0]},
-                    {v: parseInt(weekResults['popularBikesQueryPrev'][0][0]), f: weekResults['popularBikesQueryPrev'][0][0]},
-                    null
-                    ],
-                    }
+            popularBikes,
 
             [
                 'Popular Accessory',
