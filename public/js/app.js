@@ -1114,6 +1114,96 @@ function initialize() {
             ]  
         }
 
+        var popularParts = function(app, country, appIDga, countryName){
+            if(appIDga != '' )
+                return[
+                'Popular bike',
+                {v: parseInt(yearResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga + countryName][0][0])},
+                {v: parseInt(monthResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
+                {v: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]},
+                null,
+                {v: parseInt(weekResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQuery_' + appIDga + countryName][0][0]},
+                {v: parseInt(weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]},
+                null
+            ]
+            else  return[
+                'Popular bike',
+                {v: parseInt(yearResults['popularPartsQuery'][0][0]), f: String(yearResults['popularPartsQuery'][0][0])},
+                {v: parseInt(monthResults['popularPartsQuery'][0][0]), f: monthResults['popularPartsQuery'][0][0]},
+                {v: monthResults['popularPartsQueryPrev'] == null ? 0 : parseInt(monthResults['popularPartsQueryPrev'][0][0]), f: monthResults['popularPartsQueryPrev'] == null ? '-' : monthResults['popularPartsQueryPrev'][0][0]},
+                null,
+                {v: parseInt(weekResults['popularPartsQuery'][0][0]), f: weekResults['popularPartsQuery'][0][0]},
+                {v: parseInt(weekResults['popularPartsQueryPrev'][0][0]), f: weekResults['popularPartsQueryPrev'][0][0]},
+                null
+            ]  
+        }
+
+        var appUsage = function(app, country, appIDga, countryName){
+            if(appIDga != '' )
+                return[
+                'Average usage (min)',
+                {
+                    v: parseInt(yearResults['averageUsageQuery_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(yearResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
+                },
+                {
+                    v: parseInt(monthResults['averageUsageQuery_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
+                },
+                {
+                    v: parseInt(monthResults['averageUsageQueryPrev_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQueryPrev_' + appIDga + countryName])).toFixed(1)
+                },
+                {
+                    v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])),
+                    f: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %' : '-'
+                },
+                {
+                    v: parseInt(weekResults['averageUsageQuery_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
+                },
+                {
+                    v: parseInt(weekResults['averageUsageQueryPrev_' + appIDga + countryName]),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQueryPrev_' + appIDga + countryName])).toFixed(1)
+                },
+                {
+                    v: parseInt(getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga + countryName], weekResults['averageUsageQueryPrev_' + appIDga + countryName])),
+                    f: getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga + countryName], weekResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %'
+                },
+            ]
+            else  return[
+                'Average usage (min)',
+                {
+                    v: parseInt(yearResults['averageUsageQuery']),
+                    f: parseFloat(convertSecondsToMinutes(yearResults['averageUsageQuery'])).toFixed(1)
+                },
+                {
+                    v: parseInt(monthResults['averageUsageQuery']),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQuery'])).toFixed(1)
+                },
+                {
+                    v: parseInt(monthResults['averageUsageQueryPrev']),
+                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQueryPrev'])).toFixed(1)
+                },
+                {
+                    v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery'], monthResults['averageUsageQueryPrev'])),
+                    f: parseInt(getDeltaPercentage(monthResults['averageUsageQuery'], monthResults['averageUsageQueryPrev'])) ? getDeltaPercentage(monthResults['averageUsageQuery'], monthResults['averageUsageQueryPrev']) + ' %' : '-'
+                },
+                {
+                    v: parseInt(weekResults['averageUsageQuery']),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQuery'])).toFixed(1)
+                },
+                {
+                    v: parseInt(weekResults['averageUsageQueryPrev']),
+                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQueryPrev'])).toFixed(1)
+                },
+                {
+                    v: parseInt(getDeltaPercentage(weekResults['averageUsageQuery'], weekResults['averageUsageQueryPrev'])),
+                    f: getDeltaPercentage(weekResults['averageUsageQuery'], weekResults['averageUsageQueryPrev']) + ' %'
+                },
+            ]  
+        }
+
 
         if(app) var iOsDownloads = getIosRow(app, country)
         var androidDl = getRow('AndroidDownloadsQuery', appIDga, countryName, 'Downloads Android')
@@ -1188,50 +1278,10 @@ function initialize() {
             //    },
             //],
 
-            [
-                'Average usage (min)',
-                {
-                    v: parseInt(yearResults['averageUsageQuery_' + appIDga + countryName]),
-                    f: parseFloat(convertSecondsToMinutes(yearResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
-                },
-                {
-                    v: parseInt(monthResults['averageUsageQuery_' + appIDga + countryName]),
-                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
-                },
-                {
-                    v: parseInt(monthResults['averageUsageQueryPrev_' + appIDga + countryName]),
-                    f: parseFloat(convertSecondsToMinutes(monthResults['averageUsageQueryPrev_' + appIDga + countryName])).toFixed(1)
-                },
-                {
-                    v: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])),
-                    f: parseInt(getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName])) ? getDeltaPercentage(monthResults['averageUsageQuery_' + appIDga + countryName], monthResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %' : '-'
-                },
-                {
-                    v: parseInt(weekResults['averageUsageQuery_' + appIDga + countryName]),
-                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQuery_' + appIDga + countryName])).toFixed(1)
-                },
-                {
-                    v: parseInt(weekResults['averageUsageQueryPrev_' + appIDga + countryName]),
-                    f: parseFloat(convertSecondsToMinutes(weekResults['averageUsageQueryPrev_' + appIDga + countryName])).toFixed(1)
-                },
-                {
-                    v: parseInt(getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga + countryName], weekResults['averageUsageQueryPrev_' + appIDga + countryName])),
-                    f: getDeltaPercentage(weekResults['averageUsageQuery_' + appIDga + countryName], weekResults['averageUsageQueryPrev_' + appIDga + countryName]) + ' %'
-                },
-            ],
+            appUsage,
 
             popularBikes,
-
-            [
-                'Popular Accessory',
-                {v: parseInt(yearResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga + countryName][0][0])},
-                {v: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
-                {v: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName] == null ? '-' :  monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
-                null,
-                {v: parseInt(weekResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQuery_' + appIDga + countryName][0][0]},
-                {v: parseInt(weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: weekResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]},
-                null
-            ],
+            popularParts,
         ])
 
         var formatter = new google.visualization.ArrowFormat();
