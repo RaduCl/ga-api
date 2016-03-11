@@ -85,6 +85,18 @@ module.exports = function(timeInterval){
     // Query objects used in getData()
     var queries = {
 
+        AndroidDownloadsQuery: {
+            'start-date': startDate,
+            'end-date': endDate,
+            'metrics': 'ga:newUsers',
+            'filters': 'ga:operatingSystem==Android'
+        },
+        AndroidDownloadsQueryPrev: {
+            'start-date': startDatePrev,
+            'end-date': endDatePrev,
+            'metrics': 'ga:newUsers',
+            'filters': 'ga:operatingSystem==Android'
+        },
         visitorTypesQuery: {
             'start-date': startDate,
             'end-date': endDate,

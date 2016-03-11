@@ -932,13 +932,13 @@ function initialize() {
             console.log("in else");
             var ytd         = parseInt(yearResults[baseQuery])
             var month       = parseInt(checkValue(monthResults[baseQuery]))
-            var prevMonth   = parseInt(checkValue(monthResults[baseQuery]))
+            var prevMonth   = parseInt(checkValue(monthResults[baseQuery+'Prev']))
             var monthGrowth = {
                 v : parseInt(getDeltaPercentage(month, prevMonth)) ? getDeltaPercentage(month, prevMonth) : null,
                 f: parseInt(getDeltaPercentage(month, prevMonth)) ? getDeltaPercentage(month, prevMonth) + ' %' : '-'
             }
             var week        = parseInt(checkValue(weekResults[baseQuery]))
-            var prevWeek    = parseInt(checkValue(weekResults[baseQuery]))
+            var prevWeek    = parseInt(checkValue(weekResults[baseQuery+'Prev']))
             var weekGrowth  = {
                 v: parseInt(getDeltaPercentage(week, prevWeek)) ? getDeltaPercentage(week, prevWeek) : null,
                 f: parseInt(getDeltaPercentage(week, prevWeek)) ? getDeltaPercentage(week, prevWeek) + ' %' : '-'
@@ -962,7 +962,6 @@ function initialize() {
 
         var getIosRow = function(app, country){
             var ytd, month, prevMonth, monthGrowth, week, prevWeek, weekGrowth;
-
             if(country){
                 ytd         = yearResults.appStoreDownloadsByCountry[app][country].downloads
                 month       = monthResults.appStoreDownloadsByCountry[app][country].downloads
@@ -978,6 +977,7 @@ function initialize() {
                     f: formatInvalidFormatter(weekResults.appStoreDownloadsByCountry[app][country].deltaPercentage)
                 }
             } else if(app != ''){
+                console.log("app definit "+app)
                 ytd         = yearResults.appStoreDownloads[app].downloads
                 month       = monthResults.appStoreDownloads[app].downloads
                 prevMonth   = monthResults.appStoreDownloads[app].previousDownloads
@@ -990,6 +990,21 @@ function initialize() {
                 weekGrowth = {
                     v: formatMissingValues(weekResults.appStoreDownloads[app].deltaPercentage),
                     f: formatInvalidFormatter(weekResults.appStoreDownloads[app].deltaPercentage)
+                }
+            } else{
+                console.log("in iOS else")
+                ytd         = yearResults.appStoreDownloads['AllApps'].downloads
+                month       = monthResults.appStoreDownloads['AllApps'].downloads
+                prevMonth   = monthResults.appStoreDownloads['AllApps'].previousDownloads
+                week        = weekResults.appStoreDownloads['AllApps'].downloads
+                prevWeek    = weekResults.appStoreDownloads['AllApps'].previousDownloads
+                monthGrowth = {
+                    v: formatMissingValues(monthResults.appStoreDownloads['AllApps'].deltaPercentage),
+                    f: formatInvalidFormatter(monthResults.appStoreDownloads['AllApps'].deltaPercentage)
+                }
+                weekGrowth = {
+                    v: formatMissingValues(weekResults.appStoreDownloads['AllApps'].deltaPercentage),
+                    f: formatInvalidFormatter(weekResults.appStoreDownloads['AllApps'].deltaPercentage)
                 }
             }
 
@@ -1062,12 +1077,18 @@ function initialize() {
                 prevMonth = parseInt(monthResults.appStoreDownloadsByCountry[app][country].previousDownloads) + parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])
                 Week = parseInt(weekResults.appStoreDownloadsByCountry[app][country].downloads) + parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName])
                 prevWeek = parseInt(weekResults.appStoreDownloadsByCountry[app][country].previousDownloads) + parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])
-            } else{
+            } else if(appIDga !=''){
                 YTD = parseInt(yearResults.appStoreDownloads[app].downloads) + parseInt(yearResults['AndroidDownloadsQuery_'+appIDga + countryName])
                 Month = parseInt(monthResults.appStoreDownloads[app].downloads) + parseInt(monthResults['AndroidDownloadsQuery_'+appIDga + countryName])
                 prevMonth = parseInt(monthResults.appStoreDownloads[app].previousDownloads) + parseInt(monthResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])
                 Week = parseInt(weekResults.appStoreDownloads[app].downloads) + parseInt(weekResults['AndroidDownloadsQuery_'+appIDga + countryName])
                 prevWeek = parseInt(weekResults.appStoreDownloads[app].previousDownloads) + parseInt(weekResults['AndroidDownloadsQueryPrev_'+appIDga + countryName])
+            } else{
+                YTD = parseInt(yearResults.appStoreDownloads['AllApps'].downloads) + parseInt(yearResults['AndroidDownloadsQuery'])
+                Month = parseInt(monthResults.appStoreDownloads['AllApps'].downloads) + parseInt(monthResults['AndroidDownloadsQuery'])
+                prevMonth = parseInt(monthResults.appStoreDownloads['AllApps'].previousDownloads) + parseInt(monthResults['AndroidDownloadsQueryPrev'])
+                Week = parseInt(weekResults.appStoreDownloads['AllApps'].downloads) + parseInt(weekResults['AndroidDownloadsQuery'])
+                prevWeek = parseInt(weekResults.appStoreDownloads['AllApps'].previousDownloads) + parseInt(weekResults['AndroidDownloadsQueryPrev'])
             }
             var growthMonth = {
                 v: getDeltaPercentage(Month, prevMonth),
@@ -1090,7 +1111,7 @@ function initialize() {
             ]
         }
 
-        var popularBikes = function(app, country, appIDga, countryName){
+        var popularBikes = function(appIDga, countryName){
             if(appIDga != '' )
                 return[
                 'Popular bike',
@@ -1114,10 +1135,10 @@ function initialize() {
             ]  
         }
 
-        var popularParts = function(app, country, appIDga, countryName){
+        var popularParts = function(appIDga, countryName){
             if(appIDga != '' )
                 return[
-                'Popular bike',
+                'Popular accessory',
                 {v: parseInt(yearResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: String(yearResults['popularPartsQuery_' + appIDga + countryName][0][0])},
                 {v: parseInt(monthResults['popularPartsQuery_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQuery_' + appIDga + countryName][0][0]},
                 {v: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? 0 : parseInt(monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]), f: monthResults['popularPartsQueryPrev_' + appIDga + countryName] == null ? '-' : monthResults['popularPartsQueryPrev_' + appIDga + countryName][0][0]},
@@ -1127,7 +1148,7 @@ function initialize() {
                 null
             ]
             else  return[
-                'Popular bike',
+                'Popular accessory',
                 {v: parseInt(yearResults['popularPartsQuery'][0][0]), f: String(yearResults['popularPartsQuery'][0][0])},
                 {v: parseInt(monthResults['popularPartsQuery'][0][0]), f: monthResults['popularPartsQuery'][0][0]},
                 {v: monthResults['popularPartsQueryPrev'] == null ? 0 : parseInt(monthResults['popularPartsQueryPrev'][0][0]), f: monthResults['popularPartsQueryPrev'] == null ? '-' : monthResults['popularPartsQueryPrev'][0][0]},
@@ -1138,7 +1159,7 @@ function initialize() {
             ]  
         }
 
-        var appUsage = function(app, country, appIDga, countryName){
+        var appUsageData = function(appIDga, countryName){
             if(appIDga != '' )
                 return[
                 'Average usage (min)',
@@ -1205,13 +1226,16 @@ function initialize() {
         }
 
 
-        if(app) var iOsDownloads = getIosRow(app, country)
+        var iOsDownloads = getIosRow(app, country)
         var androidDl = getRow('AndroidDownloadsQuery', appIDga, countryName, 'Downloads Android')
-        if(app) var tdl = totalDl(app, country, appIDga, countryName)
+        var tdl = totalDl(app, country, appIDga, countryName)
         var savedConfigs = getRow('savedConfigsQuery', appIDga, countryName, 'Stored Bikes')
         var shares= getRow('sharesQuery', appIDga, countryName, 'Shared Pictures')
         var dealerContacted = getRow('dealerContactedQuery', appIDga, countryName, 'Sent to a dealer')
         var newUsers = getNewUsers(appIDga, countryName)
+        var popularBike = popularBikes(appIDga, countryName)
+        var popularPart = popularParts(appIDga, countryName)  
+        var appUsage = appUsageData(appIDga, countryName)   
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'APP KPI');
@@ -1240,7 +1264,7 @@ function initialize() {
             androidDl,
 
             //TODO implement when googlePlay API credentials are available
-            tdl,
+         //   tdl,
 
             //TODO implement when googlePlay API credentials are available
             [
@@ -1255,11 +1279,8 @@ function initialize() {
             ],
 
             savedConfigs,
-
             shares,
-
             dealerContacted,
-
             newUsers,
             //[
             //    'New Users',
@@ -1279,9 +1300,8 @@ function initialize() {
             //],
 
             appUsage,
-
-            popularBikes,
-            popularParts,
+            popularBike,
+            popularPart,
         ])
 
         var formatter = new google.visualization.ArrowFormat();
@@ -1293,8 +1313,10 @@ function initialize() {
             'width': '100%',
             'height': '100%'
         }
-
-        var table= new google.visualization.Table(document.getElementById('summary-' + app));
+        if(app)
+            var table= new google.visualization.Table(document.getElementById('summary-' + app));
+        else
+            var table= new google.visualization.Table(document.getElementById('summary-allApps'));
         table.draw(data, options);
     }
 
