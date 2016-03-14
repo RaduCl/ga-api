@@ -176,7 +176,7 @@ function initialize() {
                     var isIndexOf = row[cell].indexOf('%')
                     if( isIndexOf !== -1 ) { return row[cell] = parseFloat(row[cell].slice(0, isIndexOf)) }
                //     console.log("obiect "+parseFloat(row[cell]) ? parseFloat(row[cell]) : row[cell])
-                    return removeThousandSeparator(parseFloat(row[cell]) ? parseFloat(row[cell]) : row[cell])
+                    return removeThousandSeparator(row[cell])
                 })
                 return formatedObj
             })
