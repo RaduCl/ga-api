@@ -254,6 +254,10 @@ function initialize() {
     var charts = function(results, app){
         if (app){
         //alert('inside charts')
+        document.getElementById('app-usage').style.visibility = "visible";
+        document.getElementById('insights').style.visibility = "visible";
+        document.getElementById('country-select').style.visibility = "visible";
+        document.getElementById('time-interval').style.visibility = "visible";
         newReturningUsersData(results, app);
         AndroidcountryVisitsData(results, app);
         iOScountryVisitsData(results, app);
@@ -275,6 +279,12 @@ function initialize() {
 
         // appStoreDownloads(results, app);
         // playStoreDownloads(results, app);
+        }
+        else{
+            document.getElementById('app-usage').style.visibility = "hidden";
+            document.getElementById('insights').style.visibility = "hidden";
+            document.getElementById('country-select').style.visibility = "hidden";
+            document.getElementById('time-interval').style.visibility = "hidden";
         }
     }
 
