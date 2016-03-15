@@ -190,12 +190,14 @@ function initialize() {
         }
         var fileName = chartName + '_' + app + country + currentDate
         var summaryTable = alasql('SELECT * FROM HTML("#'+chartName+'-'+app+'")')
-        var big5Table = alasql('SELECT * FROM HTML("#coutriesDL-'+app+'")')
+        if (app != "allApps") var big5Table = alasql('SELECT * FROM HTML("#coutriesDL-'+app+'")')
         var data = [{0: 'APP KPI',	1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month (%)', 5:'Week', 6:'Previous Week', 7:'Growth Week (%)'}]
         data = data.concat(objFormater(summaryTable))
-        data.push({0: '', 1:'', 2:'', 3:'', 4:'', 5:'', 6:'', 7:''})
-        data.push({0: 'Country', 1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month (%)', 5:'Week', 6:'Previous Week', 7:'Growth Week (%)'})
-        data = data.concat(objFormater(big5Table))
+        if (app != "allApps") {
+            data.push({0: '', 1:'', 2:'', 3:'', 4:'', 5:'', 6:'', 7:''})
+            data.push({0: 'Country', 1:'YTD', 2:'Month', 3:'Previous Month', 4:'Growth month (%)', 5:'Week', 6:'Previous Week', 7:'Growth Week (%)'})
+            data = data.concat(objFormater(big5Table))
+         }
 
         var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM ?';
         //var query = 'SELECT * INTO XLSX("'+ fileName +'.xlsx", ? ) FROM HTML("#'+chartName+'-'+app+'",{headers:true})';
@@ -213,6 +215,10 @@ function initialize() {
 
     $("#export-mygarageMT-xlsx").click(function (event) {
         exportExcel('MyGarageMT', 'summary')
+    });
+
+    $("#export-allApps-xlsx").click(function (event) {
+        exportExcel('allApps', 'summary')
     });
 
     //export xlsx button events for Big Five Country Downloads
