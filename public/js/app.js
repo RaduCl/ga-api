@@ -34,6 +34,20 @@ function initialize() {
         })
     }
 
+    var removeThousandSeparator = function(value){
+        var stringValue = value.toString();
+        console.log(stringValue)
+        if(stringValue.length>3)
+            stringValue = stringValue.replace(/\./g, "");
+        var floatValue = parseFloat(stringValue);
+        if(isNaN(floatValue))
+            return value;
+        else
+            return floatValue;
+    }
+
+
+
     //find the active app tab
     var activeAppTab = function(){
         var app = $('li.active').find('a').attr('href').replace('#bs_', '')
@@ -164,7 +178,8 @@ function initialize() {
                 var formatedObj = cellkeys.map(function(cell){
                     var isIndexOf = row[cell].indexOf('%')
                     if( isIndexOf !== -1 ) { return row[cell] = parseFloat(row[cell].slice(0, isIndexOf)) }
-                    return parseFloat(row[cell]) ? parseFloat(row[cell]) : row[cell]
+               //     console.log("obiect "+parseFloat(row[cell]) ? parseFloat(row[cell]) : row[cell])
+                    return removeThousandSeparator(row[cell])
                 })
                 return formatedObj
             })
