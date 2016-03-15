@@ -89,13 +89,13 @@ module.exports = function(timeInterval){
             'start-date': startDate,
             'end-date': endDate,
             'metrics': 'ga:newUsers',
-            'filters': 'ga:operatingSystem==Android'
+            'filters': 'ga:operatingSystem==Android;ga:appID==com.yamaha.mygarage,ga:appID==com.yamaha.mygaragemt,ga:appID==com.yamaha.mygaragesupersport'
         },
         AndroidDownloadsQueryPrev: {
             'start-date': startDatePrev,
             'end-date': endDatePrev,
             'metrics': 'ga:newUsers',
-            'filters': 'ga:operatingSystem==Android'
+            'filters': 'ga:operatingSystem==Android;ga:appID==com.yamaha.mygarage,ga:appID==com.yamaha.mygaragemt,ga:appID==com.yamaha.mygaragesupersport'
         },
         visitorTypesQuery: {
             'start-date': startDate,
